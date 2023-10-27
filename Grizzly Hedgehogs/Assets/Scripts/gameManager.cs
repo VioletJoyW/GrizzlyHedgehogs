@@ -10,8 +10,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuControls;
     [SerializeField] GameObject menuCredits;
-    //[SerializeField] GameObject menuWin;
-    //[SerializeField] GameObject menuLose;
+    [SerializeField] GameObject menuWin;
+    [SerializeField] GameObject menuLose;
 
     public bool isPaused;
     float timescaleOrig;
@@ -69,6 +69,19 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(false);
         menuActive = menuCredits;
         menuActive.SetActive(isPaused);
+    }
+
+    public void youWin()
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
+    }
+    public void youLose()
+    {
+        statePause();
+        menuActive = menuLose;
+        menuActive.SetActive(true);
     }
 
 }
