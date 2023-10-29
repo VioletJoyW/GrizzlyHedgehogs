@@ -13,13 +13,17 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
+    public GameObject player;
+
     public bool isPaused;
     float timescaleOrig;
+    int enemiesRemaining;
 
     void Awake()
     {
         instance = this;
         timescaleOrig = Time.timeScale;
+        player = GameObject.FindWithTag("Player");
     }
 
     void Update()
@@ -84,4 +88,14 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(true);
     }
 
+    public void updateGameGoal(int amount)
+    {
+        // Checking how many enemies remain
+        enemiesRemaining += amount;
+
+        if (enemiesRemaining <= 0)
+        {
+            youWin();
+        }
+    }
 }
