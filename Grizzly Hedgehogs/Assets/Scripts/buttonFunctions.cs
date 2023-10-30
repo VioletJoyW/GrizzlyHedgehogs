@@ -32,6 +32,6 @@ public class buttonFunctions : MonoBehaviour
 
     public void back()
     {
-        gameManager.instance.showPauseMenu();
+        gameManager.instance.goBack();
     }
 }

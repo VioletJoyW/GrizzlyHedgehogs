@@ -18,6 +18,7 @@ public class gameManager : MonoBehaviour
     public bool isPaused;
     float timescaleOrig;
     int enemiesRemaining;
+    GameObject menuPrevious;
 
     void Awake()
     {
@@ -28,10 +29,15 @@ public class gameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Cancel"))
+        if(Input.GetKeyDown(KeyCode.P) && !isPaused)
         {
             showPauseMenu();
-            statePause();
+        }
+
+        //CODE FOR TESTING - DELETE LATER
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            youWin();
         }
     }
 
@@ -54,25 +60,24 @@ public class gameManager : MonoBehaviour
 
     public void showPauseMenu()
     {
-        if(menuActive != null)
-        {
-            menuActive.SetActive(false);
-        }
+        statePause();
         menuActive = menuPause;
-        menuActive.SetActive(isPaused);
+        menuActive.SetActive(true);
     }
 
     public void showControlsMenu()
     {
         menuActive.SetActive(false);
+        menuPrevious = menuActive;
         menuActive = menuControls;
-        menuActive.SetActive(isPaused);
+        menuActive.SetActive(true);
     }
     public void showCreditsMenu()
     {
         menuActive.SetActive(false);
+        menuPrevious = menuActive;
         menuActive = menuCredits;
-        menuActive.SetActive(isPaused);
+        menuActive.SetActive(true);
     }
 
     public void youWin()
@@ -85,6 +90,13 @@ public class gameManager : MonoBehaviour
     {
         statePause();
         menuActive = menuLose;
+        menuActive.SetActive(true);
+    }
+
+    public void goBack()
+    {
+        menuActive.SetActive(false);
+        menuActive = menuPrevious;
         menuActive.SetActive(true);
     }
 
