@@ -5,12 +5,14 @@ using UnityEngine;
 public class playerController : MonoBehaviour, iDamage
 {
     [SerializeField] CharacterController controller;
+    
 
     [Header("_-_-_- Player Stats -_-_-_")]
     [Range(1, 20)][SerializeField] int playerHealth;
     [Range(1, 10)][SerializeField] float playerSpeed;
     [Range(-10, -30)][SerializeField] float gravityFloat;
     [Range(8, 30)][SerializeField] float jumpHeight;
+    [Range(1, 30)][SerializeField] float jumpSpeed;
     [Range(1, 4)][SerializeField] int jumpsMax;
 
     [Header("_-_-_- Gun Stats -_-_-_")]
@@ -19,7 +21,7 @@ public class playerController : MonoBehaviour, iDamage
     [SerializeField] int shootRate;
     [SerializeField] GameObject sphere;
 
-
+    private Animator animator;
     bool isShooting;
     private Vector3 move;
     private int jumpTimes;
@@ -27,27 +29,41 @@ public class playerController : MonoBehaviour, iDamage
     private Vector3 playerVelocity;
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? playerSpeed * 2 : playerSpeed;
         move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        controller.Move(move * Time.deltaTime * moveSpeed);
 
         if (Input.GetMouseButtonDown(0) && !isShooting)
         {
             StartCoroutine(shooting());
         }
 
-        groundedPlayer = controller.isGrounded;
+
+        bool isMoving = move.magnitude > 0.01f;
+
+        animator.SetBool("isMoving", isMoving);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
+
+        groundedPlayer = isGrounded();
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
             jumpTimes = 0;
         }
-
-        if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax)
+        if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax && isGrounded())
         {
             playerVelocity.y = jumpHeight;
             jumpTimes++;
@@ -55,6 +71,7 @@ public class playerController : MonoBehaviour, iDamage
 
         playerVelocity.y += gravityFloat * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+        
     }
 
     public void takeDamage(int amount)
@@ -72,5 +89,10 @@ public class playerController : MonoBehaviour, iDamage
         }
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
+    }
+
+    private bool isGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, controller.height / 2 + 0.1f);
     }
 }
