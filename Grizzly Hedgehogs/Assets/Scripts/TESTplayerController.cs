@@ -93,6 +93,10 @@ public class TESTplayerController : MonoBehaviour, iDamage
     public void takeDamage(int amount)
     { 
         playerHealth -= amount;
+        if (playerHealth <= 0)
+        {
+            gameManager.instance.youLose();
+        }
     }
 
     IEnumerator shooting()
@@ -101,7 +105,7 @@ public class TESTplayerController : MonoBehaviour, iDamage
         isShooting = true;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
         {
-            
+
         }
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
