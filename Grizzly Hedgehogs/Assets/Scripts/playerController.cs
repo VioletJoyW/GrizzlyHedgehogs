@@ -38,7 +38,7 @@ public class playerController : MonoBehaviour, iDamage
         move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
         controller.Move(move * Time.deltaTime * moveSpeed);
 
-        if (Input.GetMouseButtonDown(0) && !isShooting)
+        if (Input.GetButton("Fire1") && !isShooting)
         {
             StartCoroutine(shooting());
         }
@@ -90,7 +90,12 @@ public class playerController : MonoBehaviour, iDamage
         isShooting = true;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
         {
-            
+            iDamage damageable = hit.collider.GetComponent<iDamage>();
+
+            if (hit.transform != transform && damageable != null)
+            {
+                damageable.takeDamage(shootDamage);
+            }
         }
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
