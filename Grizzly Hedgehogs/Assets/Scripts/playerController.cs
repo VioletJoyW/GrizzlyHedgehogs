@@ -63,13 +63,18 @@ public class playerController : MonoBehaviour, iDamage
             playerVelocity.y = 0f;
             jumpTimes = 0;
         }
-        if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax && isGrounded())
+
+        if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax)
         {
             playerVelocity.y = jumpHeight;
             jumpTimes++;
         }
 
-        playerVelocity.y += gravityFloat * Time.deltaTime;
+        if (!isGrounded())
+        {
+            playerVelocity.y += gravityFloat * Time.deltaTime;
+        }
+        
         controller.Move(playerVelocity * Time.deltaTime);
         
     }
@@ -93,6 +98,9 @@ public class playerController : MonoBehaviour, iDamage
 
     private bool isGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, controller.height / 2 + 0.1f);
+        // This Allows the groundedPlayer bool to work correctly, and shows the raycast in the scene viewer
+        Vector3 ray = new Vector3(0, -0.08f, 0);
+        Debug.DrawRay(transform.position, ray, Color.red);
+        return Physics.Raycast(transform.position, Vector3.down, 0.08f);
     }
 }
