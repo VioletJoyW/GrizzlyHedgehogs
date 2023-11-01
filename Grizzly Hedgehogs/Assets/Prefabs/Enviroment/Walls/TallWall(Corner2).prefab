@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4398350289820417139
 Transform:
@@ -64,6 +64,10 @@ PrefabInstance:
     - target: {fileID: 746942445912760867, guid: 9a38e4cea39a6f64c8ade7345791bd57, type: 3}
       propertyPath: m_Name
       value: TallWall (188)
+      objectReference: {fileID: 0}
+    - target: {fileID: 746942445912760867, guid: 9a38e4cea39a6f64c8ade7345791bd57, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1506505801573895114, guid: 9a38e4cea39a6f64c8ade7345791bd57, type: 3}
       propertyPath: m_LocalRotation.w
@@ -226,6 +230,10 @@ PrefabInstance:
     - target: {fileID: 746942445912760867, guid: 9a38e4cea39a6f64c8ade7345791bd57, type: 3}
       propertyPath: m_Name
       value: TallWall (189)
+      objectReference: {fileID: 0}
+    - target: {fileID: 746942445912760867, guid: 9a38e4cea39a6f64c8ade7345791bd57, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4482816670593291290, guid: 9a38e4cea39a6f64c8ade7345791bd57, type: 3}
       propertyPath: m_LocalPosition.x
