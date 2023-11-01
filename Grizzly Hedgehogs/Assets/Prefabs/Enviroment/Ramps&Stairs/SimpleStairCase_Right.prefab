@@ -266,7 +266,7 @@ PrefabInstance:
     - target: {fileID: 5303596599640587102, guid: f20ad02d834a9594485a9febd6b31658, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f168749a79a558e49b1b7bf3d815ce3c, type: 2}
+      objectReference: {fileID: 2100000, guid: 02dc778948a54c146994ef84a1811ffd, type: 2}
     - target: {fileID: 6164704959182324606, guid: f20ad02d834a9594485a9febd6b31658, type: 3}
       propertyPath: m_Name
       value: Floor (14)
@@ -676,7 +676,7 @@ PrefabInstance:
     - target: {fileID: 5303596599640587102, guid: f20ad02d834a9594485a9febd6b31658, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f168749a79a558e49b1b7bf3d815ce3c, type: 2}
+      objectReference: {fileID: 2100000, guid: 02dc778948a54c146994ef84a1811ffd, type: 2}
     - target: {fileID: 6164704959182324606, guid: f20ad02d834a9594485a9febd6b31658, type: 3}
       propertyPath: m_Name
       value: Floor (13)
