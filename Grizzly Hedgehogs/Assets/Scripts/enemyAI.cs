@@ -36,9 +36,9 @@ public class enemyAI : MonoBehaviour, iDamage
     // Update is called once per frame
     void Update()
     {
+        isMoving();
         if (playerInRange)
         {
-            fN.SetBool("Run", true);
             playerDir = gameManager.instance.player.transform.position - transform.position;
 
             if (agent.remainingDistance < agent.stoppingDistance)
@@ -48,12 +48,10 @@ public class enemyAI : MonoBehaviour, iDamage
                     StartCoroutine(shoot());
                 }
                 faceTarget();
-                fN.SetBool("Run", false);
             }
 
             agent.SetDestination(gameManager.instance.player.transform.position);
         }
-        else fN.SetBool("Run", false);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -106,5 +104,17 @@ public class enemyAI : MonoBehaviour, iDamage
     {
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
+    }
+
+    void isMoving()
+    {
+        if (agent.velocity.magnitude > 0.1f)
+        {
+            fN.SetBool("Run", true);
+        }
+        else
+        {
+            fN.SetBool("Run", false);
+        }
     }
 }
