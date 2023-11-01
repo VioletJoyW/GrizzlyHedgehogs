@@ -2129,7 +2129,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 10
+  m_Radius: 15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1026307809
 PrefabInstance:
@@ -2983,6 +2983,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9061eda702a85f64c8d09f8eba97b1a4, type: 3}
+--- !u!4 &1192967147 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5686059445780647656, guid: af97988bdf726fb4ca8f998880794422, type: 3}
+  m_PrefabInstance: {fileID: 4521762639436422848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1247872816
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4908,6 +4913,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5445775699872022186, guid: af97988bdf726fb4ca8f998880794422, type: 3}
+      propertyPath: m_Speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445775699872022186, guid: af97988bdf726fb4ca8f998880794422, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560225275931103025, guid: af97988bdf726fb4ca8f998880794422, type: 3}
+      propertyPath: TorsoPos
+      value: 
+      objectReference: {fileID: 1192967147}
     - target: {fileID: 7689400145490597196, guid: af97988bdf726fb4ca8f998880794422, type: 3}
       propertyPath: m_Name
       value: Enemy1

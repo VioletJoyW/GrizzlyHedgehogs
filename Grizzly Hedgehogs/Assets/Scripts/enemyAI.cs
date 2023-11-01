@@ -10,6 +10,7 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
+    //[SerializeField] Transform torsoPos;
 
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
@@ -22,11 +23,14 @@ public class enemyAI : MonoBehaviour, iDamage
     Vector3 playerDir;
     bool isShooting;
     bool playerInRange;
+    
+    Animator fN;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager.instance.updateGameGoal(1);
+        fN = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -34,20 +38,22 @@ public class enemyAI : MonoBehaviour, iDamage
     {
         if (playerInRange)
         {
+            fN.SetBool("Run", true);
             playerDir = gameManager.instance.player.transform.position - transform.position;
-
-            if (!isShooting)
-            {
-                StartCoroutine(shoot());
-            }
 
             if (agent.remainingDistance < agent.stoppingDistance)
             {
+                if (!isShooting)
+                {
+                    StartCoroutine(shoot());
+                }
                 faceTarget();
+                fN.SetBool("Run", false);
             }
 
             agent.SetDestination(gameManager.instance.player.transform.position);
         }
+        else fN.SetBool("Run", false);
     }
 
     public void OnTriggerEnter(Collider other)
