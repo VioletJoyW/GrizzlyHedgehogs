@@ -14,6 +14,8 @@ public class enemyAI : MonoBehaviour, iDamage
 
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
+    // Plan on adding damage variable to the npc
+    //[SerializeField] int damage;
     [SerializeField] int playerFaceSpeed;
 
     [Header("----- Gun Stats -----")]
@@ -115,6 +117,14 @@ public class enemyAI : MonoBehaviour, iDamage
         else
         {
             fN.SetBool("Run", false);
+        }
+    }
+
+    void getToCover()
+    {
+        if (HP == (HP / 2))
+        {
+           
         }
     }
 }
