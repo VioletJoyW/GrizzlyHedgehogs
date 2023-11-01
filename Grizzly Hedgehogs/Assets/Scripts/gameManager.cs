@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class gameManager : MonoBehaviour
 {
@@ -13,7 +15,14 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
+    [SerializeField] GameObject playerDamageScreen;
+    [SerializeField] TMP_Text enemyCountText;
+
+    public Image playerHealthBar;
+
+    public GameObject playerSpawnPos;
     public GameObject player;
+    public playerController playerScript;
 
     public bool isPaused;
     float timescaleOrig;
@@ -25,6 +34,8 @@ public class gameManager : MonoBehaviour
         instance = this;
         timescaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
+        playerScript = player.GetComponent<playerController>();
+        playerSpawnPos = GameObject.FindWithTag("Respawn");
     }
 
     void Update()
@@ -102,12 +113,17 @@ public class gameManager : MonoBehaviour
 
     public void updateGameGoal(int amount)
     {
-        // Checking how many enemies remain
         enemiesRemaining += amount;
-
+        enemyCountText.text = amount.ToString("0");
         if (enemiesRemaining <= 0)
         {
             youWin();
         }
+    }
+    public IEnumerator playerFlashDamage()
+    {
+        playerDamageScreen.SetActive(true);
+        yield return new WaitForSeconds(.1f);
+        playerDamageScreen.SetActive(false);
     }
 }

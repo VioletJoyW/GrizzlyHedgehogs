@@ -37,9 +37,15 @@ public class TESTplayerController : MonoBehaviour, iDamage
     //private bool groundedPlayer;
     //Wasn't working?
     private Vector3 playerVelocity;
+    //NEW
+    private int playerHealthOrig;
 
     void Start()
     {
+        //NEW
+        playerHealthOrig = playerHealth;
+        //NEW
+        spawnPlayer();
         //Deleted:
         //animator = GetComponent<Animator>();
     }
@@ -109,5 +115,21 @@ public class TESTplayerController : MonoBehaviour, iDamage
         }
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
+    }
+
+    //NEW
+    public void spawnPlayer()
+    {
+        controller.enabled = false;
+        playerHealth = playerHealthOrig;
+        updatePlayerUI();
+        transform.position = gameManager.instance.playerSpawnPos.transform.position;
+        controller.enabled = true;
+    }
+
+    //NEW
+    public void updatePlayerUI()
+    {
+        gameManager.instance.playerHealthBar.fillAmount = (float)playerHealth / playerHealthOrig;
     }
 }
