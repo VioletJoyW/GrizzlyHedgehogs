@@ -4942,7 +4942,7 @@ MonoBehaviour:
   menuLose: {fileID: 6272584419578614850}
   playerDamageScreen: {fileID: 2053335815181512705}
   enemyCountText: {fileID: 2520208626954839817}
-  playerHealthBar: {fileID: 0}
+  playerHealthBar: {fileID: 7573864276675029860}
   playerSpawnPos: {fileID: 0}
   player: {fileID: 0}
   playerScript: {fileID: 0}

@@ -8,6 +8,7 @@ public class gameManager : MonoBehaviour
 {
     public static gameManager instance;
 
+    [Header("_-_-_- Menus -_-_-_")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuControls;
@@ -15,11 +16,13 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
+    [Header("_-_-_- HUD -_-_-_")]
     [SerializeField] GameObject playerDamageScreen;
     [SerializeField] TMP_Text enemyCountText;
 
     public Image playerHealthBar;
 
+    [Header("_-_-_- Player Info -_-_-_")]
     public GameObject playerSpawnPos;
     public GameObject player;
     public playerController playerScript;
@@ -114,7 +117,7 @@ public class gameManager : MonoBehaviour
     public void updateGameGoal(int amount)
     {
         enemiesRemaining += amount;
-        enemyCountText.text = amount.ToString("0");
+        enemyCountText.text = enemiesRemaining.ToString("0");
         if (enemiesRemaining <= 0)
         {
             youWin();
