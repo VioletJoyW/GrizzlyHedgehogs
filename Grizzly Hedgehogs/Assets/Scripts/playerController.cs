@@ -37,7 +37,7 @@ public class playerController : MonoBehaviour, iDamage
 
     void Update()
     {
-        float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? playerSpeed * 2 : playerSpeed;
+        float moveSpeed = Input.GetButton("Sprint") ? playerSpeed * 2 : playerSpeed;
         //Animation -------------------------------
         bool isMoving = move.magnitude > 0.01f;
 
