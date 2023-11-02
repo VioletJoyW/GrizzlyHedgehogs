@@ -121,4 +121,13 @@ public class enemyAI : MonoBehaviour, iDamage
             fN.SetBool("Run", false);
         }
     }
+
+    void getToCover()
+    {
+        // Takes cover if health is half then original
+        if (HP == (HP / 2))
+        {
+
+        }
+    }
 }
