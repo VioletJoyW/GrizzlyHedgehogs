@@ -10,6 +10,7 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
+    [SerializeField] LayerMask hide;
     //[SerializeField] Transform torsoPos;
 
     [Header("----- Enemy Stats -----")]
@@ -23,6 +24,7 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] float shootRate;
 
     Vector3 playerDir;
+    Vector3 coverPos;
     bool isShooting;
     bool playerInRange;
     
@@ -75,10 +77,10 @@ public class enemyAI : MonoBehaviour, iDamage
     IEnumerator shoot()
     {
         isShooting = true;
-
+        fN.SetBool("Shoot", true);
         Instantiate(bullet, shootPos.position, transform.rotation);
         yield return new WaitForSeconds(shootRate);
-
+        fN.SetBool("Shoot", false);
         isShooting = false;
     }
 
@@ -117,14 +119,6 @@ public class enemyAI : MonoBehaviour, iDamage
         else
         {
             fN.SetBool("Run", false);
-        }
-    }
-
-    void getToCover()
-    {
-        if (HP == (HP / 2))
-        {
-           
         }
     }
 }
