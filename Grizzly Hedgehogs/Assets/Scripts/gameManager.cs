@@ -43,15 +43,9 @@ public class gameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P) && !isPaused)
+        if(Input.GetButtonDown("Cancel") && !isPaused)
         {
             showPauseMenu();
-        }
-
-        //CODE FOR TESTING - DELETE LATER
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-            youWin();
         }
     }
 

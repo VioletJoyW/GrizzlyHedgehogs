@@ -27,9 +27,12 @@ public class playerController : MonoBehaviour, iDamage
     private int jumpTimes;
     private bool groundedPlayer;
     private Vector3 playerVelocity;
+    private int playerHealthOrig;
     void Start()
     {
         animator = GetComponent<Animator>();
+        playerHealthOrig = playerHealth;
+        spawnPlayer();
     }
 
     void Update()
@@ -82,6 +85,12 @@ public class playerController : MonoBehaviour, iDamage
     public void takeDamage(int amount)
     { 
         playerHealth -= amount;
+        updatePlayerUI();
+
+        if(playerHealth <= 0)
+        {
+            gameManager.instance.youLose();
+        }
     }
 
     IEnumerator shooting()
@@ -108,4 +117,19 @@ public class playerController : MonoBehaviour, iDamage
         Debug.DrawRay(transform.position, ray, Color.red);
         return Physics.Raycast(transform.position, Vector3.down, 0.08f);
     }
+
+    public void spawnPlayer()
+    {
+        controller.enabled = false;
+        playerHealth = playerHealthOrig;
+        updatePlayerUI();
+        transform.position = gameManager.instance.playerSpawnPos.transform.position;
+        controller.enabled = true;
+    }
+
+    public void updatePlayerUI()
+    {
+        gameManager.instance.playerHealthBar.fillAmount = (float)playerHealth / playerHealthOrig;
+    }
+
 }
