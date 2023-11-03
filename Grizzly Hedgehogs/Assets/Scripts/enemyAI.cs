@@ -15,6 +15,7 @@ public class enemyAI : MonoBehaviour, iDamage
 
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
+    [SerializeField] Color modelColor;
     // Plan on adding damage variable to the npc
     //[SerializeField] int damage;
     [SerializeField] int playerFaceSpeed;
@@ -35,6 +36,7 @@ public class enemyAI : MonoBehaviour, iDamage
     {
         gameManager.instance.updateGameGoal(1);
         fN = GetComponent<Animator>();
+        model.material.color = modelColor;
     }
 
     // Update is called once per frame
@@ -101,7 +103,7 @@ public class enemyAI : MonoBehaviour, iDamage
     {
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        model.material.color = Color.white;
+        model.material.color = modelColor;
     }
 
     void faceTarget()

@@ -991,7 +991,11 @@ MonoBehaviour:
   agent: {fileID: 5445775699872022186}
   shootPos: {fileID: 669144028102062855}
   headPos: {fileID: 1938116860828340062}
+  hide:
+    serializedVersion: 2
+    m_Bits: 0
   HP: 3
+  modelColor: {r: 1, g: 1, b: 1, a: 0}
   playerFaceSpeed: 6
   bullet: {fileID: 7308311796046934712, guid: c1689cc660a277e4eb32792daa00c77a, type: 3}
   shootRate: 0.5

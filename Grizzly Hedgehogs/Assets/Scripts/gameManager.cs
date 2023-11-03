@@ -20,6 +20,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject playerDamageScreen;
     [SerializeField] TMP_Text enemyCountText;
 
+    public GameObject interactPrompt;
     public Image playerHealthBar;
 
     [Header("_-_-_- Player Info -_-_-_")]

@@ -14,6 +14,7 @@ public class playerController : MonoBehaviour, iDamage
     [Range(8, 30)][SerializeField] float jumpHeight;
     [Range(1, 30)][SerializeField] float jumpSpeed;
     [Range(1, 4)][SerializeField] int jumpsMax;
+    [SerializeField] int visionDistance;
 
     [Header("_-_-_- Gun Stats -_-_-_")]
     [SerializeField] int shootDamage;
@@ -43,7 +44,7 @@ public class playerController : MonoBehaviour, iDamage
 
         animator.SetBool("isMoving", isMoving);
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButton("Sprint"))
         {
             animator.SetBool("isRunning", true);
         }
@@ -84,6 +85,9 @@ public class playerController : MonoBehaviour, iDamage
         playerVelocity.y += gravityFloat * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
         //----------------------------------------------------
+
+        interactions();
+
     }
 
     public void takeDamage(int amount)
@@ -124,6 +128,26 @@ public class playerController : MonoBehaviour, iDamage
 
 	}
 
+    void interactions()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, visionDistance))
+        {
+            iInteract interactable = hit.collider.GetComponent<iInteract>();
+            if (interactable != null)
+            {
+                gameManager.instance.interactPrompt.SetActive(true);
+
+                if (Input.GetButtonDown("Interact"))
+                {
+                    interactable.interact();
+                }
+                return;
+            }
+        }
+        gameManager.instance.interactPrompt.SetActive(false);
+    }
+
     public void spawnPlayer()
     {
         controller.enabled = false;
@@ -131,6 +155,16 @@ public class playerController : MonoBehaviour, iDamage
         updatePlayerUI();
         transform.position = gameManager.instance.playerSpawnPos.transform.position;
         controller.enabled = true;
+    }
+
+    public void changeHealth(int amount)
+    {
+        playerHealth += amount;
+        if (playerHealth > playerHealthOrig)
+        { 
+            playerHealth = playerHealthOrig;
+        }
+        updatePlayerUI();
     }
 
     public void updatePlayerUI()
