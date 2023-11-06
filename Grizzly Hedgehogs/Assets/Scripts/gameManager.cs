@@ -22,6 +22,7 @@ public class gameManager : MonoBehaviour
 
     public GameObject interactPrompt;
     public Image playerHealthBar;
+    public Image playerStaminaBar;
 
     [Header("_-_-_- Player Info -_-_-_")]
     public GameObject playerSpawnPos;

@@ -9,124 +9,106 @@ public class playerController : MonoBehaviour, iDamage
 
     [Header("_-_-_- Player Stats -_-_-_")]
     [Range(1, 20)][SerializeField] int playerHealth;
+    [Range(1, 20)][SerializeField] float playerStamina;
     [Range(1, 10)][SerializeField] float playerSpeed;
+    [Range(1, 20)][SerializeField] float sprintSpeed;
     [Range(-10, -30)][SerializeField] float gravityFloat;
     [Range(8, 30)][SerializeField] float jumpHeight;
-    [Range(1, 30)][SerializeField] float jumpSpeed;
     [Range(1, 4)][SerializeField] int jumpsMax;
     [SerializeField] int visionDistance;
+    [SerializeField] float restoreStaminaRate;
 
     [Header("_-_-_- Gun Stats -_-_-_")]
     [SerializeField] int shootDamage;
     [SerializeField] int shootDistance;
     [SerializeField] int shootRate;
-    [SerializeField] GameObject sphere;
 
     private Animator animator;
-    bool isShooting;
+    private enum AnimationState { idle, walking, running }
+
+    private bool isRunning;
+    private bool isShooting;
+    private bool isRestoringStamina;
+
     private Vector3 move;
     private int jumpTimes;
-    private bool groundedPlayer;
     private Vector3 playerVelocity;
     private int playerHealthOrig;
+    private float playerStaminaOrig;
     void Start()
     {
         animator = GetComponent<Animator>();
         playerHealthOrig = playerHealth;
+        playerStaminaOrig = playerStamina;
         spawnPlayer();
+    }
+    public void spawnPlayer()
+    {
+        controller.enabled = false;
+        playerHealth = playerHealthOrig;
+        playerStamina = playerStaminaOrig;
+        updatePlayerUI();
+        transform.position = gameManager.instance.playerSpawnPos.transform.position;
+        controller.enabled = true;
     }
 
     void Update()
     {
-        float moveSpeed = Input.GetButton("Sprint") ? playerSpeed * 2 : playerSpeed;
-        //Animation -------------------------------
-        bool isMoving = move.magnitude > 0.01f;
+        movement();
 
-        animator.SetBool("isMoving", isMoving);
+        interactions();
 
-        if (Input.GetButton("Sprint"))
-        {
-            animator.SetBool("isRunning", true);
-        }
-        else
-        {
-            animator.SetBool("isRunning", false);
-        }
-		//---------------------------------------
-
-
-        
-        // Attack Logic -------------------------------
         if (Input.GetButton("Fire1") && !isShooting)
         {
             StartCoroutine(shooting());
         }
-        //-----------------------------------------
 
-		//Movement -------------------------------
-		groundedPlayer = isGrounded();
-        if (groundedPlayer && playerVelocity.y < 0)
+        updateAnimation();
+
+    }
+
+    void movement()
+    {
+        if (controller.isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
             jumpTimes = 0;
         }
 
+        float moveSpeed;
+
+        if (Input.GetButton("Sprint") && playerStamina > 0)
+        {
+            moveSpeed = sprintSpeed;
+            isRunning = true;
+            playerStamina -= 0.01f;
+            updatePlayerUI();
+        }
+        else
+        {
+            moveSpeed = playerSpeed;
+            isRunning = false;
+        }
+
         move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+
         controller.Move(move * Time.deltaTime * moveSpeed);
-      
+
         if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax)
         {
             playerVelocity.y = jumpHeight;
             jumpTimes++;
         }
 
-
-        
         playerVelocity.y += gravityFloat * Time.deltaTime;
+
         controller.Move(playerVelocity * Time.deltaTime);
-        //----------------------------------------------------
 
-        interactions();
-
-    }
-
-    public void takeDamage(int amount)
-    { 
-        playerHealth -= amount;
-        updatePlayerUI();
-
-        if(playerHealth <= 0)
+        if (!isRestoringStamina && !isRunning && playerStamina < playerStaminaOrig)
         {
-            gameManager.instance.youLose();
+            StartCoroutine(restoreStamina());
         }
     }
-
-    IEnumerator shooting()
-    {
-        RaycastHit hit;
-        isShooting = true;
-        if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
-        {
-            iDamage damageable = hit.collider.GetComponent<iDamage>();
-
-            if (hit.transform != transform && damageable != null)
-            {
-                damageable.takeDamage(shootDamage);
-            }
-        }
-        yield return new WaitForSeconds(shootRate);
-        isShooting = false;
-    }
-
-    private bool isGrounded()
-    {
-        // This Allows the groundedPlayer bool to work correctly, and shows the raycast in the scene viewer
-        //Vector3 ray = new Vector3(0, -0.08f, 0);
-        //Debug.DrawRay(transform.position, ray, Color.red);
-        //return Physics.Raycast(transform.position, Vector3.down, 0.08f);
-        return controller.isGrounded; // <-- This seems to work
-
-	}
 
     void interactions()
     {
@@ -148,13 +130,41 @@ public class playerController : MonoBehaviour, iDamage
         gameManager.instance.interactPrompt.SetActive(false);
     }
 
-    public void spawnPlayer()
+    IEnumerator shooting()
     {
-        controller.enabled = false;
-        playerHealth = playerHealthOrig;
+        RaycastHit hit;
+        isShooting = true;
+        if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
+        {
+            iDamage damageable = hit.collider.GetComponent<iDamage>();
+
+            if (hit.transform != transform && damageable != null)
+            {
+                damageable.takeDamage(shootDamage);
+            }
+        }
+        yield return new WaitForSeconds(shootRate);
+        isShooting = false;
+    }
+
+    IEnumerator restoreStamina()
+    {
+        isRestoringStamina = true;
+        playerStamina += 1;
         updatePlayerUI();
-        transform.position = gameManager.instance.playerSpawnPos.transform.position;
-        controller.enabled = true;
+        yield return new WaitForSeconds(restoreStaminaRate);
+        isRestoringStamina = false;
+    }
+
+    public void takeDamage(int amount)
+    {
+        playerHealth -= amount;
+        updatePlayerUI();
+
+        if (playerHealth <= 0)
+        {
+            gameManager.instance.youLose();
+        }
     }
 
     public void changeHealth(int amount)
@@ -170,6 +180,23 @@ public class playerController : MonoBehaviour, iDamage
     public void updatePlayerUI()
     {
         gameManager.instance.playerHealthBar.fillAmount = (float)playerHealth / playerHealthOrig;
+        gameManager.instance.playerStaminaBar.fillAmount = playerStamina / playerStaminaOrig;
+    }
+
+    void updateAnimation()
+    {
+        if(isRunning)
+        {
+            animator.SetInteger("state", (int)AnimationState.running);
+        }
+        else if (move.magnitude > .01f)
+        {
+            animator.SetInteger("state", (int)AnimationState.walking);
+        }
+        else
+        {
+            animator.SetInteger("state", (int)AnimationState.idle);
+        }
     }
 
 }
