@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class healItem : MonoBehaviour, iInteract   
+public class ammoKit : MonoBehaviour, iInteract   
 {
-    [SerializeField] int healAmount;
+    [SerializeField] int ammoAmount;
     [SerializeField] Animator animator;
+    [SerializeField] Collider box;
 
     private void Start()
     {
@@ -14,6 +15,7 @@ public class healItem : MonoBehaviour, iInteract
     public void interact()
     {
         animator.enabled = true;
-        gameManager.instance.playerScript.changeHealth(healAmount);
+        gameManager.instance.playerScript.changeAmmo(ammoAmount);
+        box.enabled = false;
     }
 }

@@ -20,9 +20,13 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject playerDamageScreen;
     [SerializeField] TMP_Text enemyCountText;
 
-    public GameObject interactPrompt;
-    public Image playerHealthBar;
-    public Image playerStaminaBar;
+    [SerializeField] GameObject interactPrompt;
+    [SerializeField] Image playerHealthBar;
+    [SerializeField] TMP_Text playerHealthText;
+    [SerializeField] Image playerStaminaBar;
+    [SerializeField] TMP_Text playerStaminaText;
+    [SerializeField] Image playerAmmoBar;
+    [SerializeField] TMP_Text playerAmmoText;
 
     [Header("_-_-_- Player Info -_-_-_")]
     public GameObject playerSpawnPos;
@@ -118,6 +122,21 @@ public class gameManager : MonoBehaviour
         {
             youWin();
         }
+    }
+
+    public void updatePlayerUI(int playerHealth, int playerHealthOrig, float playerStamina, float playerStaminaOrig, int playerAmmo, int playerAmmoOrig)
+    {
+        playerHealthBar.fillAmount = (float)playerHealth / playerHealthOrig;
+        playerHealthText.text = playerHealth.ToString("0") + " / " + playerHealthOrig.ToString("0");
+        playerStaminaBar.fillAmount = playerStamina / playerStaminaOrig;
+        playerStaminaText.text = playerStamina.ToString("0") + " / " + playerStaminaOrig.ToString("0");
+        playerAmmoBar.fillAmount = (float)playerAmmo / playerAmmoOrig;
+        playerAmmoText.text = playerAmmo.ToString("0") + " / " + playerAmmoOrig.ToString("0");
+    }
+
+    public void showInteractPrompt(bool on)
+    {
+        interactPrompt.SetActive(on);
     }
     public IEnumerator playerFlashDamage()
     {
