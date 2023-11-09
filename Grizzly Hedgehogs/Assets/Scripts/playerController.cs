@@ -83,11 +83,11 @@ public class playerController : MonoBehaviour, iDamage
 
         float moveSpeed;
 
-        if (Input.GetButton("Sprint") && playerStamina > 0)
+        if (Input.GetButton("Sprint") && playerStamina > 0.2f)
         {
             moveSpeed = sprintSpeed;
             isRunning = true;
-            playerStamina -= 0.01f;
+            playerStamina -= 0.02f;
         }
         else
         {
@@ -156,8 +156,8 @@ public class playerController : MonoBehaviour, iDamage
     IEnumerator restoreStamina()
     {
         isRestoringStamina = true;
-        playerStamina += 1;
         yield return new WaitForSeconds(restoreStaminaRate);
+        playerStamina += 1;
         isRestoringStamina = false;
     }
 

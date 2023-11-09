@@ -8,13 +8,9 @@ public class healthKit : MonoBehaviour, iInteract
     [SerializeField] Animator animator;
     [SerializeField] Collider box;
 
-    private void Start()
-    {
-        animator.enabled = false;
-    }
     public void interact()
     {
-        animator.enabled = true;
+        animator.SetBool("isOpen", true);
         gameManager.instance.playerScript.changeHealth(healAmount);
         box.enabled = false;
     }

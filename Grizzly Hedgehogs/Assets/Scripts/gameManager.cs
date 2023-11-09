@@ -19,6 +19,7 @@ public class gameManager : MonoBehaviour
     [Header("_-_-_- HUD -_-_-_")]
     [SerializeField] GameObject playerDamageScreen;
     [SerializeField] TMP_Text enemyCountText;
+    [SerializeField] TMP_Text goldCountText;
 
     [SerializeField] GameObject interactPrompt;
     [SerializeField] Image playerHealthBar;
@@ -36,6 +37,8 @@ public class gameManager : MonoBehaviour
     public bool isPaused;
     float timescaleOrig;
     int enemiesRemaining;
+    int gold;
+
     GameObject menuPrevious;
 
     void Awake()
@@ -122,6 +125,12 @@ public class gameManager : MonoBehaviour
         {
             youWin();
         }
+    }
+
+    public void changeGold(int amount)
+    {
+        gold += amount;
+        goldCountText.text = gold.ToString("0");
     }
 
     public void updatePlayerUI(int playerHealth, int playerHealthOrig, float playerStamina, float playerStaminaOrig, int playerAmmo, int playerAmmoOrig)

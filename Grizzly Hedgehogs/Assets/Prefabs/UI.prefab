@@ -3156,7 +3156,7 @@ GameObject:
   - component: {fileID: 2732460714943897116}
   - component: {fileID: 7721638580275231033}
   m_Layer: 5
-  m_Name: Coin Count Background
+  m_Name: Gold Count Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3233,7 +3233,7 @@ GameObject:
   - component: {fileID: 9130034348613385140}
   - component: {fileID: 8089957821530271509}
   m_Layer: 5
-  m_Name: Coin  Count
+  m_Name: Gold Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4596,7 +4596,7 @@ GameObject:
   - component: {fileID: 2527283788989850966}
   - component: {fileID: 8655190269801563779}
   m_Layer: 5
-  m_Name: Coin Count Label
+  m_Name: Gold Count Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4649,7 +4649,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Coins:'
+  m_text: 'Gold:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6482,6 +6482,7 @@ MonoBehaviour:
   menuLose: {fileID: 6272584419578614850}
   playerDamageScreen: {fileID: 2053335815181512705}
   enemyCountText: {fileID: 2520208626954839817}
+  goldCountText: {fileID: 8089957821530271509}
   interactPrompt: {fileID: 3859605287358320328}
   playerHealthBar: {fileID: 7573864276675029860}
   playerHealthText: {fileID: 3327510612215659716}
