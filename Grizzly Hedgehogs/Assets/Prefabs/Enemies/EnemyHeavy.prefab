@@ -893,14 +893,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 499769573874679618}
   agent: {fileID: 1058138217811852109}
+  animator: {fileID: 6710458340508357532}
   shootPos: {fileID: 7970560818005315368}
   headPos: {fileID: 4204577292056676334}
-  hide:
-    serializedVersion: 2
-    m_Bits: 0
+  damageCollider: {fileID: 6218876612544368643}
   HP: 6
-  modelColor: {r: 0.23529412, g: 0.38039216, b: 0.6039216, a: 1}
   playerFaceSpeed: 6
+  viewCone: 90
+  shootCone: 45
+  roamDist: 15
+  roamPauseTime: 2
   bullet: {fileID: 7308311796046934712, guid: 1684f0149662f084cb134bb3e559a730, type: 3}
   shootRate: 2
 --- !u!195 &1058138217811852109

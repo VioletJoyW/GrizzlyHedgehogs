@@ -6,9 +6,13 @@ using UnityEngine.UIElements;
 public class gold : MonoBehaviour, iInteract
 {
     [SerializeField] int amount;
+    public bool checkLock()
+    {
+        return true;
+    }
     public void interact()
     {
-        gameManager.instance.changeGold(amount);
+        gameManager.instance.addTempGold(amount);
         Destroy(gameObject);
     }
 }

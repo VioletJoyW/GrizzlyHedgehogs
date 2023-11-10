@@ -15,13 +15,17 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuCredits;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject menuInventory;
 
     [Header("_-_-_- HUD -_-_-_")]
     [SerializeField] GameObject playerDamageScreen;
     [SerializeField] TMP_Text enemyCountText;
-    [SerializeField] TMP_Text goldCountText;
+    [SerializeField] TMP_Text tempGoldCountText;
+    [SerializeField] TMP_Text totalGoldCountText;
 
     [SerializeField] GameObject interactPrompt;
+    [SerializeField] GameObject lockedPrompt;
+
     [SerializeField] Image playerHealthBar;
     [SerializeField] TMP_Text playerHealthText;
     [SerializeField] Image playerStaminaBar;
@@ -35,9 +39,16 @@ public class gameManager : MonoBehaviour
     public playerController playerScript;
 
     public bool isPaused;
+
+    public bool unlockedDoors;
+    public bool unlockedHealthKits;
+    public bool unlockedAmmoKits;
+
     float timescaleOrig;
     int enemiesRemaining;
-    int gold;
+
+    int totalGold;
+    int tempGold;
 
     GameObject menuPrevious;
 
@@ -56,6 +67,11 @@ public class gameManager : MonoBehaviour
         {
             showPauseMenu();
         }
+    }
+
+    public void startRun()
+    {
+        statePause();
     }
 
     public void statePause()
@@ -110,6 +126,13 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(true);
     }
 
+    public void exitToInventory()
+    {
+        statePause();
+        menuActive = menuInventory;
+        menuActive.SetActive(true);
+    }
+
     public void goBack()
     {
         menuActive.SetActive(false);
@@ -127,10 +150,21 @@ public class gameManager : MonoBehaviour
         }
     }
 
-    public void changeGold(int amount)
+    public void addTotalGold(int amount)
     {
-        gold += amount;
-        goldCountText.text = gold.ToString("0");
+        totalGold += amount;
+        totalGoldCountText.text = totalGold.ToString("0");
+    }
+
+    public int getTotalGold()
+    {
+        return totalGold;
+    }
+
+    public void addTempGold(int amount)
+    {
+        tempGold += amount;
+        tempGoldCountText.text = tempGold.ToString("0");
     }
 
     public void updatePlayerUI(int playerHealth, int playerHealthOrig, float playerStamina, float playerStaminaOrig, int playerAmmo, int playerAmmoOrig)
@@ -147,6 +181,12 @@ public class gameManager : MonoBehaviour
     {
         interactPrompt.SetActive(on);
     }
+
+    public void showLockedPrompt(bool on)
+    {
+        lockedPrompt.SetActive(on);
+    }
+
     public IEnumerator playerFlashDamage()
     {
         playerDamageScreen.SetActive(true);

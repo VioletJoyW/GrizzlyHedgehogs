@@ -6,12 +6,18 @@ public class healthKit : MonoBehaviour, iInteract
 {
     [SerializeField] int healAmount;
     [SerializeField] Animator animator;
-    [SerializeField] Collider box;
-
+    public bool checkLock()
+    {
+        return gameManager.instance.unlockedHealthKits;
+    }
     public void interact()
     {
-        animator.SetBool("isOpen", true);
+        animator.SetTrigger("isOpen");
         gameManager.instance.playerScript.changeHealth(healAmount);
-        box.enabled = false;
+
+    }
+    public void destroySelf()
+    {
+        Destroy(gameObject);
     }
 }

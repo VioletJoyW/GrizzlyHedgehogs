@@ -6,12 +6,19 @@ public class ammoKit : MonoBehaviour, iInteract
 {
     [SerializeField] int ammoAmount;
     [SerializeField] Animator animator;
-    [SerializeField] Collider box;
-
+    public bool checkLock()
+    {
+        return gameManager.instance.unlockedAmmoKits;
+    }
     public void interact()
     {
-        animator.SetBool("isOpen", true);
+        animator.SetTrigger("isOpen");
         gameManager.instance.playerScript.changeAmmo(ammoAmount);
-        box.enabled = false;
     }
+
+    public void destroySelf()
+    {
+        Destroy(gameObject);
+    }
+
 }

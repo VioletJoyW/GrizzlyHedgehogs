@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface iInteract
 {
+	public bool checkLock();
 	public void interact();
 }

@@ -11,12 +11,11 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] Animator animator;
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
-    //[SerializeField] Collider damageCL;
+    [SerializeField] Collider damageCollider;
     //[SerializeField] Collider weaponCL;
 
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
-    [SerializeField] Color modelColor;
     // Plan on adding damage variable to the npc
     //[SerializeField] int damage;
     [SerializeField] int playerFaceSpeed;
@@ -50,9 +49,10 @@ public class enemyAI : MonoBehaviour, iDamage
     // Update is called once per frame
     void Update()
     {
-        animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
         if (agent.isActiveAndEnabled)
         {
+            animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
+
             if (playerInRange && !canSeePlayer())
             {
                 StartCoroutine(roam());
@@ -94,6 +94,7 @@ public class enemyAI : MonoBehaviour, iDamage
 
         if (Physics.Raycast(headPos.position, playerDir, out hit))
         {
+
             if (hit.collider.CompareTag("Player") && angleToPlayer <= viewCone)
             {
                 agent.stoppingDistance = stoppingDistOrig;
@@ -162,7 +163,7 @@ public class enemyAI : MonoBehaviour, iDamage
         HP -= amount;
         if (HP <= 0)
         {
-            //damageCL.enabled = false;
+            damageCollider.enabled = false;
             gameManager.instance.updateGameGoal(-1);
             animator.SetBool("Dead", true);
             agent.enabled = false;

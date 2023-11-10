@@ -24,9 +24,6 @@ public class playerController : MonoBehaviour, iDamage
     [SerializeField] int shootDistance;
     [SerializeField] int shootRate;
 
-    private Animator animator;
-    private enum AnimationState { idle, walking, running }
-
     private bool isRunning;
     private bool isShooting;
     private bool isRestoringStamina;
@@ -36,10 +33,9 @@ public class playerController : MonoBehaviour, iDamage
     private Vector3 playerVelocity;
     private int playerHealthOrig;
     private float playerStaminaOrig;
-    public int playerAmmoOrig;
+    private int playerAmmoOrig;
     void Start()
     {
-        animator = GetComponent<Animator>();
         playerHealthOrig = playerHealth;
         playerStaminaOrig = playerStamina;
         playerAmmoOrig = playerAmmo;
@@ -58,19 +54,19 @@ public class playerController : MonoBehaviour, iDamage
 
     void Update()
     {
-        movement();
+        if (!gameManager.instance.isPaused)
+        { 
+            movement();
 
-        interactions();
+            interactions();
 
-        if (Input.GetButton("Fire1") && !isShooting && playerAmmo > 0)
-        {
-            StartCoroutine(shooting());
+            if (Input.GetButton("Fire1") && !isShooting && playerAmmo > 0)
+            {
+                StartCoroutine(shooting());
+            }
+
+            gameManager.instance.updatePlayerUI(playerHealth, playerHealthOrig, playerStamina, playerStaminaOrig, playerAmmo, playerAmmoOrig);
         }
-
-        gameManager.instance.updatePlayerUI(playerHealth, playerHealthOrig, playerStamina, playerStaminaOrig, playerAmmo, playerAmmoOrig);
-
-        updateAnimation();
-
     }
 
     void movement()
@@ -123,6 +119,12 @@ public class playerController : MonoBehaviour, iDamage
             iInteract interactable = hit.collider.GetComponent<iInteract>();
             if (interactable != null)
             {
+                if (!interactable.checkLock())
+                {
+                    gameManager.instance.showLockedPrompt(true);
+                    return;
+                }
+
                 gameManager.instance.showInteractPrompt(true);
 
                 if (Input.GetButtonDown("Interact"))
@@ -132,6 +134,7 @@ public class playerController : MonoBehaviour, iDamage
                 return;
             }
         }
+        gameManager.instance.showLockedPrompt(false);
         gameManager.instance.showInteractPrompt(false);
     }
 
@@ -188,21 +191,4 @@ public class playerController : MonoBehaviour, iDamage
             playerAmmo = playerAmmoOrig;
         }
     }
-
-    void updateAnimation()
-    {
-        if(isRunning)
-        {
-            animator.SetInteger("state", (int)AnimationState.running);
-        }
-        else if (move.magnitude > .01f)
-        {
-            animator.SetInteger("state", (int)AnimationState.walking);
-        }
-        else
-        {
-            animator.SetInteger("state", (int)AnimationState.idle);
-        }
-    }
-
 }

@@ -39,4 +39,10 @@ public class buttonFunctions : MonoBehaviour
     {
         gameManager.instance.goBack();
     }
+
+    public void startRun()
+    {
+        gameManager.instance.startRun();
+    }
+
 }
