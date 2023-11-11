@@ -8,8 +8,17 @@ public class inventoryManager : MonoBehaviour
 {
     [SerializeField] Button[] armorChoices;
     int armorChosen = 0;
-    [SerializeField] Button[] locks = new Button[10];
-    [SerializeField] int[] costs = new int[10];
+
+    [SerializeField] int costArmorAgile;
+    [SerializeField] int costArmorResilient;
+    [SerializeField] int costArmorElite;
+    [SerializeField] int costGunRifle;
+    [SerializeField] int costGunShotgun;
+    [SerializeField] int costGunLegendary;
+    [SerializeField] int costItemHealth;
+    [SerializeField] int costItemAmmo;
+    [SerializeField] int costItemDoor;
+
     void Start()
     {
 
@@ -21,49 +30,150 @@ public class inventoryManager : MonoBehaviour
         {
             return;
         }
-        for (int i = 0; i <= armorChoices.Length; i++)
-        {
-            armorChoices[i].image.color = Color.gray;
-        }
-        armorChoices[slot].image.color = Color.white;
+
+        armorChoices[armorChosen].image.color = Color.gray;
         armorChosen = slot;
+        armorChoices[armorChosen].image.color = Color.white;
+
+        //Code to set player's active armor stats
     }
 
-    public void unlock(int slot)
+    public void unlockArmorAgile(Button button)
     {
-        if (slot > locks.Length || slot < 0)
+        if(gameManager.instance.getTotalGold() >= costArmorAgile)
         {
-            return;
-        }
-        if(gameManager.instance.getTotalGold() >= costs[slot])
-        {
-            locks[slot].gameObject.SetActive(false);
-            gameManager.instance.addTotalGold(-costs[slot]);
+            gameManager.instance.addTotalGold(-costArmorAgile);
 
-            switch(slot)
-            {
-                case 3:
-                    //Add Rifle
-                    break;
-                case 4:
-                    //Add Shotgun
-                    break;
-                case 5:
-                    //Add Legendary
-                    break;
-                case 6:
-                    gameManager.instance.unlockedHealthKits = true;
-                    break;
-                case 7:
-                    gameManager.instance.unlockedAmmoKits = true;
-                    break;
-                case 8:
-                    gameManager.instance.unlockedDoors = true;
-                    break;
-                case 9:
-                    //TEMP
-                    break;
-            }
+            button.gameObject.SetActive(false);
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
         }
     }
+
+    public void unlockArmorResilient(Button button)
+    {
+        if (gameManager.instance.getTotalGold() >= costArmorResilient)
+        {
+            gameManager.instance.addTotalGold(-costArmorResilient);
+
+            button.gameObject.SetActive(false);
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
+        }
+    }
+
+    public void unlockArmorElite(Button button)
+    {
+        if (gameManager.instance.getTotalGold() >= costArmorElite)
+        {
+            gameManager.instance.addTotalGold(-costArmorElite);
+
+            button.gameObject.SetActive(false);
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
+        }
+    }
+
+    public void unlockGunRifle(Button button) 
+    {
+        if (gameManager.instance.getTotalGold() >= costGunRifle)
+        {
+            gameManager.instance.addTotalGold(-costGunRifle);
+
+            button.gameObject.SetActive(false);
+
+            //Code to add gun to player's list
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
+        }
+    }
+
+    public void unlockGunShotgun(Button button)
+    {
+        if (gameManager.instance.getTotalGold() >= costGunShotgun)
+        {
+            gameManager.instance.addTotalGold(-costGunShotgun);
+
+            button.gameObject.SetActive(false);
+
+            //Code to add gun to player's list
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
+        }
+    }
+
+    public void unlockGunLegendary(Button button)
+    {
+        if (gameManager.instance.getTotalGold() >= costGunLegendary)
+        {
+            gameManager.instance.addTotalGold(-costGunLegendary);
+
+            button.gameObject.SetActive(false);
+
+            //Code to add gun to player's list
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
+        }
+    }
+
+    public void unlockItemHealth(Button button)
+    {
+        if (gameManager.instance.getTotalGold() >= costItemHealth)
+        {
+            gameManager.instance.addTotalGold(-costItemHealth);
+
+            button.gameObject.SetActive(false);
+
+            gameManager.instance.unlockedHealthKits = true;
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
+        }
+    }
+
+    public void unlockItemAmmo(Button button)
+    {
+        if (gameManager.instance.getTotalGold() >= costItemAmmo)
+        {
+            gameManager.instance.addTotalGold(-costItemAmmo);
+
+            button.gameObject.SetActive(false);
+
+            gameManager.instance.unlockedAmmoKits = true;
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
+        }
+    }
+
+    public void unlockItemDoor(Button button)
+    {
+        if (gameManager.instance.getTotalGold() >= costItemDoor)
+        {
+            gameManager.instance.addTotalGold(-costItemDoor);
+
+            button.gameObject.SetActive(false);
+
+            gameManager.instance.unlockedDoors = true;
+        }
+        else
+        {
+            StartCoroutine(gameManager.instance.showGoldMessage());
+        }
+    }
+
 }

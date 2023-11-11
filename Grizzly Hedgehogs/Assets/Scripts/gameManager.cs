@@ -10,11 +10,14 @@ public class gameManager : MonoBehaviour
 
     [Header("_-_-_- Menus -_-_-_")]
     [SerializeField] GameObject menuActive;
+    [SerializeField] GameObject menuMain;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuControls;
     [SerializeField] GameObject menuCredits;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject menuConfirmExit;
+    [SerializeField] GameObject menuTESTING; //
     [SerializeField] GameObject menuInventory;
 
     [Header("_-_-_- HUD -_-_-_")]
@@ -23,6 +26,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] TMP_Text tempGoldCountText;
     [SerializeField] TMP_Text totalGoldCountText;
 
+    [SerializeField] GameObject notEnoughGoldMessage;
     [SerializeField] GameObject interactPrompt;
     [SerializeField] GameObject lockedPrompt;
 
@@ -32,6 +36,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] TMP_Text playerStaminaText;
     [SerializeField] Image playerAmmoBar;
     [SerializeField] TMP_Text playerAmmoText;
+    [SerializeField] Image playerAmmoBackground;
 
     [Header("_-_-_- Player Info -_-_-_")]
     public GameObject playerSpawnPos;
@@ -69,9 +74,16 @@ public class gameManager : MonoBehaviour
         }
     }
 
+    //
+
     public void startRun()
     {
-        statePause();
+        stateUnPause();
+        addTempGold(-tempGold);
+
+        playerScript.spawnPlayer();
+
+        //Respawn Level stuff
     }
 
     public void statePause()
@@ -89,6 +101,15 @@ public class gameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         menuActive.SetActive(false);
         menuActive = null;
+    }
+
+    //Show Menus
+    public void showMainMenu()
+    {
+        menuActive.SetActive(false);
+        menuPrevious = menuActive;
+        menuActive = menuMain;
+        menuActive.SetActive(true);
     }
 
     public void showPauseMenu()
@@ -112,6 +133,22 @@ public class gameManager : MonoBehaviour
         menuActive = menuCredits;
         menuActive.SetActive(true);
     }
+    public void showConfirmExitMenu()
+    {
+        statePause();
+        menuActive = menuConfirmExit;
+        menuActive.SetActive(true);
+    }
+
+    public void showTESTINGMenu()
+    {
+        menuActive.SetActive(false);
+        menuPrevious = menuActive;
+        menuActive = menuTESTING;
+        menuActive.SetActive(true);
+    }
+
+    //
 
     public void youWin()
     {
@@ -128,8 +165,9 @@ public class gameManager : MonoBehaviour
 
     public void exitToInventory()
     {
-        statePause();
+        menuActive.SetActive(false);
         menuActive = menuInventory;
+        addTempGold(tempGold);
         menuActive.SetActive(true);
     }
 
@@ -139,6 +177,8 @@ public class gameManager : MonoBehaviour
         menuActive = menuPrevious;
         menuActive.SetActive(true);
     }
+
+    //
 
     public void updateGameGoal(int amount)
     {
@@ -167,6 +207,8 @@ public class gameManager : MonoBehaviour
         tempGoldCountText.text = tempGold.ToString("0");
     }
 
+    //
+
     public void updatePlayerUI(int playerHealth, int playerHealthOrig, float playerStamina, float playerStaminaOrig, int playerAmmo, int playerAmmoOrig)
     {
         playerHealthBar.fillAmount = (float)playerHealth / playerHealthOrig;
@@ -187,10 +229,26 @@ public class gameManager : MonoBehaviour
         lockedPrompt.SetActive(on);
     }
 
+    public IEnumerator showGoldMessage()
+    {
+        notEnoughGoldMessage.SetActive(true);
+        yield return new WaitForSeconds(1);
+        notEnoughGoldMessage.SetActive(false);
+    }
+
     public IEnumerator playerFlashDamage()
     {
         playerDamageScreen.SetActive(true);
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.5f);
         playerDamageScreen.SetActive(false);
     }
+
+    public IEnumerator ammoFlashRed()
+    {
+        Color orig = playerAmmoBackground.color;
+        playerAmmoBackground.color = Color.red;
+        yield return new WaitForSeconds(.1f);
+        playerAmmoBackground.color = orig;
+    }
+
 }

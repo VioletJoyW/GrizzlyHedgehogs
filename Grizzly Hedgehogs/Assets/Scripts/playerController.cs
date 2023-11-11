@@ -60,7 +60,7 @@ public class playerController : MonoBehaviour, iDamage
 
             interactions();
 
-            if (Input.GetButton("Fire1") && !isShooting && playerAmmo > 0)
+            if (Input.GetButton("Fire1") && !isShooting)
             {
                 StartCoroutine(shooting());
             }
@@ -140,20 +140,30 @@ public class playerController : MonoBehaviour, iDamage
 
     IEnumerator shooting()
     {
-        RaycastHit hit;
         isShooting = true;
-        playerAmmo -= 1;
-        if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
-        {
-            iDamage damageable = hit.collider.GetComponent<iDamage>();
 
-            if (hit.transform != transform && damageable != null)
+        if (playerAmmo > 0)
+        {
+            RaycastHit hit;
+            playerAmmo -= 1;
+            if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
             {
-                damageable.takeDamage(shootDamage);
+                iDamage damageable = hit.collider.GetComponent<iDamage>();
+
+                if (hit.transform != transform && damageable != null)
+                {
+                    damageable.takeDamage(shootDamage);
+                }
             }
+            yield return new WaitForSeconds(shootRate);
+            isShooting = false;
         }
-        yield return new WaitForSeconds(shootRate);
-        isShooting = false;
+        else
+        {
+            StartCoroutine(gameManager.instance.ammoFlashRed());
+            yield return new WaitForSeconds(.5f);
+            isShooting = false;
+        }
     }
 
     IEnumerator restoreStamina()
@@ -167,6 +177,7 @@ public class playerController : MonoBehaviour, iDamage
     public void takeDamage(int amount)
     {
         playerHealth -= amount;
+        StartCoroutine(gameManager.instance.playerFlashDamage());
 
         if (playerHealth <= 0)
         {
@@ -174,7 +185,7 @@ public class playerController : MonoBehaviour, iDamage
         }
     }
 
-    public void changeHealth(int amount)
+    public void addHealth(int amount)
     {
         playerHealth += amount;
         if (playerHealth > playerHealthOrig)
@@ -183,7 +194,7 @@ public class playerController : MonoBehaviour, iDamage
         }
     }
 
-    public void changeAmmo(int amount)
+    public void addAmmo(int amount)
     {
         playerAmmo += amount;
         if(playerAmmo > playerAmmoOrig)

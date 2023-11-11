@@ -13,7 +13,7 @@ public class healthKit : MonoBehaviour, iInteract
     public void interact()
     {
         animator.SetTrigger("isOpen");
-        gameManager.instance.playerScript.changeHealth(healAmount);
+        gameManager.instance.playerScript.addHealth(healAmount);
 
     }
     public void destroySelf()

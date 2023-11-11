@@ -13,7 +13,7 @@ public class ammoKit : MonoBehaviour, iInteract
     public void interact()
     {
         animator.SetTrigger("isOpen");
-        gameManager.instance.playerScript.changeAmmo(ammoAmount);
+        gameManager.instance.playerScript.addAmmo(ammoAmount);
     }
 
     public void destroySelf()
