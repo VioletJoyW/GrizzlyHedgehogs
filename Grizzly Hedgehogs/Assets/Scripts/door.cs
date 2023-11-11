@@ -4,26 +4,17 @@ using UnityEngine;
 
 public class door : MonoBehaviour, iInteract
 {
-    [SerializeField] int speed;
+    [SerializeField] Animator anim;
 
     bool open = false;
-
-    Quaternion rot;
-
-    void Update()
+    
+    public bool checkLock()
     {
-        if (open)
-        {
-            rot = Quaternion.Euler(0f, 90f, 0f);
-        }
-        else
-        {
-            rot = Quaternion.Euler(0f, 0f, 0f);
-        }
-        transform.parent.rotation = Quaternion.Lerp(transform.parent.rotation, rot, Time.deltaTime * speed);
+        return gameManager.instance.unlockedDoors;
     }
     public void interact()
     {
         open = !open;
+        anim.SetBool("isOpen", open);
     }
 }

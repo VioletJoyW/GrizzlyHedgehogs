@@ -10,6 +10,7 @@ public class playerController : MonoBehaviour, iDamage
     [Header("_-_-_- Player Stats -_-_-_")]
     [Range(1, 20)][SerializeField] int playerHealth;
     [Range(1, 20)][SerializeField] float playerStamina;
+    [Range(1, 20)][SerializeField] int playerAmmo;
     [Range(1, 10)][SerializeField] float playerSpeed;
     [Range(1, 20)][SerializeField] float sprintSpeed;
     [Range(-10, -30)][SerializeField] float gravityFloat;
@@ -23,9 +24,6 @@ public class playerController : MonoBehaviour, iDamage
     [SerializeField] int shootDistance;
     [SerializeField] int shootRate;
 
-    private Animator animator;
-    private enum AnimationState { idle, walking, running }
-
     private bool isRunning;
     private bool isShooting;
     private bool isRestoringStamina;
@@ -35,11 +33,12 @@ public class playerController : MonoBehaviour, iDamage
     private Vector3 playerVelocity;
     private int playerHealthOrig;
     private float playerStaminaOrig;
+    private int playerAmmoOrig;
     void Start()
     {
-        animator = GetComponent<Animator>();
         playerHealthOrig = playerHealth;
         playerStaminaOrig = playerStamina;
+        playerAmmoOrig = playerAmmo;
         spawnPlayer();
     }
     public void spawnPlayer()
@@ -47,24 +46,27 @@ public class playerController : MonoBehaviour, iDamage
         controller.enabled = false;
         playerHealth = playerHealthOrig;
         playerStamina = playerStaminaOrig;
-        updatePlayerUI();
+        playerAmmo = playerAmmoOrig;
+        gameManager.instance.updatePlayerUI(playerHealth, playerHealthOrig, playerStamina, playerStaminaOrig, playerAmmo, playerAmmoOrig);
         transform.position = gameManager.instance.playerSpawnPos.transform.position;
         controller.enabled = true;
     }
 
     void Update()
     {
-        movement();
+        if (!gameManager.instance.isPaused)
+        { 
+            movement();
 
-        interactions();
+            interactions();
 
-        if (Input.GetButton("Fire1") && !isShooting)
-        {
-            StartCoroutine(shooting());
+            if (Input.GetButton("Fire1") && !isShooting)
+            {
+                StartCoroutine(shooting());
+            }
+
+            gameManager.instance.updatePlayerUI(playerHealth, playerHealthOrig, playerStamina, playerStaminaOrig, playerAmmo, playerAmmoOrig);
         }
-
-        updateAnimation();
-
     }
 
     void movement()
@@ -77,12 +79,11 @@ public class playerController : MonoBehaviour, iDamage
 
         float moveSpeed;
 
-        if (Input.GetButton("Sprint") && playerStamina > 0)
+        if (Input.GetButton("Sprint") && playerStamina > 0.2f)
         {
             moveSpeed = sprintSpeed;
             isRunning = true;
-            playerStamina -= 0.01f;
-            updatePlayerUI();
+            playerStamina -= 0.02f;
         }
         else
         {
@@ -118,7 +119,13 @@ public class playerController : MonoBehaviour, iDamage
             iInteract interactable = hit.collider.GetComponent<iInteract>();
             if (interactable != null)
             {
-                gameManager.instance.interactPrompt.SetActive(true);
+                if (!interactable.checkLock())
+                {
+                    gameManager.instance.showLockedPrompt(true);
+                    return;
+                }
+
+                gameManager.instance.showInteractPrompt(true);
 
                 if (Input.GetButtonDown("Interact"))
                 {
@@ -127,39 +134,50 @@ public class playerController : MonoBehaviour, iDamage
                 return;
             }
         }
-        gameManager.instance.interactPrompt.SetActive(false);
+        gameManager.instance.showLockedPrompt(false);
+        gameManager.instance.showInteractPrompt(false);
     }
 
     IEnumerator shooting()
     {
-        RaycastHit hit;
         isShooting = true;
-        if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
-        {
-            iDamage damageable = hit.collider.GetComponent<iDamage>();
 
-            if (hit.transform != transform && damageable != null)
+        if (playerAmmo > 0)
+        {
+            RaycastHit hit;
+            playerAmmo -= 1;
+            if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
             {
-                damageable.takeDamage(shootDamage);
+                iDamage damageable = hit.collider.GetComponent<iDamage>();
+
+                if (hit.transform != transform && damageable != null)
+                {
+                    damageable.takeDamage(shootDamage);
+                }
             }
+            yield return new WaitForSeconds(shootRate);
+            isShooting = false;
         }
-        yield return new WaitForSeconds(shootRate);
-        isShooting = false;
+        else
+        {
+            StartCoroutine(gameManager.instance.ammoFlashRed());
+            yield return new WaitForSeconds(.5f);
+            isShooting = false;
+        }
     }
 
     IEnumerator restoreStamina()
     {
         isRestoringStamina = true;
-        playerStamina += 1;
-        updatePlayerUI();
         yield return new WaitForSeconds(restoreStaminaRate);
+        playerStamina += 1;
         isRestoringStamina = false;
     }
 
     public void takeDamage(int amount)
     {
         playerHealth -= amount;
-        updatePlayerUI();
+        StartCoroutine(gameManager.instance.playerFlashDamage());
 
         if (playerHealth <= 0)
         {
@@ -167,36 +185,21 @@ public class playerController : MonoBehaviour, iDamage
         }
     }
 
-    public void changeHealth(int amount)
+    public void addHealth(int amount)
     {
         playerHealth += amount;
         if (playerHealth > playerHealthOrig)
         { 
             playerHealth = playerHealthOrig;
         }
-        updatePlayerUI();
     }
 
-    public void updatePlayerUI()
+    public void addAmmo(int amount)
     {
-        gameManager.instance.playerHealthBar.fillAmount = (float)playerHealth / playerHealthOrig;
-        gameManager.instance.playerStaminaBar.fillAmount = playerStamina / playerStaminaOrig;
-    }
-
-    void updateAnimation()
-    {
-        if(isRunning)
+        playerAmmo += amount;
+        if(playerAmmo > playerAmmoOrig)
         {
-            animator.SetInteger("state", (int)AnimationState.running);
-        }
-        else if (move.magnitude > .01f)
-        {
-            animator.SetInteger("state", (int)AnimationState.walking);
-        }
-        else
-        {
-            animator.SetInteger("state", (int)AnimationState.idle);
+            playerAmmo = playerAmmoOrig;
         }
     }
-
 }

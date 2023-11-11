@@ -92,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healAmount: 5
   animator: {fileID: 2751333623614285598}
+  box: {fileID: 2905426648757638761}
 --- !u!1 &5178687571831486718
 GameObject:
   m_ObjectHideFlags: 0

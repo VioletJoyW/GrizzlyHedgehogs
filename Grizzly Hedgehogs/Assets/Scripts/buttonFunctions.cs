@@ -14,10 +14,9 @@ public class buttonFunctions : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         gameManager.instance.stateUnPause();
     }
-    public void respawn()
+    public void mainMenu()
     {
-        gameManager.instance.playerScript.spawnPlayer();
-        gameManager.instance.stateUnPause(); 
+        gameManager.instance.showMainMenu();
     }
 
     public void controls()
@@ -39,4 +38,15 @@ public class buttonFunctions : MonoBehaviour
     {
         gameManager.instance.goBack();
     }
+
+    public void startRun()
+    {
+        gameManager.instance.startRun();
+    }
+
+    public void endRun()
+    {
+        gameManager.instance.exitToInventory();
+    }
+
 }
