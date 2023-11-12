@@ -897,7 +897,6 @@ MonoBehaviour:
   shootPos: {fileID: 7970560818005315368}
   headPos: {fileID: 4204577292056676334}
   damageCollider: {fileID: 6218876612544368643}
-  Shoot: {fileID: 8300000, guid: 442eb869901f486448b54d0f92916790, type: 3}
   HP: 6
   playerFaceSpeed: 6
   viewCone: 90
@@ -920,7 +919,7 @@ NavMeshAgent:
   m_Acceleration: 32
   avoidancePriority: 50
   m_AngularSpeed: 600
-  m_StoppingDistance: 10
+  m_StoppingDistance: 8
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

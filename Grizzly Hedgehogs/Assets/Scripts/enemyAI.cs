@@ -28,6 +28,7 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
 
+    AudioSource source;
     Vector3 playerDir;
     Vector3 coverPos;
     bool isShooting;
@@ -167,11 +168,12 @@ public class enemyAI : MonoBehaviour, iDamage
             gameManager.instance.updateGameGoal(-1);
             animator.SetBool("Dead", true);
             agent.enabled = false;
+            Destroy(gameObject);
             //Destroy(gameObject);
         }
         else
         {
-            animator.SetTrigger("Damage");
+            //animator.SetTrigger("Damage");
             StartCoroutine(flashRed());
             agent.SetDestination(gameManager.instance.player.transform.position);
         }
