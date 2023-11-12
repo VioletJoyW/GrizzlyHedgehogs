@@ -42,7 +42,6 @@ public class enemyAI : MonoBehaviour, iDamage
     // Start is called before the first frame update
     void Start()
     {
-        gameManager.instance.updateGameGoal(1);
         stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
     }

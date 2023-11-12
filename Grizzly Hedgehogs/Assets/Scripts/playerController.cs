@@ -6,22 +6,21 @@ public class playerController : MonoBehaviour, iDamage
 {
     [SerializeField] CharacterController controller;
 
-    [SerializeField] scriptableArmorStats playerArmor;
-
     [Header("_-_-_- Player Stats -_-_-_")]
     [Range(1, 20)][SerializeField] int currentHealth;
     [Range(1, 20)][SerializeField] float currentStamina;
-    [Range(1, 20)][SerializeField] int currentAmmo;
 
     [Range(-10, -30)][SerializeField] float gravityFloat;
     [Range(1, 4)][SerializeField] int jumpsMax;
     [SerializeField] int visionDistance;
     [SerializeField] float restoreStaminaRate;
 
-    [Header("_-_-_- Gun Stats -_-_-_")]
-    [SerializeField] int shootDamage;
-    [SerializeField] int shootDistance;
-    [SerializeField] int shootRate;
+    [Header("_-_-_- Armor & Guns -_-_-_")]
+    [SerializeField] scriptableArmorStats playerArmor;
+    [SerializeField] List<scriptableGunStats> gunsList;
+    [SerializeField] GameObject gunModel;
+
+    private int selectedGun = 0;
 
     private bool isRunning;
     private bool isShooting;
@@ -31,20 +30,21 @@ public class playerController : MonoBehaviour, iDamage
     private int jumpTimes;
     private Vector3 playerVelocity;
 
-    private int playerAmmoOrig;
-
     void Start()
     {
-        playerAmmoOrig = currentAmmo;
         spawnPlayer();
+        changeGunModel();
     }
     public void spawnPlayer()
     {
         controller.enabled = false;
         currentHealth = playerArmor.healthMax;
         currentStamina = playerArmor.staminaMax;
-        currentAmmo = playerAmmoOrig;
-        gameManager.instance.updatePlayerUI(currentHealth, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, currentAmmo, playerAmmoOrig);
+        for(int i = 0; i < gunsList.Count; i++)
+        {
+            gunsList[i].ammoCurrent = gunsList[i].ammoMax;
+        }
+        gameManager.instance.updatePlayerUI(currentHealth, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
         transform.position = gameManager.instance.playerSpawnPos.transform.position;
         controller.enabled = true;
     }
@@ -57,12 +57,14 @@ public class playerController : MonoBehaviour, iDamage
 
             interactions();
 
+            selectGun();
+
             if (Input.GetButton("Fire1") && !isShooting)
             {
                 StartCoroutine(shooting());
             }
 
-            gameManager.instance.updatePlayerUI(currentHealth, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, currentAmmo, playerAmmoOrig);
+            gameManager.instance.updatePlayerUI(currentHealth, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
         }
     }
 
@@ -139,21 +141,21 @@ public class playerController : MonoBehaviour, iDamage
     {
         isShooting = true;
 
-        if (currentAmmo > 0)
+        if (gunsList[selectedGun].ammoCurrent > 0)
         {
             RaycastHit hit;
-            currentAmmo -= 1;
-            if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
+            gunsList[selectedGun].ammoCurrent -= 1;
+            if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, gunsList[selectedGun].shootDistance))
             {
                 iDamage damageable = hit.collider.GetComponent<iDamage>();
 
                 if (hit.transform != transform && damageable != null)
                 {
-                    damageable.takeDamage(shootDamage);
+                    damageable.takeDamage(gunsList[selectedGun].shootDamage);
                 }
             }
             //gameManager.instance.gunPlayerShot();
-            yield return new WaitForSeconds(shootRate);
+            yield return new WaitForSeconds(gunsList[selectedGun].shootRate);
             isShooting = false;
         }
         else
@@ -199,16 +201,43 @@ public class playerController : MonoBehaviour, iDamage
 
     public void addAmmo(int amount)
     {
-        currentAmmo += amount;
-        if(currentAmmo > playerAmmoOrig)
+        gunsList[selectedGun].ammoCurrent += amount;
+        if(gunsList[selectedGun].ammoCurrent > gunsList[selectedGun].ammoMax)
         {
-            currentAmmo = playerAmmoOrig;
+            gunsList[selectedGun].ammoCurrent = gunsList[selectedGun].ammoMax;
         }
     }
 
     public void changeArmor(scriptableArmorStats armor)
     {
         playerArmor = armor;
+    }
+
+    public void addGun(scriptableGunStats gun)
+    {
+        gunsList.Add(gun);
+        selectedGun = gunsList.Count - 1;
+        changeGunModel();
+    }
+
+    void selectGun()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < gunsList.Count - 1)
+        {
+            selectedGun++;
+            changeGunModel();
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && selectedGun > 0)
+        {
+            selectedGun--;
+            changeGunModel();
+        }
+    }
+
+    void changeGunModel()
+    {
+        gunModel.GetComponent<MeshFilter>().sharedMesh = gunsList[selectedGun].model.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunsList[selectedGun].model.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
 }

@@ -26,7 +26,6 @@ public class gameManager : MonoBehaviour
     [SerializeField] TMP_Text tempGoldCountText;
     [SerializeField] TMP_Text totalGoldCountText;
 
-    [SerializeField] GameObject notEnoughGoldMessage;
     [SerializeField] GameObject interactPrompt;
     [SerializeField] GameObject lockedPrompt;
 
@@ -199,7 +198,7 @@ public class gameManager : MonoBehaviour
     {
         menuActive.SetActive(false);
         menuActive = menuInventory;
-        addTempGold(tempGold);
+        addTotalGold(tempGold);
         menuActive.SetActive(true);
     }
 
@@ -259,13 +258,6 @@ public class gameManager : MonoBehaviour
     public void showLockedPrompt(bool on)
     {
         lockedPrompt.SetActive(on);
-    }
-
-    public IEnumerator showGoldMessage()
-    {
-        notEnoughGoldMessage.SetActive(true);
-        yield return new WaitForSeconds(1);
-        notEnoughGoldMessage.SetActive(false);
     }
 
     public IEnumerator playerFlashDamage()

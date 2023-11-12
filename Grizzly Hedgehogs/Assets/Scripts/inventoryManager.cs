@@ -18,6 +18,10 @@ public class inventoryManager : MonoBehaviour
 
     [SerializeField] Button selectedArmorButton;
 
+    [SerializeField] scriptableGunStats rifle;
+    [SerializeField] scriptableGunStats shotgun;
+    [SerializeField] scriptableGunStats four;
+
     void Start()
     {
 
@@ -28,7 +32,6 @@ public class inventoryManager : MonoBehaviour
         selectedArmorButton.image.color = Color.gray;
         selectedArmorButton = selectedButton;
         selectedArmorButton.image.color = Color.white;
-
     }
 
     public void updatePlayerArmor(scriptableArmorStats selectedArmor)
@@ -38,15 +41,11 @@ public class inventoryManager : MonoBehaviour
 
     public void unlockArmorAgile(Button button)
     {
-        if(gameManager.instance.getTotalGold() >= costArmorAgile)
+        if (gameManager.instance.getTotalGold() >= costArmorAgile)
         {
             gameManager.instance.addTotalGold(-costArmorAgile);
 
             button.gameObject.SetActive(false);
-        }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
         }
     }
 
@@ -58,10 +57,6 @@ public class inventoryManager : MonoBehaviour
 
             button.gameObject.SetActive(false);
         }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
-        }
     }
 
     public void unlockArmorElite(Button button)
@@ -71,10 +66,6 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costArmorElite);
 
             button.gameObject.SetActive(false);
-        }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
         }
     }
 
@@ -86,11 +77,7 @@ public class inventoryManager : MonoBehaviour
 
             button.gameObject.SetActive(false);
 
-            //Code to add gun to player's list
-        }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
+            gameManager.instance.playerScript.addGun(rifle);
         }
     }
 
@@ -102,11 +89,7 @@ public class inventoryManager : MonoBehaviour
 
             button.gameObject.SetActive(false);
 
-            //Code to add gun to player's list
-        }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
+            gameManager.instance.playerScript.addGun(shotgun);
         }
     }
 
@@ -118,11 +101,7 @@ public class inventoryManager : MonoBehaviour
 
             button.gameObject.SetActive(false);
 
-            //Code to add gun to player's list
-        }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
+            gameManager.instance.playerScript.addGun(four);
         }
     }
 
@@ -136,10 +115,6 @@ public class inventoryManager : MonoBehaviour
 
             gameManager.instance.unlockedHealthKits = true;
         }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
-        }
     }
 
     public void unlockItemAmmo(Button button)
@@ -152,10 +127,6 @@ public class inventoryManager : MonoBehaviour
 
             gameManager.instance.unlockedAmmoKits = true;
         }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
-        }
     }
 
     public void unlockItemDoor(Button button)
@@ -167,10 +138,6 @@ public class inventoryManager : MonoBehaviour
             button.gameObject.SetActive(false);
 
             gameManager.instance.unlockedDoors = true;
-        }
-        else
-        {
-            StartCoroutine(gameManager.instance.showGoldMessage());
         }
     }
 
