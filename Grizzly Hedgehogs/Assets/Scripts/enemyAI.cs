@@ -52,7 +52,7 @@ public class enemyAI : MonoBehaviour, iDamage
         if (agent.isActiveAndEnabled)
         {
             animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
-
+            //sfx.footSteps();
             if (playerInRange && !canSeePlayer())
             {
                 StartCoroutine(roam());
@@ -70,7 +70,6 @@ public class enemyAI : MonoBehaviour, iDamage
         {
             destinationChosen = true;
             yield return new WaitForSeconds(roamPauseTime);
-
             Vector3 randomPos = Random.insideUnitSphere * roamDist;
             randomPos += startingPos;
 
@@ -138,6 +137,7 @@ public class enemyAI : MonoBehaviour, iDamage
     {
         isShooting = true;
         animator.SetTrigger("Shoot");
+        gameManager.instance.gunEnemyShot();
         yield return new WaitForSeconds(shootRate);
 
         isShooting = false;

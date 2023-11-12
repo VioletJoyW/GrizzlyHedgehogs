@@ -993,6 +993,7 @@ MonoBehaviour:
   shootPos: {fileID: 669144028102062855}
   headPos: {fileID: 1938116860828340062}
   damageCollider: {fileID: 4863587296620211723}
+  Shoot: {fileID: 8300000, guid: 442eb869901f486448b54d0f92916790, type: 3}
   HP: 3
   playerFaceSpeed: 6
   viewCone: 90

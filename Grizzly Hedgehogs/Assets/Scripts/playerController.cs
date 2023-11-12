@@ -155,6 +155,7 @@ public class playerController : MonoBehaviour, iDamage
                     damageable.takeDamage(shootDamage);
                 }
             }
+            gameManager.instance.gunPlayerShot();
             yield return new WaitForSeconds(shootRate);
             isShooting = false;
         }
