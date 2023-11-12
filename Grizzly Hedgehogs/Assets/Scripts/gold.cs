@@ -13,7 +13,7 @@ public class gold : MonoBehaviour, iInteract
     public void interact()
     {
         gameManager.instance.addTempGold(amount);
-        gameManager.instance.collectCoins();
+        //gameManager.instance.collectCoins();
         Destroy(gameObject);
     }
 }

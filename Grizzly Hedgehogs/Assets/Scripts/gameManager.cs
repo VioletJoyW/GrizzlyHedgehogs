@@ -52,6 +52,8 @@ public class gameManager : MonoBehaviour
     public bool unlockedDoors;
     public bool unlockedHealthKits;
     public bool unlockedAmmoKits;
+    
+    bool playerUnkillable = false;
 
     float timescaleOrig;
     int enemiesRemaining;
@@ -152,19 +154,43 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(true);
     }
 
+    //Functions for testing
+    public void goldSlider(Slider amount)
+    {
+        tempGold = (int)amount.value;
+        tempGoldCountText.text = tempGold.ToString("0");
+
+        totalGold = (int)amount.value;
+        totalGoldCountText.text = totalGold.ToString("0");
+    }
+    public void healthSlider(Slider amount)
+    {
+        playerScript.addHealth(-playerScript.getHealth() + (int)amount.value);
+    }
+
+    public void unkillable()
+    {
+        playerUnkillable = !playerUnkillable;
+    }
     //
 
     public void youWin()
     {
         statePause();
-        gameWin();
+        //gameWin();
         menuActive = menuWin;
         menuActive.SetActive(true);
     }
     public void youLose()
     {
+        if(playerUnkillable)
+        {
+            playerScript.addHealth(100);
+            return;
+        }
+
         statePause();
-        gameOver();
+        //gameOver();
         menuActive = menuLose;
         menuActive.SetActive(true);
     }
@@ -215,14 +241,14 @@ public class gameManager : MonoBehaviour
 
     //
 
-    public void updatePlayerUI(int playerHealth, int playerHealthOrig, float playerStamina, float playerStaminaOrig, int playerAmmo, int playerAmmoOrig)
+    public void updatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, int ammoCurrent, int ammoMax)
     {
-        playerHealthBar.fillAmount = (float)playerHealth / playerHealthOrig;
-        playerHealthText.text = playerHealth.ToString("0") + " / " + playerHealthOrig.ToString("0");
-        playerStaminaBar.fillAmount = playerStamina / playerStaminaOrig;
-        playerStaminaText.text = playerStamina.ToString("0") + " / " + playerStaminaOrig.ToString("0");
-        playerAmmoBar.fillAmount = (float)playerAmmo / playerAmmoOrig;
-        playerAmmoText.text = playerAmmo.ToString("0") + " / " + playerAmmoOrig.ToString("0");
+        playerHealthBar.fillAmount = (float)healthCurrent / healthMax;
+        playerHealthText.text = healthCurrent.ToString("0") + " / " + healthMax.ToString("0");
+        playerStaminaBar.fillAmount = staminaCurrent / staminaMax;
+        playerStaminaText.text = staminaCurrent.ToString("0") + " / " + staminaMax.ToString("0");
+        playerAmmoBar.fillAmount = (float)ammoCurrent / ammoMax;
+        playerAmmoText.text = ammoCurrent.ToString("0") + " / " + ammoMax.ToString("0");
     }
 
     public void showInteractPrompt(bool on)
@@ -283,7 +309,7 @@ public class gameManager : MonoBehaviour
     }
 
     public void playerJump()
-    { 
+    {
         source.clip = Jump;
         source.Play();
     }

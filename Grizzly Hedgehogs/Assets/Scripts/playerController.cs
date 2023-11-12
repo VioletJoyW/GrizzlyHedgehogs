@@ -5,16 +5,15 @@ using UnityEngine;
 public class playerController : MonoBehaviour, iDamage
 {
     [SerializeField] CharacterController controller;
-    
+
+    [SerializeField] scriptableArmorStats playerArmor;
 
     [Header("_-_-_- Player Stats -_-_-_")]
-    [Range(1, 20)][SerializeField] int playerHealth;
-    [Range(1, 20)][SerializeField] float playerStamina;
-    [Range(1, 20)][SerializeField] int playerAmmo;
-    [Range(1, 10)][SerializeField] float playerSpeed;
-    [Range(1, 20)][SerializeField] float sprintSpeed;
+    [Range(1, 20)][SerializeField] int currentHealth;
+    [Range(1, 20)][SerializeField] float currentStamina;
+    [Range(1, 20)][SerializeField] int currentAmmo;
+
     [Range(-10, -30)][SerializeField] float gravityFloat;
-    [Range(8, 30)][SerializeField] float jumpHeight;
     [Range(1, 4)][SerializeField] int jumpsMax;
     [SerializeField] int visionDistance;
     [SerializeField] float restoreStaminaRate;
@@ -31,23 +30,21 @@ public class playerController : MonoBehaviour, iDamage
     private Vector3 move;
     private int jumpTimes;
     private Vector3 playerVelocity;
-    private int playerHealthOrig;
-    private float playerStaminaOrig;
+
     private int playerAmmoOrig;
+
     void Start()
     {
-        playerHealthOrig = playerHealth;
-        playerStaminaOrig = playerStamina;
-        playerAmmoOrig = playerAmmo;
+        playerAmmoOrig = currentAmmo;
         spawnPlayer();
     }
     public void spawnPlayer()
     {
         controller.enabled = false;
-        playerHealth = playerHealthOrig;
-        playerStamina = playerStaminaOrig;
-        playerAmmo = playerAmmoOrig;
-        gameManager.instance.updatePlayerUI(playerHealth, playerHealthOrig, playerStamina, playerStaminaOrig, playerAmmo, playerAmmoOrig);
+        currentHealth = playerArmor.healthMax;
+        currentStamina = playerArmor.staminaMax;
+        currentAmmo = playerAmmoOrig;
+        gameManager.instance.updatePlayerUI(currentHealth, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, currentAmmo, playerAmmoOrig);
         transform.position = gameManager.instance.playerSpawnPos.transform.position;
         controller.enabled = true;
     }
@@ -65,7 +62,7 @@ public class playerController : MonoBehaviour, iDamage
                 StartCoroutine(shooting());
             }
 
-            gameManager.instance.updatePlayerUI(playerHealth, playerHealthOrig, playerStamina, playerStaminaOrig, playerAmmo, playerAmmoOrig);
+            gameManager.instance.updatePlayerUI(currentHealth, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, currentAmmo, playerAmmoOrig);
         }
     }
 
@@ -79,15 +76,15 @@ public class playerController : MonoBehaviour, iDamage
 
         float moveSpeed;
 
-        if (Input.GetButton("Sprint") && playerStamina > 0.2f)
+        if (Input.GetButton("Sprint") && currentStamina > 0.2f)
         {
-            moveSpeed = sprintSpeed;
+            moveSpeed = playerArmor.sprintSpeed;
             isRunning = true;
-            playerStamina -= 0.02f;
+            currentStamina -= 0.02f;
         }
         else
         {
-            moveSpeed = playerSpeed;
+            moveSpeed = playerArmor.speed;
             isRunning = false;
         }
 
@@ -97,7 +94,7 @@ public class playerController : MonoBehaviour, iDamage
 
         if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax)
         {
-            playerVelocity.y = jumpHeight;
+            playerVelocity.y = playerArmor.jumpHeight;
             jumpTimes++;
         }
 
@@ -105,7 +102,7 @@ public class playerController : MonoBehaviour, iDamage
 
         controller.Move(playerVelocity * Time.deltaTime);
 
-        if (!isRestoringStamina && !isRunning && playerStamina < playerStaminaOrig)
+        if (!isRestoringStamina && !isRunning && currentStamina < playerArmor.staminaMax)
         {
             StartCoroutine(restoreStamina());
         }
@@ -142,10 +139,10 @@ public class playerController : MonoBehaviour, iDamage
     {
         isShooting = true;
 
-        if (playerAmmo > 0)
+        if (currentAmmo > 0)
         {
             RaycastHit hit;
-            playerAmmo -= 1;
+            currentAmmo -= 1;
             if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, shootDistance))
             {
                 iDamage damageable = hit.collider.GetComponent<iDamage>();
@@ -155,7 +152,7 @@ public class playerController : MonoBehaviour, iDamage
                     damageable.takeDamage(shootDamage);
                 }
             }
-            gameManager.instance.gunPlayerShot();
+            //gameManager.instance.gunPlayerShot();
             yield return new WaitForSeconds(shootRate);
             isShooting = false;
         }
@@ -170,17 +167,17 @@ public class playerController : MonoBehaviour, iDamage
     IEnumerator restoreStamina()
     {
         isRestoringStamina = true;
-        yield return new WaitForSeconds(restoreStaminaRate);
-        playerStamina += 1;
+        yield return new WaitForSeconds(playerArmor.restoreStaminaRate);
+        currentStamina += 1;
         isRestoringStamina = false;
     }
 
     public void takeDamage(int amount)
     {
-        playerHealth -= amount;
+        currentHealth -= amount;
         StartCoroutine(gameManager.instance.playerFlashDamage());
 
-        if (playerHealth <= 0)
+        if (currentHealth <= 0)
         {
             gameManager.instance.youLose();
         }
@@ -188,19 +185,30 @@ public class playerController : MonoBehaviour, iDamage
 
     public void addHealth(int amount)
     {
-        playerHealth += amount;
-        if (playerHealth > playerHealthOrig)
+        currentHealth += amount;
+        if (currentHealth > playerArmor.healthMax)
         { 
-            playerHealth = playerHealthOrig;
+            currentHealth = playerArmor.healthMax;
         }
+    }
+
+    public int getHealth() 
+    {
+        return currentHealth;
     }
 
     public void addAmmo(int amount)
     {
-        playerAmmo += amount;
-        if(playerAmmo > playerAmmoOrig)
+        currentAmmo += amount;
+        if(currentAmmo > playerAmmoOrig)
         {
-            playerAmmo = playerAmmoOrig;
+            currentAmmo = playerAmmoOrig;
         }
     }
+
+    public void changeArmor(scriptableArmorStats armor)
+    {
+        playerArmor = armor;
+    }
+
 }

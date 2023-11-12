@@ -6,9 +6,6 @@ using TMPro;
 
 public class inventoryManager : MonoBehaviour
 {
-    [SerializeField] Button[] armorChoices;
-    int armorChosen = 0;
-
     [SerializeField] int costArmorAgile;
     [SerializeField] int costArmorResilient;
     [SerializeField] int costArmorElite;
@@ -19,23 +16,24 @@ public class inventoryManager : MonoBehaviour
     [SerializeField] int costItemAmmo;
     [SerializeField] int costItemDoor;
 
+    [SerializeField] Button selectedArmorButton;
+
     void Start()
     {
 
     }
 
-    public void armorSelection(int slot)
+    public void armorSelection(Button selectedButton)
     {
-        if (slot > armorChoices.Length || slot < 0)
-        {
-            return;
-        }
+        selectedArmorButton.image.color = Color.gray;
+        selectedArmorButton = selectedButton;
+        selectedArmorButton.image.color = Color.white;
 
-        armorChoices[armorChosen].image.color = Color.gray;
-        armorChosen = slot;
-        armorChoices[armorChosen].image.color = Color.white;
+    }
 
-        //Code to set player's active armor stats
+    public void updatePlayerArmor(scriptableArmorStats selectedArmor)
+    {
+        gameManager.instance.playerScript.changeArmor(selectedArmor);
     }
 
     public void unlockArmorAgile(Button button)

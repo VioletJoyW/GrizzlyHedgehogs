@@ -29,8 +29,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.35759044, y: -0.00000011920929, z: -4.705162}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1109650944037628881}
   - {fileID: 3611083132532522298}
@@ -69,9 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b52de710278ac42a9c7865c0ddbedd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoAmount: 1
+  ammoAmount: 10
   animator: {fileID: 8895670919660699799}
-  box: {fileID: 4154827480199292046}
 --- !u!65 &4154827480199292046
 BoxCollider:
   m_ObjectHideFlags: 0
