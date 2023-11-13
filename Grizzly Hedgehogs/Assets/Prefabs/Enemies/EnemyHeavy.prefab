@@ -2087,7 +2087,7 @@ GameObject:
   - component: {fileID: 761277404645427129}
   - component: {fileID: 1058138217811852109}
   - component: {fileID: 6710458340508357532}
-  - component: {fileID: 6218876612544368643}
+  - component: {fileID: 5359801309873651943}
   - component: {fileID: 6916601579042381357}
   - component: {fileID: 5415099788599463291}
   m_Layer: 0
@@ -2131,7 +2131,8 @@ MonoBehaviour:
   animator: {fileID: 6710458340508357532}
   shootPos: {fileID: 7970560818005315368}
   headPos: {fileID: 4204577292056676334}
-  damageCollider: {fileID: 6218876612544368643}
+  damageCollider: {fileID: 5359801309873651943}
+  avatarMask: {fileID: 0}
   aud: {fileID: 5415099788599463291}
   audStep:
   - {fileID: 8300000, guid: 65d1ca5ad52c07c48b9d1f3546b41ffc, type: 3}
@@ -2206,8 +2207,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!136 &6218876612544368643
-CapsuleCollider:
+--- !u!65 &5359801309873651943
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2224,10 +2225,8 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.25
-  m_Direction: 1
+  serializedVersion: 3
+  m_Size: {x: 1.15, y: 2.5, z: 1}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!135 &6916601579042381357
 SphereCollider:

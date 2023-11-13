@@ -13,6 +13,7 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
     [SerializeField] Collider damageCollider;
+    [SerializeField] AvatarMask avatarMask;
 
     [Header("----- Audio -----")]
     [SerializeField] AudioSource aud;
@@ -100,10 +101,6 @@ public class enemyAI : MonoBehaviour, iDamage
             randomPos += startingPos;
             NavMeshHit hit;
             NavMesh.SamplePosition(randomPos, out hit, roamDist, 1);
-            if(!agent)
-            {
-                yield return new WaitForSeconds(0);
-            }
             agent.SetDestination(hit.position);
 
             destinationChosen = false;
@@ -176,7 +173,7 @@ public class enemyAI : MonoBehaviour, iDamage
         canAddToGoal = _b;
     }
 
-    public void createBullet()
+    public void createBullet() // Called in animation
     {
         Instantiate(bullet, shootPos.position, transform.rotation);
     }
@@ -220,6 +217,7 @@ public class enemyAI : MonoBehaviour, iDamage
 
     void faceTarget()
     {
+        Vector3 direction = gameManager.instance.player.transform.position - transform.position; // For enemy position
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
