@@ -98,9 +98,12 @@ public class enemyAI : MonoBehaviour, iDamage
             yield return new WaitForSeconds(roamPauseTime);
             Vector3 randomPos = Random.insideUnitSphere * roamDist;
             randomPos += startingPos;
-
             NavMeshHit hit;
             NavMesh.SamplePosition(randomPos, out hit, roamDist, 1);
+            if(!agent)
+            {
+                yield return new WaitForSeconds(0);
+            }
             agent.SetDestination(hit.position);
 
             destinationChosen = false;
@@ -168,11 +171,11 @@ public class enemyAI : MonoBehaviour, iDamage
         isShooting = false;
     }
 
-
     public void SetCanAddToGoal(bool _b) 
     {
         canAddToGoal = _b;
     }
+
     public void createBullet()
     {
         Instantiate(bullet, shootPos.position, transform.rotation);
@@ -190,7 +193,7 @@ public class enemyAI : MonoBehaviour, iDamage
             agent.enabled = false;
             animator.enabled = false;
             Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
-            if(physicsForce != null)
+            if (physicsForce != null)
             {
                 return;
             }
@@ -201,6 +204,11 @@ public class enemyAI : MonoBehaviour, iDamage
             StartCoroutine(flashRed());
             agent.SetDestination(gameManager.instance.player.transform.position);
         }
+    }
+
+    private void ragdoll()
+    {
+        
     }
 
     IEnumerator flashRed()
@@ -224,6 +232,4 @@ public class enemyAI : MonoBehaviour, iDamage
 
         }
     }
-
-
 }
