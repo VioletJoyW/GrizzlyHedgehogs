@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca3ca63d34ec034ebb1286c89aa3823, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: 
-  shootDamage: 1
-  shootDistance: 20
-  shootRate: 0.5
-  ammoCurrent: 3
-  ammoMax: 10
-  model: {fileID: 919132149155446097, guid: 6bea03a7115c5d748b18a7573d0d4d2b, type: 3}
+  shootDamage: 3
+  shootDistance: 22
+  shootRate: 0.64
+  ammoCurrent: 4
+  ammoMax: 16
+  model: {fileID: 8685759957305568164, guid: b86b101d5792f384bb0bf581b77da39d, type: 3}
   hitEffect: {fileID: 0}
   shootSound: {fileID: 0}
   shootSoundVol: 0
