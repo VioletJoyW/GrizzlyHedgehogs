@@ -45,7 +45,7 @@ public class spawner : MonoBehaviour
 
         if (objectToSpawn[randomEne].CompareTag("Enemy")) 
         {
-           objectToSpawn[randomEne].GetComponent<enemyAI>().SetInSpawner(true);
+           objectToSpawn[randomEne].GetComponent<enemyAI>().SetCanAddToGoal(true);
 
 		}
 

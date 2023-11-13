@@ -16,7 +16,7 @@ public class enemyAI : MonoBehaviour, iDamage
     //[SerializeField] Collider weaponCL;
 
     [Header("----- Config -----")]
-	[SerializeField] bool isInSpawner = false;
+	[SerializeField] bool canAddToGoal = false;
     
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
@@ -48,7 +48,7 @@ public class enemyAI : MonoBehaviour, iDamage
     {
         stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
-        if(!isInSpawner) // If we're not in a spawner, add ourselves to the goal. 
+        if(!canAddToGoal) // If we're not in a spawner, add ourselves to the goal. 
 			gameManager.instance.updateGameGoal(1);
 	}
 
@@ -150,9 +150,9 @@ public class enemyAI : MonoBehaviour, iDamage
     }
 
 
-    public void SetInSpawner(bool _b) 
+    public void SetCanAddToGoal(bool _b) 
     {
-        isInSpawner = _b;
+        canAddToGoal = _b;
     }
     public void createBullet()
     {
