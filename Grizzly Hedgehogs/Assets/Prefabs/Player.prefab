@@ -150,19 +150,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 592869927641737344}
-  playerHealth: 20
-  playerStamina: 11.5
-  playerAmmo: 11
-  playerSpeed: 10
-  sprintSpeed: 0
+  currentHealth: 1
+  currentStamina: 0
   gravityFloat: -20
-  jumpHeight: 8
   jumpsMax: 2
   visionDistance: 10
   restoreStaminaRate: 0.5
-  shootDamage: 1
-  shootDistance: 15
-  shootRate: 1
+  playerArmor: {fileID: 0}
+  gunsList: []
+  gunModel: {fileID: 0}
 --- !u!1 &2808297365708579620
 GameObject:
   m_ObjectHideFlags: 0
