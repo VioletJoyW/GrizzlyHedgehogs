@@ -44,7 +44,7 @@ public class gameManager : MonoBehaviour
 
     [Header("_-_-_- Audio Files -_-_-_")]
     [SerializeField] AudioSource source;
-    [SerializeField] AudioClip heal, coins, pShoot, eShoot, win, Death, Jump;
+
 
     public bool isPaused;
 
@@ -197,6 +197,8 @@ public class gameManager : MonoBehaviour
     public void exitToInventory()
     {
         menuActive.SetActive(false);
+        showInteractPrompt(false);
+        showLockedPrompt(false);
         menuActive = menuInventory;
         addTotalGold(tempGold);
         menuActive.SetActive(true);
@@ -275,48 +277,9 @@ public class gameManager : MonoBehaviour
         playerAmmoBackground.color = orig;
     }
 
-    #region audio
-
-    public void healPlayer()
+    public void playSound(AudioClip clip)
     {
-        source.clip = heal;
-        source.Play();
+        source.PlayOneShot(clip);
     }
 
-    public void collectCoins()
-    {
-        source.clip = coins;
-        source.Play();
-    }
-
-    public void gunPlayerShot()
-    {
-        source.clip = pShoot;
-        source.Play();
-    }
-    public void gunEnemyShot()
-    {
-        source.clip = eShoot;
-        source.Play();
-    }
-
-    public void playerJump()
-    {
-        source.clip = Jump;
-        source.Play();
-    }
-
-    public void gameWin()
-    {
-        source.clip = win;
-        source.Play();
-    }
-
-    public void gameOver()
-    {
-        source.clip = Death;
-        source.Play();
-    }
-
-    #endregion
 }

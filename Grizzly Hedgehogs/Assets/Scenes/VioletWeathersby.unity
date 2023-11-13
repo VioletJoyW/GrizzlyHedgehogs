@@ -308,7 +308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7689400145490597196, guid: af97988bdf726fb4ca8f998880794422, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1065,6 +1065,10 @@ PrefabInstance:
       propertyPath: audStep.Array.data[8]
       value: 
       objectReference: {fileID: 8300000, guid: a0c5af9b4b1c0474b964ea13d63f9357, type: 3}
+    - target: {fileID: 7303650117454404132, guid: 71620fe376219a74aacc15cd18f6426f, type: 3}
+      propertyPath: gunsList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5833120011322bc4a8bc0ec76f94fa7d, type: 2}
     - target: {fileID: 7303650117454404132, guid: 71620fe376219a74aacc15cd18f6426f, type: 3}
       propertyPath: gunsList.Array.data[1]
       value: 

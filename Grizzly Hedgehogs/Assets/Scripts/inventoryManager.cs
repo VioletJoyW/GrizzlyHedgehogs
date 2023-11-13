@@ -22,6 +22,8 @@ public class inventoryManager : MonoBehaviour
     [SerializeField] scriptableGunStats shotgun;
     [SerializeField] scriptableGunStats four;
 
+    [SerializeField] AudioClip sound;
+
     void Start()
     {
 
@@ -46,6 +48,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costArmorAgile);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
         }
     }
 
@@ -56,6 +59,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costArmorResilient);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
         }
     }
 
@@ -66,6 +70,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costArmorElite);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
         }
     }
 
@@ -76,6 +81,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costGunRifle);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
 
             gameManager.instance.playerScript.addGun(rifle);
         }
@@ -88,6 +94,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costGunShotgun);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
 
             gameManager.instance.playerScript.addGun(shotgun);
         }
@@ -100,6 +107,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costGunLegendary);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
 
             gameManager.instance.playerScript.addGun(four);
         }
@@ -112,6 +120,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costItemHealth);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
 
             gameManager.instance.unlockedHealthKits = true;
         }
@@ -124,6 +133,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costItemAmmo);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
 
             gameManager.instance.unlockedAmmoKits = true;
         }
@@ -136,6 +146,7 @@ public class inventoryManager : MonoBehaviour
             gameManager.instance.addTotalGold(-costItemDoor);
 
             button.gameObject.SetActive(false);
+            gameManager.instance.playSound(sound);
 
             gameManager.instance.unlockedDoors = true;
         }

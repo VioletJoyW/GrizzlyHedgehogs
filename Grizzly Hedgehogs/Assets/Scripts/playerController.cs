@@ -29,6 +29,12 @@ public class playerController : MonoBehaviour, iDamage
     [Range(0, 1)][SerializeField] float audJumpVol;
     [SerializeField] AudioClip[] audStep;
     [Range(0, 1)][SerializeField] float audStepVol;
+    [SerializeField] AudioClip audReload;
+    [Range(0, 1)][SerializeField] float audReloadVol;
+    [SerializeField] AudioClip audHeal;
+    [Range(0, 1)][SerializeField] float audHealVol;
+    [SerializeField] AudioClip audLock;
+    [Range(0, 1)][SerializeField] float audLockVol;
 
 
     private int selectedGun = 0;
@@ -147,6 +153,12 @@ public class playerController : MonoBehaviour, iDamage
                 if (!interactable.checkLock())
                 {
                     gameManager.instance.showLockedPrompt(true);
+
+                    if (Input.GetButtonDown("Interact"))
+                    {
+                        aud.PlayOneShot(audLock, audLockVol);
+                    }
+
                     return;
                 }
 
@@ -180,13 +192,14 @@ public class playerController : MonoBehaviour, iDamage
                     damageable.takeDamage(gunsList[selectedGun].shootDamage);
                 }
             }
-            //gameManager.instance.gunPlayerShot();
+            aud.PlayOneShot(gunsList[selectedGun].shootSound, gunsList[selectedGun].shootSoundVol);
             yield return new WaitForSeconds(gunsList[selectedGun].shootRate);
             isShooting = false;
         }
         else
         {
             StartCoroutine(gameManager.instance.ammoFlashRed());
+            aud.PlayOneShot(gunsList[selectedGun].emptySound, gunsList[selectedGun].emptySoundVol);
             yield return new WaitForSeconds(.5f);
             isShooting = false;
         }
@@ -216,7 +229,10 @@ public class playerController : MonoBehaviour, iDamage
 
     public void addHealth(int amount)
     {
+        aud.PlayOneShot(audHeal, audHealVol);
+
         currentHealth += amount;
+
         if (currentHealth > playerArmor.healthMax)
         { 
             currentHealth = playerArmor.healthMax;
@@ -230,7 +246,10 @@ public class playerController : MonoBehaviour, iDamage
 
     public void addAmmo(int amount)
     {
+        aud.PlayOneShot(audReload, audReloadVol);
+
         gunsList[selectedGun].ammoCurrent += amount;
+
         if(gunsList[selectedGun].ammoCurrent > gunsList[selectedGun].ammoMax)
         {
             gunsList[selectedGun].ammoCurrent = gunsList[selectedGun].ammoMax;

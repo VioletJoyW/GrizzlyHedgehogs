@@ -6,6 +6,7 @@ public class ammoKit : MonoBehaviour, iInteract
 {
     [SerializeField] int ammoAmount;
     [SerializeField] Animator animator;
+    [SerializeField] AudioSource aud;
     public bool checkLock()
     {
         return gameManager.instance.unlockedAmmoKits;
@@ -14,6 +15,7 @@ public class ammoKit : MonoBehaviour, iInteract
     {
         animator.SetTrigger("isOpen");
         gameManager.instance.playerScript.addAmmo(ammoAmount);
+        aud.Play();
     }
 
     public void destroySelf()

@@ -2144,7 +2144,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e1fb7c46c960dc542960d108ad3ea407, type: 3}
   - {fileID: 8300000, guid: a0c5af9b4b1c0474b964ea13d63f9357, type: 3}
   audStepVol: 0.5
-  audShoot: {fileID: 8300000, guid: 657d89df510402f46908753029293faf, type: 3}
+  audShoot: {fileID: 8300000, guid: b66ec56402ad4fe47b3cc27504bb9116, type: 3}
   audShootVol: 0.5
   audDamage:
   - {fileID: 8300000, guid: d1208ab82936e01469038e25c7a1b2bd, type: 3}

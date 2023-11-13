@@ -6,6 +6,7 @@ public class healthKit : MonoBehaviour, iInteract
 {
     [SerializeField] int healAmount;
     [SerializeField] Animator animator;
+    [SerializeField] AudioSource aud;
     public bool checkLock()
     {
         return gameManager.instance.unlockedHealthKits;
@@ -13,9 +14,9 @@ public class healthKit : MonoBehaviour, iInteract
     public void interact()
     {
         animator.SetTrigger("isOpen");
-        //gameManager.instance.healPlayer();
         gameManager.instance.playerScript.addHealth(healAmount);
 
+        aud.Play();
     }
     public void destroySelf()
     {

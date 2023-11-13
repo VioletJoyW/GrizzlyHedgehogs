@@ -19,7 +19,7 @@ MonoBehaviour:
   ammoMax: 8
   model: {fileID: 919132149155446097, guid: 4df3ce82db8e66645afd54ab1d5b0262, type: 3}
   hitEffect: {fileID: 0}
-  shootSound: {fileID: 0}
-  shootSoundVol: 0
-  emptySound: {fileID: 0}
-  emptySoundVol: 0
+  shootSound: {fileID: 8300000, guid: 657d89df510402f46908753029293faf, type: 3}
+  shootSoundVol: 0.5
+  emptySound: {fileID: 8300000, guid: c4ab974278951a44c88e22f7b068bfbd, type: 3}
+  emptySoundVol: 0.5
