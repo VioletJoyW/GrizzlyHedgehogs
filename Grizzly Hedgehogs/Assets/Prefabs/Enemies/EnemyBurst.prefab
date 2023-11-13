@@ -2090,7 +2090,7 @@ GameObject:
   - component: {fileID: 5084372074420638363}
   m_Layer: 0
   m_Name: EnemyBurst
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2130,6 +2130,7 @@ MonoBehaviour:
   shootPos: {fileID: 878530064327177837}
   headPos: {fileID: 3867213705459856534}
   damageCollider: {fileID: 8995933379256672104}
+  isInSpawner: 0
   HP: 4
   playerFaceSpeed: 6
   viewCone: 90

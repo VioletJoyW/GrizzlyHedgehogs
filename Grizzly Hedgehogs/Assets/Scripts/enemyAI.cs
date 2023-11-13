@@ -15,6 +15,9 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] Collider damageCollider;
     //[SerializeField] Collider weaponCL;
 
+    [Header("----- Config -----")]
+	[SerializeField] bool isInSpawner = false;
+    
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
     // Plan on adding damage variable to the npc
@@ -40,13 +43,14 @@ public class enemyAI : MonoBehaviour, iDamage
     private Rigidbody rb;
     Vector3 startingPos;
 
-
     // Start is called before the first frame update
     void Start()
     {
         stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
-    }
+        if(!isInSpawner) // If we're not in a spawner, add ourselves to the goal. 
+			gameManager.instance.updateGameGoal(1);
+	}
 
     // Update is called once per frame
     void Update()
@@ -145,6 +149,11 @@ public class enemyAI : MonoBehaviour, iDamage
         isShooting = false;
     }
 
+
+    public void SetInSpawner(bool _b) 
+    {
+        isInSpawner = _b;
+    }
     public void createBullet()
     {
         Instantiate(bullet, shootPos.position, transform.rotation);
@@ -204,4 +213,6 @@ public class enemyAI : MonoBehaviour, iDamage
 
         }
     }
+
+
 }

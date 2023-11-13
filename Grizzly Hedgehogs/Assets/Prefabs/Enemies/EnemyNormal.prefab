@@ -2384,7 +2384,7 @@ GameObject:
   - component: {fileID: 7819315478972635455}
   m_Layer: 0
   m_Name: EnemyNormal
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2425,6 +2425,7 @@ MonoBehaviour:
   shootPos: {fileID: 669144028102062855}
   headPos: {fileID: 1938116860828340062}
   damageCollider: {fileID: 4863587296620211723}
+  isInSpawner: 0
   HP: 3
   playerFaceSpeed: 6
   viewCone: 90

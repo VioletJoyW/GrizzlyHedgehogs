@@ -43,6 +43,12 @@ public class spawner : MonoBehaviour
         int randomEne = Random.Range(0, objectToSpawn.Length);
         int randomNum = Random.Range(0, spawnPos.Length);
 
+        if (objectToSpawn[randomEne].CompareTag("Enemy")) 
+        {
+           objectToSpawn[randomEne].GetComponent<enemyAI>().SetInSpawner(true);
+
+		}
+
         Instantiate(objectToSpawn[randomEne], spawnPos[randomNum].position, spawnPos[randomNum].rotation);
         spawnCount++;
 

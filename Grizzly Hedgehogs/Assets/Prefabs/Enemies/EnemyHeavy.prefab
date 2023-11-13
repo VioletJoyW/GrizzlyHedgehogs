@@ -2091,7 +2091,7 @@ GameObject:
   - component: {fileID: 6916601579042381357}
   m_Layer: 0
   m_Name: EnemyHeavy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2131,6 +2131,7 @@ MonoBehaviour:
   shootPos: {fileID: 7970560818005315368}
   headPos: {fileID: 4204577292056676334}
   damageCollider: {fileID: 6218876612544368643}
+  isInSpawner: 0
   HP: 6
   playerFaceSpeed: 6
   viewCone: 90
