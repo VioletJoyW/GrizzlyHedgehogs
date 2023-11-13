@@ -13,15 +13,21 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
     [SerializeField] Collider damageCollider;
-    //[SerializeField] Collider weaponCL;
+
+    [Header("----- Audio -----")]
+    [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip[] audStep;
+    [Range(0,1)] [SerializeField] float audStepVol;
+    [SerializeField] AudioClip audShoot;
+    [Range(0, 1)][SerializeField] float audShootVol;
+    [SerializeField] AudioClip[] audDamage;
+    [Range(0, 1)][SerializeField] float audDamageVol;
 
     [Header("----- Config -----")]
 	[SerializeField] bool canAddToGoal = false;
     
     [Header("----- Enemy Stats -----")]
     [SerializeField] int HP;
-    // Plan on adding damage variable to the npc
-    //[SerializeField] int damage;
     [SerializeField] int playerFaceSpeed;
     [SerializeField] int viewCone;
     [SerializeField] int shootCone;
@@ -36,6 +42,7 @@ public class enemyAI : MonoBehaviour, iDamage
     Vector3 playerDir;
     Vector3 coverPos;
     bool isShooting;
+    bool isPlayingSteps;
     bool playerInRange;
     float angleToPlayer;
     float stoppingDistOrig;
@@ -58,7 +65,12 @@ public class enemyAI : MonoBehaviour, iDamage
         if (agent.isActiveAndEnabled)
         {
             animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
-            //sfx.footSteps();
+            
+            if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
+            {
+                StartCoroutine(playSteps());
+            }
+
             if (playerInRange && !canSeePlayer())
             {
                 StartCoroutine(roam());
@@ -68,6 +80,14 @@ public class enemyAI : MonoBehaviour, iDamage
                 StartCoroutine(roam());
             }
         }
+    }
+
+    IEnumerator playSteps()
+    {
+        isPlayingSteps = true;
+        aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+        yield return new WaitForSeconds(1 / agent.velocity.normalized.magnitude);
+        isPlayingSteps = false;
     }
 
     IEnumerator roam()
@@ -142,7 +162,7 @@ public class enemyAI : MonoBehaviour, iDamage
     {
         isShooting = true;
         animator.SetTrigger("Shoot");
-        gameManager.instance.gunEnemyShot();
+        aud.PlayOneShot(audShoot, audShootVol);
         yield return new WaitForSeconds(shootRate);
 
         isShooting = false;
@@ -158,19 +178,11 @@ public class enemyAI : MonoBehaviour, iDamage
         Instantiate(bullet, shootPos.position, transform.rotation);
     }
 
-    public void weaponCLOn()
-    {
-        //weaponCL.enabled = true;
-    }
-
-    public void weaponCLOff()
-    {
-        //weaponCL.enabled = false;
-    }
-
     public void takeDamage(int amount)
     {
         HP -= amount;
+        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol);
+
         if (HP <= 0)
         {
             damageCollider.enabled = false;

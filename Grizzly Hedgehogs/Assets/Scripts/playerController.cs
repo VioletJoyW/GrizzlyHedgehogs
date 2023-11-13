@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour, iDamage
 {
+    [Header("_-_-_- Components -_-_-_")]
     [SerializeField] CharacterController controller;
+    [SerializeField] AudioSource aud;
 
     [Header("_-_-_- Player Stats -_-_-_")]
     [Range(1, 20)][SerializeField] int currentHealth;
@@ -20,11 +22,21 @@ public class playerController : MonoBehaviour, iDamage
     [SerializeField] List<scriptableGunStats> gunsList;
     [SerializeField] GameObject gunModel;
 
+    [Header("_-_-_- Audio -_-_-_")]
+    [SerializeField] AudioClip[] audDamage;
+    [Range(0, 1)][SerializeField] float audDamageVol;
+    [SerializeField] AudioClip[] audJump;
+    [Range(0, 1)][SerializeField] float audJumpVol;
+    [SerializeField] AudioClip[] audStep;
+    [Range(0, 1)][SerializeField] float audStepVol;
+
+
     private int selectedGun = 0;
 
     private bool isRunning;
     private bool isShooting;
     private bool isRestoringStamina;
+    private bool isPlayingSteps;
 
     private Vector3 move;
     private int jumpTimes;
@@ -94,8 +106,14 @@ public class playerController : MonoBehaviour, iDamage
 
         controller.Move(move * Time.deltaTime * moveSpeed);
 
+        if(!isPlayingSteps && controller.isGrounded && move.normalized.magnitude > 0.3f)
+        {
+            StartCoroutine(playSteps(moveSpeed));
+        }
+
         if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax)
         {
+            aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
             playerVelocity.y = playerArmor.jumpHeight;
             jumpTimes++;
         }
@@ -108,6 +126,14 @@ public class playerController : MonoBehaviour, iDamage
         {
             StartCoroutine(restoreStamina());
         }
+    }
+
+    IEnumerator playSteps(float moveSpeed)
+    {
+        isPlayingSteps = true;
+        aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+        yield return new WaitForSeconds(3 / moveSpeed);
+        isPlayingSteps = false;
     }
 
     void interactions()
@@ -177,6 +203,9 @@ public class playerController : MonoBehaviour, iDamage
     public void takeDamage(int amount)
     {
         currentHealth -= amount;
+
+        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol);
+
         StartCoroutine(gameManager.instance.playerFlashDamage());
 
         if (currentHealth <= 0)
