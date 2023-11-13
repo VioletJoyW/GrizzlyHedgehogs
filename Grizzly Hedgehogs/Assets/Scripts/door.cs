@@ -6,7 +6,7 @@ public class door : MonoBehaviour, iInteract
 {
     [SerializeField] Animator anim;
 
-    bool open = false;
+	[SerializeField] bool open = false;
     
     public bool checkLock()
     {
