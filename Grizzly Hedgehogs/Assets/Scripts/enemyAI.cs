@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -36,6 +37,7 @@ public class enemyAI : MonoBehaviour, iDamage
     float angleToPlayer;
     float stoppingDistOrig;
     bool destinationChosen;
+    private Rigidbody rb;
     Vector3 startingPos;
 
 
@@ -165,14 +167,17 @@ public class enemyAI : MonoBehaviour, iDamage
         {
             damageCollider.enabled = false;
             gameManager.instance.updateGameGoal(-1);
-            animator.SetBool("Dead", true);
             agent.enabled = false;
-            Destroy(gameObject);
-            //Destroy(gameObject);
+            animator.enabled = false;
+            Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
+            if(physicsForce != null)
+            {
+                return;
+            }
+            rb.AddForce(physicsForce.normalized * physicsForce.magnitude, ForceMode.Impulse);
         }
         else
         {
-            //animator.SetTrigger("Damage");
             StartCoroutine(flashRed());
             agent.SetDestination(gameManager.instance.player.transform.position);
         }
