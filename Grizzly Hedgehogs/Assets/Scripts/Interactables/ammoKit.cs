@@ -7,7 +7,7 @@ public class ammoKit : MonoBehaviour, Iinteract
     [SerializeField] int ammoAmount;
     [SerializeField] Animator animator;
     [SerializeField] AudioSource aud;
-    public bool Check()
+    public bool CheckUnlocked()
     {
         return gameManager.instance.unlockedAmmoKits;
     }

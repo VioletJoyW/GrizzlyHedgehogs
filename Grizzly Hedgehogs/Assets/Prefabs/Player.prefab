@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3521402806311282436}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000004470348, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8333333, z: 0.02700003}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.02700003}
   m_LocalScale: {x: 1.2, y: 1.1865593, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a71f4e34ebc6c4ea3e59af0ae33edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camSensitivity: 550
+  camSensitivity: 400
   camMin: -90
   camMax: 90
   invertY: 0
@@ -163,7 +163,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6132811317677134680}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -265,7 +265,7 @@ MonoBehaviour:
   currentStamina: 3
   gravityFloat: -20
   jumpsMax: 2
-  visionDistance: 10
+  visionDistance: 5
   restoreStaminaRate: 0.5
   playerArmor: {fileID: 11400000, guid: 17b44187e9dc4114ba3e67f70f35e8c9, type: 2}
   gunsList:

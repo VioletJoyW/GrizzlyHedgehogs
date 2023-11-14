@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class exit : MonoBehaviour, Iinteract
 {
-    public bool Check()
+    public bool CheckUnlocked()
     {
         return true;
     }

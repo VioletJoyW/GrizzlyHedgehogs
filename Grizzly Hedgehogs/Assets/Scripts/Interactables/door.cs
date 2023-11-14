@@ -9,7 +9,7 @@ public class door : MonoBehaviour, Iinteract
 
 	[SerializeField] bool open = false;
     
-    public bool Check()
+    public bool CheckUnlocked()
     {
         return gameManager.instance.unlockedDoors;
     }

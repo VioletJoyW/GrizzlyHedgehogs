@@ -5,10 +5,10 @@ using UnityEngine;
 public interface Iinteract
 {
 	/// <summary>
-	/// Checks if the object is interactable.
+	/// Checks if the object's interactions are unlocked.
 	/// </summary>
 	/// <returns></returns>
-	public bool Check();
+	public bool CheckUnlocked();
 
 	/// <summary>
 	/// Handles interaction triggering.

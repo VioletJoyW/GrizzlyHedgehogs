@@ -7,7 +7,7 @@ public class gold : MonoBehaviour, Iinteract
 {
     [SerializeField] int amount;
     [SerializeField] AudioClip sound;
-    public bool Check()
+    public bool CheckUnlocked()
     {
         return true;
     }

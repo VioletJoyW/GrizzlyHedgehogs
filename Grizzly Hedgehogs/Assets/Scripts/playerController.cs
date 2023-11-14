@@ -113,7 +113,7 @@ public class playerController : Entity
         {
             moveSpeed = playerArmor.sprintSpeed;
             isRunning = true;
-            currentStamina -= 0.02f;
+            currentStamina -= 0.2f;
         }
         else
         {
@@ -168,15 +168,18 @@ public class playerController : Entity
     /// </summary>
     void Interactions()
     {
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * visionDistance, Color.red);
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, visionDistance))
         {
+            Debug.Log(hit.colliderInstanceID); 
             Iinteract interactable = hit.collider.GetComponent<Iinteract>();
             if (interactable != null)
             {
-                if (!interactable.Check())
+                if (!interactable.CheckUnlocked())
                 {
-                    gameManager.instance.ShowLockedPrompt(true);
+                    gameManager.instance.ShowLockedPrompt(true); 
+                    gameManager.instance.ShowInteractPrompt(false);
 
                     if (Input.GetButtonDown("Interact"))
                     {
@@ -187,6 +190,7 @@ public class playerController : Entity
                 }
 
                 gameManager.instance.ShowInteractPrompt(true);
+                gameManager.instance.ShowLockedPrompt(false);
 
                 if (Input.GetButtonDown("Interact"))
                 {
@@ -213,6 +217,8 @@ public class playerController : Entity
             gunsList[selectedGun].ammoCurrent -= 1;
             if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, gunsList[selectedGun].shootDistance))
             {
+                Instantiate(gunsList[selectedGun].hitEffect, hit.point, gunsList[selectedGun].hitEffect.transform.rotation);
+
                 IDamage damageable = hit.collider.GetComponent<IDamage>();
 
                 if (hit.transform != transform && damageable != null)
@@ -240,8 +246,8 @@ public class playerController : Entity
     IEnumerator RestoreStamina()
     {
         isRestoringStamina = true;
-        yield return new WaitForSeconds(playerArmor.restoreStaminaRate);
         currentStamina += 1;
+        yield return new WaitForSeconds(playerArmor.restoreStaminaRate);
         isRestoringStamina = false;
     }
 

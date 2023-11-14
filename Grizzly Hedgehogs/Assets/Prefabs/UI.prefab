@@ -4916,7 +4916,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 17b44187e9dc4114ba3e67f70f35e8c9, type: 2}
-          m_ObjectArgumentAssemblyTypeName: scriptableArmorStats, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: ScriptableArmorStats, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5885,7 +5885,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: e4615009f57b8c34585b039c87a10dd8, type: 2}
-          m_ObjectArgumentAssemblyTypeName: scriptableArmorStats, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: ScriptableArmorStats, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8157,7 +8157,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: ab3123a25f06c65499e0d7f0ad33432a, type: 2}
-          m_ObjectArgumentAssemblyTypeName: scriptableArmorStats, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: ScriptableArmorStats, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9819,7 +9819,7 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: ee7c3a80b574d024398012a714ff7e23, type: 2}
-          m_ObjectArgumentAssemblyTypeName: scriptableArmorStats, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: ScriptableArmorStats, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
