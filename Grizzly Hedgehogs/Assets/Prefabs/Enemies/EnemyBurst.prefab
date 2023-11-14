@@ -2125,15 +2125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4002df029f63c0d4bb0682f0675a049c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 8640941619113776042}
-  agent: {fileID: 6228737554094154519}
-  animator: {fileID: 1861491513216225605}
-  shootPos: {fileID: 878530064327177837}
-  headPos: {fileID: 3867213705459856534}
-  damageCollider: {fileID: 8861237194360785015}
-  avatarMask: {fileID: 0}
-  aud: {fileID: -4285368726306347955}
-  audStep:
+  audio: {fileID: -4285368726306347955}
+  audioStep:
   - {fileID: 8300000, guid: 65d1ca5ad52c07c48b9d1f3546b41ffc, type: 3}
   - {fileID: 8300000, guid: d2cc5c81e18872c4aad41b06916fbe97, type: 3}
   - {fileID: 8300000, guid: b791effb8bbfbed478a643fb9a6d435b, type: 3}
@@ -2143,19 +2136,26 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 568e157bb3d2293429abdc79fb215233, type: 3}
   - {fileID: 8300000, guid: e1fb7c46c960dc542960d108ad3ea407, type: 3}
   - {fileID: 8300000, guid: a0c5af9b4b1c0474b964ea13d63f9357, type: 3}
-  audStepVol: 0.5
-  audShoot: {fileID: 8300000, guid: b66ec56402ad4fe47b3cc27504bb9116, type: 3}
-  audShootVol: 0.5
-  audDamage:
+  audioStepVolume: 0.522
+  audioDamage:
   - {fileID: 8300000, guid: d1208ab82936e01469038e25c7a1b2bd, type: 3}
   - {fileID: 8300000, guid: 8358b96c781074840a12b8bc3a2a9e4d, type: 3}
   - {fileID: 8300000, guid: b076dae3c1ab2304f9e3820a08857594, type: 3}
   - {fileID: 8300000, guid: 61f8c0da2f701d14c83cdf085e13ef8a, type: 3}
   - {fileID: 8300000, guid: 97a06e86d4363794cbaa45899ac005da, type: 3}
   - {fileID: 8300000, guid: ce2d90b7d2e38594f9918a6e620c8aec, type: 3}
-  audDamageVol: 0.5
+  audioDamageVolume: 0.495
+  audShoot: {fileID: 8300000, guid: b66ec56402ad4fe47b3cc27504bb9116, type: 3}
+  audShootVol: 0.5
+  model: {fileID: 8640941619113776042}
+  agent: {fileID: 6228737554094154519}
+  animator: {fileID: 1861491513216225605}
+  shootPos: {fileID: 878530064327177837}
+  headPos: {fileID: 3867213705459856534}
+  damageCollider: {fileID: 8861237194360785015}
+  avatar: {fileID: 31900000, guid: 1c7103d7255e01244b7e5781f781836f, type: 2}
   canAddToGoal: 0
-  HP: 4
+  hitPoints: 4
   playerFaceSpeed: 6
   viewCone: 90
   shootCone: 5

@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : Entity
+public class flyingEnemyAI : Entity
 {
-	[Header("----- Audio -----")]
-	[SerializeField] new AudioSource audio;
-	[SerializeField] AudioClip[] audioStep;
-	[Range(0, 1)][SerializeField] float audioStepVolume;
-	[SerializeField] AudioClip[] audioDamage;
-	[Range(0, 1)][SerializeField] float audioDamageVolume;
+
+    [Header("----- Audio -----")]
+    [SerializeField] new AudioSource audio;
+    [SerializeField] AudioClip[] audioStep;
+    [Range(0, 1)][SerializeField] float audioStepVolume;
+    [SerializeField] AudioClip[] audioDamage;
+    [Range(0, 1)][SerializeField] float audioDamageVolume;
     [SerializeField] AudioClip audShoot;
     [Range(0, 1)][SerializeField] float audShootVol;
-    
+
+
     [Header("----- Components -----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
@@ -22,13 +23,14 @@ public class EnemyAI : Entity
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
     [SerializeField] Collider damageCollider;
-    [SerializeField] AvatarMask avatar;
+    [SerializeField] AvatarMask avatarMask;
+
 
     [Header("----- Config -----")]
-	[SerializeField] bool canAddToGoal = false;
-    
+    [SerializeField] bool canAddToGoal = false;
+
     [Header("----- Enemy Stats -----")]
-	[SerializeField] int hitPoints;
+    [SerializeField] int hitPoints;
     [SerializeField] int playerFaceSpeed;
     [SerializeField] int viewCone;
     [SerializeField] int shootCone;
@@ -59,13 +61,13 @@ public class EnemyAI : Entity
         AudioStepVolume = audioStepVolume;
         AudioDamage = audioDamage;
         AudioDamageVolume = audioDamageVolume;
-		
 
-		stoppingDistOrig = agent.stoppingDistance;
+
+        stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
-        if(!canAddToGoal) // If we're not in a spawner, add ourselves to the goal. 
-			gameManager.instance.updateGameGoal(1);
-	}
+        if (!canAddToGoal) // If we're not in a spawner, add ourselves to the goal. 
+            gameManager.instance.updateGameGoal(1);
+    }
 
     // Update is called once per frame
     void Update()
@@ -73,7 +75,7 @@ public class EnemyAI : Entity
         if (agent.isActiveAndEnabled)
         {
             animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
-            
+
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
             {
                 StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude));
@@ -173,7 +175,7 @@ public class EnemyAI : Entity
         }
     }
 
-    protected override IEnumerator Shoot() 
+    protected override IEnumerator Shoot()
     {
         isShooting = true;
         animator.SetTrigger("Shoot");
@@ -183,7 +185,7 @@ public class EnemyAI : Entity
         isShooting = false;
     }
 
-    public void SetCanAddToGoal(bool _b) 
+    public void SetCanAddToGoal(bool _b)
     {
         canAddToGoal = _b;
     }
@@ -220,7 +222,7 @@ public class EnemyAI : Entity
 
     private void Ragdoll()
     {
-        
+
     }
 
     IEnumerator FlashRed()
@@ -232,13 +234,9 @@ public class EnemyAI : Entity
 
     void FaceTarget()
     {
+        Vector3 direction = gameManager.instance.player.transform.position - transform.position; // For enemy position
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
-    }
-
-    void LookAtPlayer()
-    {
-
     }
 
     void GetToCover()
