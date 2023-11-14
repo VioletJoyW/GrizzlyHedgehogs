@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "Armor Stats")]
-public class scriptableArmorStats : ScriptableObject
+
+public class ScriptableArmorStats : ScriptableObject
 {
     public int healthMax;
     public float staminaMax;

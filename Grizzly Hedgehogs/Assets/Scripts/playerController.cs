@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerController : MonoBehaviour, iDamage
+public class playerController : Entity
 {
     [Header("_-_-_- Components -_-_-_")]
     [SerializeField] CharacterController controller;
-    [SerializeField] AudioSource aud;
+    [SerializeField] AudioSource audioSource;
 
     [Header("_-_-_- Player Stats -_-_-_")]
-    [Range(1, 20)][SerializeField] int currentHealth;
+    [Range(1, 20)][SerializeField] int health;
     [Range(1, 20)][SerializeField] float currentStamina;
 
     [Range(-10, -30)][SerializeField] float gravityFloat;
@@ -18,17 +18,17 @@ public class playerController : MonoBehaviour, iDamage
     [SerializeField] float restoreStaminaRate;
 
     [Header("_-_-_- Armor & Guns -_-_-_")]
-    [SerializeField] scriptableArmorStats playerArmor;
-    [SerializeField] List<scriptableGunStats> gunsList;
+    [SerializeField] ScriptableArmorStats playerArmor;
+    [SerializeField] List<ScriptableGunStats> gunsList;
     [SerializeField] GameObject gunModel;
 
     [Header("_-_-_- Audio -_-_-_")]
-    [SerializeField] AudioClip[] audDamage;
-    [Range(0, 1)][SerializeField] float audDamageVol;
+    [SerializeField] AudioClip[] audioDamage;
+    [Range(0, 1)][SerializeField] float audioDamageVolume;
     [SerializeField] AudioClip[] audJump;
     [Range(0, 1)][SerializeField] float audJumpVol;
-    [SerializeField] AudioClip[] audStep;
-    [Range(0, 1)][SerializeField] float audStepVol;
+    [SerializeField] AudioClip[] audioStep;
+    [Range(0, 1)][SerializeField] float audioStepVolume;
     [SerializeField] AudioClip audReload;
     [Range(0, 1)][SerializeField] float audReloadVol;
     [SerializeField] AudioClip audHeal;
@@ -40,9 +40,7 @@ public class playerController : MonoBehaviour, iDamage
     private int selectedGun = 0;
 
     private bool isRunning;
-    private bool isShooting;
     private bool isRestoringStamina;
-    private bool isPlayingSteps;
 
     private Vector3 move;
     private int jumpTimes;
@@ -50,19 +48,31 @@ public class playerController : MonoBehaviour, iDamage
 
     void Start()
     {
-        spawnPlayer();
-        changeGunModel();
+		//Setting Entity vars
+		HitPoints = health;
+		AudioSource = audioSource;
+		AudioSteps = audioStep;
+		AudioStepVolume = audioStepVolume;
+		AudioDamage = audioDamage;
+		AudioDamageVolume = audioDamageVolume;
+
+		SpawnPlayer();
+        ChangeGunModel();
     }
-    public void spawnPlayer()
+
+    /// <summary>
+    /// Spawns the player at the player spawn postion.
+    /// </summary>
+    public void SpawnPlayer()
     {
         controller.enabled = false;
-        currentHealth = playerArmor.healthMax;
+        HP = playerArmor.healthMax;
         currentStamina = playerArmor.staminaMax;
         for(int i = 0; i < gunsList.Count; i++)
         {
             gunsList[i].ammoCurrent = gunsList[i].ammoMax;
         }
-        gameManager.instance.updatePlayerUI(currentHealth, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
+        gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
         transform.position = gameManager.instance.playerSpawnPos.transform.position;
         controller.enabled = true;
     }
@@ -71,22 +81,25 @@ public class playerController : MonoBehaviour, iDamage
     {
         if (!gameManager.instance.isPaused)
         { 
-            movement();
+            Movement();
 
-            interactions();
+            Interactions();
 
-            selectGun();
+            SelectGun();
 
             if (Input.GetButton("Fire1") && !isShooting)
             {
-                StartCoroutine(shooting());
+                StartCoroutine(Shoot());
             }
 
-            gameManager.instance.updatePlayerUI(currentHealth, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
+            gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
         }
     }
 
-    void movement()
+    /// <summary>
+    /// Moves the plyaer.
+    /// </summary>
+    void Movement()
     {
         if (controller.isGrounded && playerVelocity.y < 0)
         {
@@ -114,7 +127,7 @@ public class playerController : MonoBehaviour, iDamage
 
         if(!isPlayingSteps && controller.isGrounded && move.normalized.magnitude > 0.3f)
         {
-            StartCoroutine(playSteps(moveSpeed));
+            StartCoroutine(PlaySteps(3, moveSpeed));
         }
 
         if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax)
@@ -130,29 +143,40 @@ public class playerController : MonoBehaviour, iDamage
 
         if (!isRestoringStamina && !isRunning && currentStamina < playerArmor.staminaMax)
         {
-            StartCoroutine(restoreStamina());
+            StartCoroutine(RestoreStamina());
         }
     }
 
-    IEnumerator playSteps(float moveSpeed)
-    {
-        isPlayingSteps = true;
-        aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
-        yield return new WaitForSeconds(3 / moveSpeed);
-        isPlayingSteps = false;
-    }
+	/// <summary>
+	/// Plays footstep sounds by a speed factor.
+	/// Used for player movement.
+	/// </summary>
+	/// <param name="moveSpeed"></param>
+	/// <returns></returns>
+	//IEnumerator PlaySteps(float moveSpeed)
+ //   {
+ //       isPlayingSteps = true;
+ //       aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+ //       yield return new WaitForSeconds(3 / moveSpeed);
+ //       isPlayingSteps = false;
 
-    void interactions()
+	//}
+
+    /// <summary>
+    /// Processes the interation raycast.
+    /// Used for triggering the iteration prompt.
+    /// </summary>
+    void Interactions()
     {
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, visionDistance))
         {
-            iInteract interactable = hit.collider.GetComponent<iInteract>();
+            Iinteract interactable = hit.collider.GetComponent<Iinteract>();
             if (interactable != null)
             {
-                if (!interactable.checkLock())
+                if (!interactable.Check())
                 {
-                    gameManager.instance.showLockedPrompt(true);
+                    gameManager.instance.ShowLockedPrompt(true);
 
                     if (Input.GetButtonDown("Interact"))
                     {
@@ -162,20 +186,24 @@ public class playerController : MonoBehaviour, iDamage
                     return;
                 }
 
-                gameManager.instance.showInteractPrompt(true);
+                gameManager.instance.ShowInteractPrompt(true);
 
                 if (Input.GetButtonDown("Interact"))
                 {
-                    interactable.interact();
+                    interactable.Interact();
                 }
                 return;
             }
         }
-        gameManager.instance.showLockedPrompt(false);
-        gameManager.instance.showInteractPrompt(false);
+        gameManager.instance.ShowLockedPrompt(false);
+        gameManager.instance.ShowInteractPrompt(false);
     }
 
-    IEnumerator shooting()
+    /// <summary>
+    /// Handles shooting.
+    /// </summary>
+    /// <returns></returns>
+    protected override IEnumerator Shoot()
     {
         isShooting = true;
 
@@ -185,11 +213,11 @@ public class playerController : MonoBehaviour, iDamage
             gunsList[selectedGun].ammoCurrent -= 1;
             if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, gunsList[selectedGun].shootDistance))
             {
-                iDamage damageable = hit.collider.GetComponent<iDamage>();
+                IDamage damageable = hit.collider.GetComponent<IDamage>();
 
                 if (hit.transform != transform && damageable != null)
                 {
-                    damageable.takeDamage(gunsList[selectedGun].shootDamage);
+                    damageable.TakeDamage(gunsList[selectedGun].shootDamage);
                 }
             }
             aud.PlayOneShot(gunsList[selectedGun].shootSound, gunsList[selectedGun].shootSoundVol);
@@ -198,14 +226,18 @@ public class playerController : MonoBehaviour, iDamage
         }
         else
         {
-            StartCoroutine(gameManager.instance.ammoFlashRed());
+            StartCoroutine(gameManager.instance.AmmoFlashRed());
             aud.PlayOneShot(gunsList[selectedGun].emptySound, gunsList[selectedGun].emptySoundVol);
             yield return new WaitForSeconds(.5f);
             isShooting = false;
         }
     }
 
-    IEnumerator restoreStamina()
+    /// <summary>
+    /// Restores stamina over time.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator RestoreStamina()
     {
         isRestoringStamina = true;
         yield return new WaitForSeconds(playerArmor.restoreStaminaRate);
@@ -213,38 +245,50 @@ public class playerController : MonoBehaviour, iDamage
         isRestoringStamina = false;
     }
 
-    public void takeDamage(int amount)
+    public override void TakeDamage(int amount)
     {
-        currentHealth -= amount;
+        HP -= amount;
 
         aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol);
 
-        StartCoroutine(gameManager.instance.playerFlashDamage());
+        StartCoroutine(gameManager.instance.PlayerFlashDamage());
 
-        if (currentHealth <= 0)
+        if (HP <= 0)
         {
             gameManager.instance.youLose();
         }
     }
 
-    public void addHealth(int amount)
+    /// <summary>
+    /// Adds to current health.
+    /// </summary>
+    /// <param name="amount"></param>
+    public void AddHealth(int amount)
     {
         aud.PlayOneShot(audHeal, audHealVol);
 
-        currentHealth += amount;
+        HP += amount;
 
-        if (currentHealth > playerArmor.healthMax)
+        if (HP > playerArmor.healthMax)
         { 
-            currentHealth = playerArmor.healthMax;
+            HP = playerArmor.healthMax;
         }
     }
 
-    public int getHealth() 
+    /// <summary>
+    /// Gets curent health.
+    /// </summary>
+    /// <returns></returns>
+    public int GetHealth() 
     {
-        return currentHealth;
+        return HP;
     }
 
-    public void addAmmo(int amount)
+    /// <summary>
+    /// Adds to the current ammo.
+    /// </summary>
+    /// <param name="amount"></param>
+    public void AddAmmo(int amount)
     {
         aud.PlayOneShot(audReload, audReloadVol);
 
@@ -256,33 +300,47 @@ public class playerController : MonoBehaviour, iDamage
         }
     }
 
-    public void changeArmor(scriptableArmorStats armor)
+    /// <summary>
+    /// Changes the player's armor.
+    /// </summary>
+    /// <param name="armor"></param>
+    public void ChangeArmor(ScriptableArmorStats armor)
     {
         playerArmor = armor;
     }
 
-    public void addGun(scriptableGunStats gun)
+    /// <summary>
+    /// Adds a gun to the gun inventory (gunList).
+    /// </summary>
+    /// <param name="gun"></param>
+    public void AddGun(ScriptableGunStats gun)
     {
         gunsList.Add(gun);
         selectedGun = gunsList.Count - 1;
-        changeGunModel();
+        ChangeGunModel();
     }
 
-    void selectGun()
+	/// <summary>
+	/// Selects a gun through the scroll wheel.
+	/// </summary>
+	void SelectGun()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < gunsList.Count - 1)
         {
             selectedGun++;
-            changeGunModel();
+            ChangeGunModel();
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0 && selectedGun > 0)
         {
             selectedGun--;
-            changeGunModel();
+            ChangeGunModel();
         }
     }
 
-    void changeGunModel()
+	/// <summary>
+	/// Change the current gun to a different gun in the list.
+	/// </summary>
+	void ChangeGunModel()
     {
         gunModel.GetComponent<MeshFilter>().sharedMesh = gunsList[selectedGun].model.GetComponent<MeshFilter>().sharedMesh;
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunsList[selectedGun].model.GetComponent<MeshRenderer>().sharedMaterial;

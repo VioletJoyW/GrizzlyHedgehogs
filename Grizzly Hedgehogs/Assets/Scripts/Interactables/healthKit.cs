@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class healthKit : MonoBehaviour, iInteract   
+public class healthKit : MonoBehaviour, Iinteract   
 {
     [SerializeField] int healAmount;
     [SerializeField] Animator animator;
     [SerializeField] AudioSource aud;
-    public bool checkLock()
+    public bool Check()
     {
         return gameManager.instance.unlockedHealthKits;
     }
-    public void interact()
+    public void Interact()
     {
         animator.SetTrigger("isOpen");
-        gameManager.instance.playerScript.addHealth(healAmount);
+        gameManager.instance.playerScript.AddHealth(healAmount);
 
         aud.Play();
     }
-    public void destroySelf()
+
+    /// <summary>
+    /// Removes the health kit object.
+    /// </summary>
+    public void DestroySelf()
     {
         Destroy(gameObject);
     }

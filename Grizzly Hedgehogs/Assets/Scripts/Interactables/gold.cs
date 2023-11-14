@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class gold : MonoBehaviour, iInteract
+public class gold : MonoBehaviour, Iinteract
 {
     [SerializeField] int amount;
     [SerializeField] AudioClip sound;
-    public bool checkLock()
+    public bool Check()
     {
         return true;
     }
-    public void interact()
+    public void Interact()
     {
-        gameManager.instance.addTempGold(amount);
-        gameManager.instance.playSound(sound);
+        gameManager.instance.AddTempGold(amount);
+        gameManager.instance.PlaySound(sound);
         Destroy(gameObject);
     }
 

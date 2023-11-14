@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ammoKit : MonoBehaviour, iInteract   
+public class ammoKit : MonoBehaviour, Iinteract   
 {
     [SerializeField] int ammoAmount;
     [SerializeField] Animator animator;
     [SerializeField] AudioSource aud;
-    public bool checkLock()
+    public bool Check()
     {
         return gameManager.instance.unlockedAmmoKits;
     }
-    public void interact()
+    public void Interact()
     {
         animator.SetTrigger("isOpen");
-        gameManager.instance.playerScript.addAmmo(ammoAmount);
+        gameManager.instance.playerScript.AddAmmo(ammoAmount);
         aud.Play();
     }
 

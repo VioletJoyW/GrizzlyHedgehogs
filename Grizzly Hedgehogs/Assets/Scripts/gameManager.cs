@@ -84,9 +84,9 @@ public class gameManager : MonoBehaviour
     public void startRun()
     {
         stateUnPause();
-        addTempGold(-tempGold);
+        AddTempGold(-tempGold);
 
-        playerScript.spawnPlayer();
+        playerScript.SpawnPlayer();
 
         //Respawn Level stuff
     }
@@ -164,15 +164,17 @@ public class gameManager : MonoBehaviour
     }
     public void healthSlider(Slider amount)
     {
-        playerScript.addHealth(-playerScript.getHealth() + (int)amount.value);
+        playerScript.AddHealth(-playerScript.GetHealth() + (int)amount.value);
     }
 
     public void unkillable()
     {
         playerUnkillable = !playerUnkillable;
     }
-    //
-
+    
+    /// <summary>
+    /// Displays win screen.
+    /// </summary>
     public void youWin()
     {
         statePause();
@@ -180,11 +182,15 @@ public class gameManager : MonoBehaviour
         menuActive = menuWin;
         menuActive.SetActive(true);
     }
+
+    /// <summary>
+    /// Displays lose screen.
+    /// </summary>
     public void youLose()
     {
         if(playerUnkillable)
         {
-            playerScript.addHealth(100);
+            playerScript.AddHealth(100);
             return;
         }
 
@@ -194,26 +200,35 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(true);
     }
 
+    /// <summary>
+    /// Closes inventory menu.
+    /// </summary>
     public void exitToInventory()
     {
         menuActive.SetActive(false);
-        showInteractPrompt(false);
-        showLockedPrompt(false);
+        ShowInteractPrompt(false);
+        ShowLockedPrompt(false);
         menuActive = menuInventory;
         addTotalGold(tempGold);
         menuActive.SetActive(true);
     }
 
-    public void goBack()
+	/// <summary>
+	/// Goes back one menu.
+	/// </summary>
+	public void goBack()
     {
         menuActive.SetActive(false);
         menuActive = menuPrevious;
         menuActive.SetActive(true);
     }
 
-    //
 
-    public void updateGameGoal(int amount)
+	/// <summary>
+	/// Adds to enemy count.
+	/// </summary>
+	/// <param name="amount"></param>
+	public void updateGameGoal(int amount)
     {
         enemiesRemaining += amount;
         enemyCountText.text = enemiesRemaining.ToString("0");
@@ -223,18 +238,30 @@ public class gameManager : MonoBehaviour
         }
     }
 
-    public void addTotalGold(int amount)
+	/// <summary>
+	/// Adds to gold.
+	/// </summary>
+	/// <param name="amount"></param>
+	public void addTotalGold(int amount)
     {
         totalGold += amount;
         totalGoldCountText.text = totalGold.ToString("0");
     }
 
-    public int getTotalGold()
+	/// <summary>
+	/// Gets total gold.
+	/// </summary>
+	/// <returns></returns>
+	public int GetTotalGold()
     {
         return totalGold;
     }
 
-    public void addTempGold(int amount)
+	/// <summary>
+	/// Adds to temp gold. (should this be depracted?)
+	/// </summary>
+	/// <param name="amount"></param>
+	public void AddTempGold(int amount)
     {
         tempGold += amount;
         tempGoldCountText.text = tempGold.ToString("0");
@@ -242,7 +269,7 @@ public class gameManager : MonoBehaviour
 
     //
 
-    public void updatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, int ammoCurrent, int ammoMax)
+    public void UpdatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, int ammoCurrent, int ammoMax)
     {
         playerHealthBar.fillAmount = (float)healthCurrent / healthMax;
         playerHealthText.text = healthCurrent.ToString("0") + " / " + healthMax.ToString("0");
@@ -252,24 +279,24 @@ public class gameManager : MonoBehaviour
         playerAmmoText.text = ammoCurrent.ToString("0") + " / " + ammoMax.ToString("0");
     }
 
-    public void showInteractPrompt(bool on)
+    public void ShowInteractPrompt(bool on)
     {
         interactPrompt.SetActive(on);
     }
 
-    public void showLockedPrompt(bool on)
+    public void ShowLockedPrompt(bool on)
     {
         lockedPrompt.SetActive(on);
     }
 
-    public IEnumerator playerFlashDamage()
+    public IEnumerator PlayerFlashDamage()
     {
         playerDamageScreen.SetActive(true);
         yield return new WaitForSeconds(.5f);
         playerDamageScreen.SetActive(false);
     }
 
-    public IEnumerator ammoFlashRed()
+    public IEnumerator AmmoFlashRed()
     {
         Color orig = playerAmmoBackground.color;
         playerAmmoBackground.color = Color.red;
@@ -277,7 +304,7 @@ public class gameManager : MonoBehaviour
         playerAmmoBackground.color = orig;
     }
 
-    public void playSound(AudioClip clip)
+    public void PlaySound(AudioClip clip)
     {
         source.PlayOneShot(clip);
     }

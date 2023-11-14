@@ -28,10 +28,11 @@ Transform:
   m_GameObject: {fileID: 3521402806311282436}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000004470348, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8333333, z: 0.02700003}
   m_LocalScale: {x: 1.2, y: 1.1865593, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 9023091301741065672}
   m_Father: {fileID: 1291393891379441930}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3803170286494205410
@@ -145,7 +146,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5649613836455779083}
-  - {fileID: 9023091301741065672}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5013957035785175650
@@ -260,8 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1409543543466740850}
-  aud: {fileID: -6445986916612953487}
-  currentHealth: 0
+  audioSource: {fileID: 0}
+  health: 0
   currentStamina: 0
   gravityFloat: -20
   jumpsMax: 2
@@ -271,30 +271,15 @@ MonoBehaviour:
   gunsList:
   - {fileID: 11400000, guid: 5833120011322bc4a8bc0ec76f94fa7d, type: 2}
   gunModel: {fileID: 7969017625691290941}
-  audDamage:
-  - {fileID: 8300000, guid: d1208ab82936e01469038e25c7a1b2bd, type: 3}
-  - {fileID: 8300000, guid: 8358b96c781074840a12b8bc3a2a9e4d, type: 3}
-  - {fileID: 8300000, guid: b076dae3c1ab2304f9e3820a08857594, type: 3}
-  - {fileID: 8300000, guid: 61f8c0da2f701d14c83cdf085e13ef8a, type: 3}
-  - {fileID: 8300000, guid: 97a06e86d4363794cbaa45899ac005da, type: 3}
-  - {fileID: 8300000, guid: ce2d90b7d2e38594f9918a6e620c8aec, type: 3}
-  audDamageVol: 0.5
+  audioDamage: []
+  audioDamageVolume: 0
   audJump:
   - {fileID: 8300000, guid: 537eb4c5c0b6ede4eb5821fdad9aa054, type: 3}
   - {fileID: 8300000, guid: 0b703b7b2a246d8498941e04058f75f4, type: 3}
   - {fileID: 8300000, guid: 230f5e00eca1e6d408b4b7962ef69a72, type: 3}
   audJumpVol: 0.5
-  audStep:
-  - {fileID: 8300000, guid: 65d1ca5ad52c07c48b9d1f3546b41ffc, type: 3}
-  - {fileID: 8300000, guid: d2cc5c81e18872c4aad41b06916fbe97, type: 3}
-  - {fileID: 8300000, guid: b791effb8bbfbed478a643fb9a6d435b, type: 3}
-  - {fileID: 8300000, guid: 91124390bcf83f745839bc6be1b92083, type: 3}
-  - {fileID: 8300000, guid: 77c976b5eeef1bc488d4072ff1f2a0a8, type: 3}
-  - {fileID: 8300000, guid: eefcdb1a4caa04f4585251d811a4fc1d, type: 3}
-  - {fileID: 8300000, guid: 568e157bb3d2293429abdc79fb215233, type: 3}
-  - {fileID: 8300000, guid: e1fb7c46c960dc542960d108ad3ea407, type: 3}
-  - {fileID: 8300000, guid: a0c5af9b4b1c0474b964ea13d63f9357, type: 3}
-  audStepVol: 0.1
+  audioStep: []
+  audioStepVolume: 0
   audReload: {fileID: 8300000, guid: 7c631b9c626156a46a5d3456f907cb20, type: 3}
   audReloadVol: 0.5
   audHeal: {fileID: 8300000, guid: b050aea26f01d14438660632e38f2bd6, type: 3}
@@ -423,12 +408,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7969017625691290941}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.29, y: 0.497, z: 0.558}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.75}
+  m_LocalRotation: {x: 0.00000004470348, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.24166666, y: -0.2834526, z: 0.53099996}
+  m_LocalScale: {x: 0.4166667, y: 0.42138642, z: 0.75}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1291393891379441930}
+  m_Father: {fileID: 5649613836455779083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6588540143882920479
 MeshFilter:

@@ -2,8 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface iInteract
+public interface Iinteract
 {
-	public bool checkLock();
-	public void interact();
+	/// <summary>
+	/// Checks if the object is interactable.
+	/// </summary>
+	/// <returns></returns>
+	public bool Check();
+
+	/// <summary>
+	/// Handles interaction triggering.
+	/// </summary>
+	public void Interact();
 }

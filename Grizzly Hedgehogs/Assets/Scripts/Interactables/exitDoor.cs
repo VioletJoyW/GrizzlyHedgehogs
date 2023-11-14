@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class exit : MonoBehaviour, iInteract
+public class exit : MonoBehaviour, Iinteract
 {
-    public bool checkLock()
+    public bool Check()
     {
         return true;
     }
 
-    public void interact()
+    public void Interact()
     {
         gameManager.instance.showConfirmExitMenu();
     }

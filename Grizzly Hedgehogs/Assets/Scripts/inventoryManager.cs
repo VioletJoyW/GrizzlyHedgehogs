@@ -18,9 +18,9 @@ public class inventoryManager : MonoBehaviour
 
     [SerializeField] Button selectedArmorButton;
 
-    [SerializeField] scriptableGunStats rifle;
-    [SerializeField] scriptableGunStats shotgun;
-    [SerializeField] scriptableGunStats four;
+    [SerializeField] ScriptableGunStats rifle;
+    [SerializeField] ScriptableGunStats shotgun;
+    [SerializeField] ScriptableGunStats four;
 
     [SerializeField] AudioClip sound;
 
@@ -36,91 +36,91 @@ public class inventoryManager : MonoBehaviour
         selectedArmorButton.image.color = Color.white;
     }
 
-    public void updatePlayerArmor(scriptableArmorStats selectedArmor)
+    public void updatePlayerArmor(ScriptableArmorStats selectedArmor)
     {
-        gameManager.instance.playerScript.changeArmor(selectedArmor);
+        gameManager.instance.playerScript.ChangeArmor(selectedArmor);
     }
 
     public void unlockArmorAgile(Button button)
     {
-        if (gameManager.instance.getTotalGold() >= costArmorAgile)
+        if (gameManager.instance.GetTotalGold() >= costArmorAgile)
         {
             gameManager.instance.addTotalGold(-costArmorAgile);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
         }
     }
 
     public void unlockArmorResilient(Button button)
     {
-        if (gameManager.instance.getTotalGold() >= costArmorResilient)
+        if (gameManager.instance.GetTotalGold() >= costArmorResilient)
         {
             gameManager.instance.addTotalGold(-costArmorResilient);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
         }
     }
 
     public void unlockArmorElite(Button button)
     {
-        if (gameManager.instance.getTotalGold() >= costArmorElite)
+        if (gameManager.instance.GetTotalGold() >= costArmorElite)
         {
             gameManager.instance.addTotalGold(-costArmorElite);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
         }
     }
 
     public void unlockGunRifle(Button button) 
     {
-        if (gameManager.instance.getTotalGold() >= costGunRifle)
+        if (gameManager.instance.GetTotalGold() >= costGunRifle)
         {
             gameManager.instance.addTotalGold(-costGunRifle);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
 
-            gameManager.instance.playerScript.addGun(rifle);
+            gameManager.instance.playerScript.AddGun(rifle);
         }
     }
 
     public void unlockGunShotgun(Button button)
     {
-        if (gameManager.instance.getTotalGold() >= costGunShotgun)
+        if (gameManager.instance.GetTotalGold() >= costGunShotgun)
         {
             gameManager.instance.addTotalGold(-costGunShotgun);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
 
-            gameManager.instance.playerScript.addGun(shotgun);
+            gameManager.instance.playerScript.AddGun(shotgun);
         }
     }
 
     public void unlockGunLegendary(Button button)
     {
-        if (gameManager.instance.getTotalGold() >= costGunLegendary)
+        if (gameManager.instance.GetTotalGold() >= costGunLegendary)
         {
             gameManager.instance.addTotalGold(-costGunLegendary);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
 
-            gameManager.instance.playerScript.addGun(four);
+            gameManager.instance.playerScript.AddGun(four);
         }
     }
 
     public void unlockItemHealth(Button button)
     {
-        if (gameManager.instance.getTotalGold() >= costItemHealth)
+        if (gameManager.instance.GetTotalGold() >= costItemHealth)
         {
             gameManager.instance.addTotalGold(-costItemHealth);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
 
             gameManager.instance.unlockedHealthKits = true;
         }
@@ -128,12 +128,12 @@ public class inventoryManager : MonoBehaviour
 
     public void unlockItemAmmo(Button button)
     {
-        if (gameManager.instance.getTotalGold() >= costItemAmmo)
+        if (gameManager.instance.GetTotalGold() >= costItemAmmo)
         {
             gameManager.instance.addTotalGold(-costItemAmmo);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
 
             gameManager.instance.unlockedAmmoKits = true;
         }
@@ -141,12 +141,12 @@ public class inventoryManager : MonoBehaviour
 
     public void unlockItemDoor(Button button)
     {
-        if (gameManager.instance.getTotalGold() >= costItemDoor)
+        if (gameManager.instance.GetTotalGold() >= costItemDoor)
         {
             gameManager.instance.addTotalGold(-costItemDoor);
 
             button.gameObject.SetActive(false);
-            gameManager.instance.playSound(sound);
+            gameManager.instance.PlaySound(sound);
 
             gameManager.instance.unlockedDoors = true;
         }

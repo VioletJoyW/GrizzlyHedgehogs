@@ -16,17 +16,25 @@ public class gunInventory : MonoBehaviour
 
     private int currentGunIndex = 0;
 
-    // Array to store references to each gun GameObject
-    private GameObject[] guns;
+	/// <summary>
+	/// Array to store references to each gun GameObject.
+	/// </summary>
+	private GameObject[] guns;
 
-    // Prefab for each gun
-    public GameObject[] gunPrefabs;
+	/// <summary>
+	/// Prefab for each gun.
+	/// </summary>
+	public GameObject[] gunPrefabs;
 
-    // Reference to the gun position GameObject
-    [SerializeField] private GameObject gunPos;
+	/// <summary>
+	/// Reference to the gun position GameObject.
+	/// </summary>
+	[SerializeField] private GameObject gunPos;
 
-    // Array to store whether each gun is unlocked
-    private bool[] gunUnlocked;
+	/// <summary>
+	/// Array to store whether each gun is unlocked.
+	/// </summary>
+	private bool[] gunUnlocked;
 
     void Start()
     {
@@ -60,6 +68,9 @@ public class gunInventory : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Changes the current gun object
+    /// </summary>
     void SwitchGun()
     {
         guns[currentGunIndex].SetActive(false);

@@ -4,8 +4,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class enemyAI : MonoBehaviour, iDamage
+public class EnemyAI : Entity
 {
+
+	[Header("----- Audio -----")]
+	[SerializeField] new AudioSource audio;
+	[SerializeField] AudioClip[] audioStep;
+	[Range(0, 1)][SerializeField] float audioStepVolume;
+	[SerializeField] AudioClip[] audioDamage;
+	[Range(0, 1)][SerializeField] float audioDamageVolume;
+    [SerializeField] AudioClip audShoot;
+    [Range(0, 1)][SerializeField] float audShootVol;
+ 
+    
     [Header("----- Components -----")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
@@ -15,20 +26,12 @@ public class enemyAI : MonoBehaviour, iDamage
     [SerializeField] Collider damageCollider;
     [SerializeField] AvatarMask avatarMask;
 
-    [Header("----- Audio -----")]
-    [SerializeField] AudioSource aud;
-    [SerializeField] AudioClip[] audStep;
-    [Range(0,1)] [SerializeField] float audStepVol;
-    [SerializeField] AudioClip audShoot;
-    [Range(0, 1)][SerializeField] float audShootVol;
-    [SerializeField] AudioClip[] audDamage;
-    [Range(0, 1)][SerializeField] float audDamageVol;
 
     [Header("----- Config -----")]
 	[SerializeField] bool canAddToGoal = false;
     
     [Header("----- Enemy Stats -----")]
-    [SerializeField] int HP;
+	[SerializeField] int hitPoints;
     [SerializeField] int playerFaceSpeed;
     [SerializeField] int viewCone;
     [SerializeField] int shootCone;
@@ -42,8 +45,6 @@ public class enemyAI : MonoBehaviour, iDamage
     AudioSource source;
     Vector3 playerDir;
     Vector3 coverPos;
-    bool isShooting;
-    bool isPlayingSteps;
     bool playerInRange;
     float angleToPlayer;
     float stoppingDistOrig;
@@ -54,7 +55,16 @@ public class enemyAI : MonoBehaviour, iDamage
     // Start is called before the first frame update
     void Start()
     {
-        stoppingDistOrig = agent.stoppingDistance;
+        //Setting Entity vars
+        HitPoints = hitPoints;
+        AudioSource = audio;
+        AudioSteps = audioStep;
+        AudioStepVolume = audioStepVolume;
+        AudioDamage = audioDamage;
+        AudioDamageVolume = audioDamageVolume;
+		
+
+		stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
         if(!canAddToGoal) // If we're not in a spawner, add ourselves to the goal. 
 			gameManager.instance.updateGameGoal(1);
@@ -69,29 +79,33 @@ public class enemyAI : MonoBehaviour, iDamage
             
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
             {
-                StartCoroutine(playSteps());
+                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude));
             }
 
-            if (playerInRange && !canSeePlayer())
+            if (playerInRange && !CanSeePlayer())
             {
-                StartCoroutine(roam());
+                StartCoroutine(Roam());
             }
             else if (!playerInRange)
             {
-                StartCoroutine(roam());
+                StartCoroutine(Roam());
             }
         }
     }
 
-    IEnumerator playSteps()
-    {
-        isPlayingSteps = true;
-        aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
-        yield return new WaitForSeconds(1 / agent.velocity.normalized.magnitude);
-        isPlayingSteps = false;
-    }
+    //IEnumerator PlaySteps() // No longer needed here. (It's in the Entity class now)
+    //{
+    //    isPlayingSteps = true;
+    //    aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+    //    yield return new WaitForSeconds(1 / agent.velocity.normalized.magnitude);
+    //    isPlayingSteps = false;
+    //}
 
-    IEnumerator roam()
+    /// <summary>
+    /// Allows the enemy to roam to random locations relative to spawn point.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator Roam()
     {
         if (agent.remainingDistance < 0.05f && !destinationChosen)
         {
@@ -107,7 +121,11 @@ public class enemyAI : MonoBehaviour, iDamage
         }
     }
 
-    bool canSeePlayer()
+    /// <summary>
+    /// Cheacks to see if the player acn be seen
+    /// </summary>
+    /// <returns></returns>
+    bool CanSeePlayer()
     {
         playerDir = gameManager.instance.player.transform.position - headPos.position;
         angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
@@ -124,12 +142,12 @@ public class enemyAI : MonoBehaviour, iDamage
                 agent.stoppingDistance = stoppingDistOrig;
                 if (angleToPlayer <= shootCone && !isShooting)
                 {
-                    StartCoroutine(shoot());
+                    StartCoroutine(Shoot());
                 }
 
                 if (agent.remainingDistance < agent.stoppingDistance)
                 {
-                    faceTarget();
+                    FaceTarget();
                 }
 
                 agent.SetDestination(gameManager.instance.player.transform.position);
@@ -158,7 +176,7 @@ public class enemyAI : MonoBehaviour, iDamage
         }
     }
 
-    IEnumerator shoot()
+    protected override IEnumerator Shoot() 
     {
         isShooting = true;
         animator.SetTrigger("Shoot");
@@ -173,12 +191,12 @@ public class enemyAI : MonoBehaviour, iDamage
         canAddToGoal = _b;
     }
 
-    public void createBullet() // Called in animation
+    public void CreateBullet() // Called in animation
     {
         Instantiate(bullet, shootPos.position, transform.rotation);
     }
 
-    public void takeDamage(int amount)
+    public override void TakeDamage(int amount)
     {
         HP -= amount;
         aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol);
@@ -198,31 +216,31 @@ public class enemyAI : MonoBehaviour, iDamage
         }
         else
         {
-            StartCoroutine(flashRed());
+            StartCoroutine(FlashRed());
             agent.SetDestination(gameManager.instance.player.transform.position);
         }
     }
 
-    private void ragdoll()
+    private void Ragdoll()
     {
         
     }
 
-    IEnumerator flashRed()
+    IEnumerator FlashRed()
     {
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = Color.white;
     }
 
-    void faceTarget()
+    void FaceTarget()
     {
         Vector3 direction = gameManager.instance.player.transform.position - transform.position; // For enemy position
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
 
-    void getToCover()
+    void GetToCover()
     {
         // Takes cover if health is half then original
         if (HP == (HP / 2))

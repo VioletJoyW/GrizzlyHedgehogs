@@ -26,11 +26,11 @@ public class bullet : MonoBehaviour
             return;
         }
 
-        iDamage damagable = other.GetComponent<iDamage>();
+        IDamage damagable = other.GetComponent<IDamage>();
 
         if (damagable != null)
         {
-            damagable.takeDamage(damage);
+            damagable.TakeDamage(damage);
         }
 
         Destroy(gameObject);

@@ -24,7 +24,7 @@ public class spawner : MonoBehaviour
     {
         if (startSpawning && !isSpawning && spawnCount < numberToSpawn)
         {
-            StartCoroutine(spawn());
+            StartCoroutine(Spawn());
         }
     }
 
@@ -36,7 +36,11 @@ public class spawner : MonoBehaviour
         }
     }
 
-    IEnumerator spawn()
+	/// <summary>
+	/// Spawns the object.
+	/// </summary>
+	/// <returns></returns>
+	IEnumerator Spawn()
     {
         isSpawning = true;
 
@@ -45,7 +49,7 @@ public class spawner : MonoBehaviour
 
         if (objectToSpawn[randomEne].CompareTag("Enemy")) 
         {
-           objectToSpawn[randomEne].GetComponent<enemyAI>().SetCanAddToGoal(true);
+           objectToSpawn[randomEne].GetComponent<EnemyAI>().SetCanAddToGoal(true);
 
 		}
 
