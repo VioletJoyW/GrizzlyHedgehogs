@@ -16,6 +16,7 @@ public class playerController : Entity
     [Range(1, 4)][SerializeField] int jumpsMax;
     [SerializeField] int visionDistance;
     [SerializeField] float restoreStaminaRate;
+    [SerializeField] float drainStaminaRate;
 
     [Header("_-_-_- Armor & Guns -_-_-_")]
     [SerializeField] ScriptableArmorStats playerArmor;
@@ -111,14 +112,14 @@ public class playerController : Entity
 
         if (Input.GetButton("Sprint") && currentStamina > 0.2f)
         {
+            if (!isRunning)
+                StartCoroutine(Sprint());
+
             moveSpeed = playerArmor.sprintSpeed;
-            isRunning = true;
-            currentStamina -= 0.2f;
         }
         else
         {
             moveSpeed = playerArmor.speed;
-            isRunning = false;
         }
 
         move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
@@ -201,6 +202,21 @@ public class playerController : Entity
         }
         gameManager.instance.ShowLockedPrompt(false);
         gameManager.instance.ShowInteractPrompt(false);
+    }
+
+    /// <summary>
+    /// Handles sprinting.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator Sprint()
+    {
+        isRunning = true;
+
+        currentStamina -= 1;
+
+        yield return new WaitForSeconds(drainStaminaRate);
+
+        isRunning = false;
     }
 
     /// <summary>
