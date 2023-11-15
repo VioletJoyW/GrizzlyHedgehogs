@@ -81,7 +81,7 @@ public class spawner : MonoBehaviour
 
         if (objectClone.CompareTag("Enemy"))
         {
-            objectClone.GetComponent<EnemyAI>().SetSpawner(this);
+            objectClone.GetComponent<EnemyAI>().SetFromSpawner(true);
         }
 
         spawnCount++;
@@ -105,12 +105,5 @@ public class spawner : MonoBehaviour
 
         isSpawning = false;
         startSpawning = false;
-    }
-
-    public void enemyDied(EnemyAI dead)
-    {
-        Destroy(dead.gameObject);
-        gameManager.instance.updateGameGoal(-1);
-        spawnedObjects.Remove(dead.gameObject);
     }
 }

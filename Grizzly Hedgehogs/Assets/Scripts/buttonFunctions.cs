@@ -21,12 +21,21 @@ public class buttonFunctions : MonoBehaviour
 
     public void controls()
     {
-        gameManager.instance.showControlsMenu();
+        gameManager.instance.showControls();
+    }
+
+    public void controlsNext()
+    {
+        gameManager.instance.switchControlsPage(1);
+    }
+    public void controlsPrev()
+    {
+        gameManager.instance.switchControlsPage(-1);
     }
 
     public void credits()
     {
-        gameManager.instance.showCreditsMenu();
+        gameManager.instance.showCredits();
     }
 
     public void quit()
@@ -37,6 +46,10 @@ public class buttonFunctions : MonoBehaviour
     public void back()
     {
         gameManager.instance.goBack();
+    }
+    public void backToMain()
+    {
+        gameManager.instance.showMain();
     }
 
     public void startRun()

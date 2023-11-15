@@ -25,7 +25,7 @@ public class EnemyAI : Entity
     [SerializeField] LineRenderer lineRenderer;
 
     [Header("----- Config -----")]
-    [SerializeField] spawner spawnSource = null;
+    [SerializeField] bool fromSpawner = false;
     
     [Header("----- Enemy Stats -----")]
 	[SerializeField] int hitPoints;
@@ -65,7 +65,7 @@ public class EnemyAI : Entity
 		stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
 
-        if (spawnSource == null) // If we're not in a spawner, add ourselves to the goal. 
+        if (!fromSpawner) // If we're not in a spawner, add ourselves to the goal. 
         {
             gameManager.instance.updateGameGoal(1);
         }
@@ -195,9 +195,9 @@ public class EnemyAI : Entity
         isShooting = false;
     }
 
-    public void SetSpawner(spawner spawn)
+    public void SetFromSpawner(bool on)
     {
-        spawnSource = spawn;
+        fromSpawner = on;
     }
 
     public void CreateBullet() // Called in animation
@@ -214,14 +214,7 @@ public class EnemyAI : Entity
         {
             damageCollider.enabled = false;
 
-            if (spawnSource != null) 
-            {
-                spawnSource.enemyDied(this);
-            }
-            else
-            { 
-                gameManager.instance.updateGameGoal(-1); 
-            }
+            gameManager.instance.updateGameGoal(-1);
 
             agent.enabled = false;
             animator.enabled = false;

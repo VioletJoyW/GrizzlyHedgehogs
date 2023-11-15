@@ -10,10 +10,14 @@ public class gameManager : MonoBehaviour
 
     [Header("_-_-_- Menus -_-_-_")]
     [SerializeField] GameObject menuActive;
+    [SerializeField] GameObject subMenuActive;
     [SerializeField] GameObject menuMain;
+    [SerializeField] GameObject subMain;
+    [SerializeField] GameObject subControls;
+    [SerializeField] GameObject[] controlsPages;
+    [SerializeField] GameObject controlsPageActive;
+    [SerializeField] GameObject subCredits;
     [SerializeField] GameObject menuPause;
-    [SerializeField] GameObject menuControls;
-    [SerializeField] GameObject menuCredits;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuConfirmExit;
@@ -64,6 +68,7 @@ public class gameManager : MonoBehaviour
     int tempGold;
 
     GameObject menuPrevious;
+    int controlsPage;
 
     void Awake()
     {
@@ -122,7 +127,16 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(false);
         menuPrevious = menuActive;
         menuActive = menuMain;
+        subMenuActive = subMain;
+        subMenuActive.SetActive(true);
         menuActive.SetActive(true);
+    }
+    public void showMain()
+    {
+        controlsPageActive.SetActive(false);
+        subMenuActive.SetActive(false);
+        subMenuActive = subMain;
+        subMenuActive.SetActive(true);
     }
 
     public void showPauseMenu()
@@ -132,19 +146,31 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(true);
     }
 
-    public void showControlsMenu()
+    public void showControls()
     {
-        menuActive.SetActive(false);
-        menuPrevious = menuActive;
-        menuActive = menuControls;
-        menuActive.SetActive(true);
+        subMenuActive.SetActive(false);
+        subMenuActive = subControls;
+        switchControlsPage(-controlsPage);
+        subMenuActive.SetActive(true);
     }
-    public void showCreditsMenu()
+
+    public void switchControlsPage(int change)
     {
-        menuActive.SetActive(false);
-        menuPrevious = menuActive;
-        menuActive = menuCredits;
-        menuActive.SetActive(true);
+        if(controlsPage + change < controlsPages.Length && controlsPage + change >= 0)
+        {
+            controlsPage += change;
+        }
+
+        controlsPageActive.SetActive(false);
+        controlsPageActive = controlsPages[controlsPage];
+        controlsPageActive.SetActive(true);
+    }
+
+    public void showCredits()
+    {
+        subMenuActive.SetActive(false);
+        subMenuActive = subCredits;
+        subMenuActive.SetActive(true);
     }
     public void showConfirmExitMenu()
     {
@@ -229,7 +255,6 @@ public class gameManager : MonoBehaviour
         menuActive = menuPrevious;
         menuActive.SetActive(true);
     }
-
 
 	/// <summary>
 	/// Adds to enemy count.
