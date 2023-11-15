@@ -22,7 +22,7 @@ public class EnemyAI : Entity
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
     [SerializeField] Collider damageCollider;
-    [SerializeField] AvatarMask avatar;
+    [SerializeField] LineRenderer lineRenderer;
 
     [Header("----- Config -----")]
     [SerializeField] spawner spawnSource = null;
@@ -34,6 +34,7 @@ public class EnemyAI : Entity
     [SerializeField] int shootCone;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
+    [SerializeField] int coverTime;
 
     [Header("----- Gun Stats -----")]
     [SerializeField] GameObject bullet;
@@ -41,11 +42,12 @@ public class EnemyAI : Entity
 
     AudioSource source;
     Vector3 playerDir;
-    Vector3 coverPos;
+    //Vector3 coverPos;
     bool playerInRange;
     float angleToPlayer;
     float stoppingDistOrig;
     bool destinationChosen;
+    //bool isCovered;
     private Rigidbody rb;
     Vector3 startingPos;
 
@@ -72,6 +74,11 @@ public class EnemyAI : Entity
     // Update is called once per frame
     void Update()
     {
+        if (gameObject.CompareTag("Enemy Sniper"))
+        {
+            // Sniper laser
+        }
+
         if (agent.isActiveAndEnabled)
         {
             animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
@@ -80,7 +87,6 @@ public class EnemyAI : Entity
             {
                 StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude));
             }
-
             if (playerInRange && !CanSeePlayer())
             {
                 StartCoroutine(Roam());
@@ -88,6 +94,10 @@ public class EnemyAI : Entity
             else if (!playerInRange)
             {
                 StartCoroutine(Roam());
+            }
+            if (HP <= (HP / 2))
+            {
+                //StartCoroutine(GetToCover());
             }
         }
     }
@@ -134,7 +144,7 @@ public class EnemyAI : Entity
 
         RaycastHit hit;
 
-        if (Physics.Raycast(headPos.position, playerDir, out hit, Mathf.Infinity))
+        if (Physics.Raycast(headPos.position, playerDir, out hit))
         {
             if (hit.collider.CompareTag("Player") && angleToPlayer <= viewCone)
             {
@@ -230,11 +240,6 @@ public class EnemyAI : Entity
         }
     }
 
-    private void Ragdoll()
-    {
-        
-    }
-
     IEnumerator FlashRed()
     {
         model.material.color = Color.red;
@@ -248,17 +253,15 @@ public class EnemyAI : Entity
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
 
-    void LookAtPlayer()
-    {
-
-    }
-
-    void GetToCover()
+/*    IEnumerator GetToCover()
     {
         // Takes cover if health is half then original
-        if (HP == (HP / 2))
-        {
-
-        }
-    }
+        isCovered = true;
+        yield return new WaitForSeconds(coverTime);
+        Vector3 coverPos = Random.insideUnitSphere - gameManager.instance.player.transform.position.normalized;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(coverPos, out hit, roamDist, 1);
+        agent.SetDestination(hit.position);
+        isCovered = false;
+    }*/
 }
