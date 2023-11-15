@@ -172,7 +172,6 @@ public class playerController : Entity
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, visionDistance))
         {
-            Debug.Log(hit.colliderInstanceID); 
             Iinteract interactable = hit.collider.GetComponent<Iinteract>();
             if (interactable != null)
             {
@@ -214,7 +213,10 @@ public class playerController : Entity
         if (gunsList[selectedGun].ammoCurrent > 0)
         {
             RaycastHit hit;
-            gunsList[selectedGun].ammoCurrent -= 1;
+            if (!gameManager.instance.infiniteAmmo) //Part of testing codes
+            {
+                gunsList[selectedGun].ammoCurrent -= 1;
+            }
             if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, gunsList[selectedGun].shootDistance))
             {
                 Instantiate(gunsList[selectedGun].hitEffect, hit.point, gunsList[selectedGun].hitEffect.transform.rotation);
@@ -253,7 +255,10 @@ public class playerController : Entity
 
     public override void TakeDamage(int amount)
     {
-        HP -= amount;
+        if (!gameManager.instance.playerUnkillable) //Part of testing codes
+        {
+            HP -= amount;
+        }
 
         aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol);
 

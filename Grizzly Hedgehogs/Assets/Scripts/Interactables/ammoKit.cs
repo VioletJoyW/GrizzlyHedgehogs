@@ -18,7 +18,7 @@ public class ammoKit : MonoBehaviour, Iinteract
         aud.Play();
     }
 
-    public void destroySelf()
+    public void DestroySelf()
     {
         Destroy(gameObject);
     }
