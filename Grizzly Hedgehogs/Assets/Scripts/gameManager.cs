@@ -52,10 +52,13 @@ public class gameManager : MonoBehaviour
     public bool unlockedHealthKits;
     public bool unlockedAmmoKits;
     
-    bool playerUnkillable = false;
+    public bool playerUnkillable = false;
+    public bool infiniteAmmo = false;
 
     float timescaleOrig;
     int enemiesRemaining;
+
+    List<spawner> spawnersList = new List<spawner>();
 
     int totalGold;
     int tempGold;
@@ -86,10 +89,14 @@ public class gameManager : MonoBehaviour
     {
         stateUnPause();
         AddTempGold(-tempGold);
+        enemiesRemaining = 0;
 
         playerScript.SpawnPlayer();
 
-        //Respawn Level stuff
+        for(int i = 0; i < spawnersList.Count; i++)
+        {
+            spawnersList[i].resetSpawn();
+        }
     }
 
     public void statePause()
@@ -172,6 +179,11 @@ public class gameManager : MonoBehaviour
     {
         playerUnkillable = !playerUnkillable;
     }
+
+    public void ammoInfinite()
+    {
+        infiniteAmmo = !infiniteAmmo;
+    }
     
     /// <summary>
     /// Displays win screen.
@@ -189,12 +201,6 @@ public class gameManager : MonoBehaviour
     /// </summary>
     public void youLose()
     {
-        if(playerUnkillable)
-        {
-            playerScript.AddHealth(100);
-            return;
-        }
-
         statePause();
         //gameOver();
         menuActive = menuLose;
@@ -202,7 +208,7 @@ public class gameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Closes inventory menu.
+    /// Opens inventory menu.
     /// </summary>
     public void exitToInventory()
     {
@@ -239,11 +245,20 @@ public class gameManager : MonoBehaviour
         }
     }
 
-	/// <summary>
-	/// Adds to gold.
+    /// <summary>
+	/// Adds a spawner to the spawnersList.
 	/// </summary>
-	/// <param name="amount"></param>
-	public void addTotalGold(int amount)
+	/// <param name="toAdd"></param>
+	public void addSpawner(spawner toAdd)
+    {
+        spawnersList.Add(toAdd);
+    }
+
+    /// <summary>
+    /// Adds to gold.
+    /// </summary>
+    /// <param name="amount"></param>
+    public void addTotalGold(int amount)
     {
         totalGold += amount;
         totalGoldCountText.text = totalGold.ToString("0");

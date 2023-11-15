@@ -8,15 +8,26 @@ public class spawner : MonoBehaviour
     [SerializeField] int numberToSpawn;
     [SerializeField] int timeBetweenSpawns;
     [SerializeField] Transform[] spawnPos;
+    [SerializeField] bool updatesGameGoal;
+    [SerializeField] bool randomized;
+
+    List<GameObject> spawnedObjects = new List<GameObject>();
 
     int spawnCount;
     bool isSpawning;
     bool startSpawning;
 
+    int numberPos = -1;
+    int numberObject = -1;
+
     // Start is called before the first frame update
     void Start()
     {
-        gameManager.instance.updateGameGoal(numberToSpawn);
+        if (updatesGameGoal)
+        {
+            gameManager.instance.updateGameGoal(numberToSpawn);
+        }
+        gameManager.instance.addSpawner(this);
     }
 
     // Update is called once per frame
@@ -44,20 +55,62 @@ public class spawner : MonoBehaviour
     {
         isSpawning = true;
 
-        int randomEne = Random.Range(0, objectToSpawn.Length);
-        int randomNum = Random.Range(0, spawnPos.Length);
-
-        if (objectToSpawn[randomEne].CompareTag("Enemy")) 
+        if (randomized)
         {
-           objectToSpawn[randomEne].GetComponent<EnemyAI>().SetCanAddToGoal(true);
+            numberObject = Random.Range(0, objectToSpawn.Length);
+            numberPos = Random.Range(0, spawnPos.Length);
+        }
+        else 
+        {
+            numberObject++;
+            if(numberObject >= objectToSpawn.Length)
+            {
+                numberObject = 0;
+            }
 
-		}
+            numberPos++;
+            if (numberPos >= spawnPos.Length)
+            {
+                numberObject = 0;
+            }
+        }
 
-        Instantiate(objectToSpawn[randomEne], spawnPos[randomNum].position, spawnPos[randomNum].rotation);
+        GameObject objectClone = Instantiate(objectToSpawn[numberObject], spawnPos[numberPos].position, objectToSpawn[numberObject].transform.rotation);
+
+        spawnedObjects.Add(objectClone);
+
+        if (objectClone.CompareTag("Enemy"))
+        {
+            objectClone.GetComponent<EnemyAI>().SetSpawner(this);
+        }
+
         spawnCount++;
 
         yield return new WaitForSeconds(timeBetweenSpawns);
 
         isSpawning = false;
+    }
+
+    public void resetSpawn()
+    {
+        for(int i = spawnedObjects.Count - 1; i >= 0; i--)
+        {
+            Destroy(spawnedObjects[i]);
+            spawnedObjects.RemoveAt(i);
+        }
+
+        spawnCount = 0;
+        numberObject = -1;
+        numberPos = -1;
+
+        isSpawning = false;
+        startSpawning = false;
+    }
+
+    public void enemyDied(EnemyAI dead)
+    {
+        Destroy(dead.gameObject);
+        gameManager.instance.updateGameGoal(-1);
+        spawnedObjects.Remove(dead.gameObject);
     }
 }

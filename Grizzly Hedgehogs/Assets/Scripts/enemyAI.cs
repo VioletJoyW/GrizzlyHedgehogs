@@ -25,7 +25,7 @@ public class EnemyAI : Entity
     [SerializeField] AvatarMask avatar;
 
     [Header("----- Config -----")]
-	[SerializeField] bool canAddToGoal = false;
+    [SerializeField] spawner spawnSource = null;
     
     [Header("----- Enemy Stats -----")]
 	[SerializeField] int hitPoints;
@@ -59,12 +59,14 @@ public class EnemyAI : Entity
         AudioStepVolume = audioStepVolume;
         AudioDamage = audioDamage;
         AudioDamageVolume = audioDamageVolume;
-		
 
 		stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
-        if(!canAddToGoal) // If we're not in a spawner, add ourselves to the goal. 
-			gameManager.instance.updateGameGoal(1);
+
+        if (spawnSource == null) // If we're not in a spawner, add ourselves to the goal. 
+        {
+            gameManager.instance.updateGameGoal(1);
+        }
 	}
 
     // Update is called once per frame
@@ -119,7 +121,7 @@ public class EnemyAI : Entity
     }
 
     /// <summary>
-    /// Cheacks to see if the player acn be seen
+    /// Cheacks to see if the player can be seen
     /// </summary>
     /// <returns></returns>
     bool CanSeePlayer()
@@ -183,9 +185,9 @@ public class EnemyAI : Entity
         isShooting = false;
     }
 
-    public void SetCanAddToGoal(bool _b) 
+    public void SetSpawner(spawner spawn)
     {
-        canAddToGoal = _b;
+        spawnSource = spawn;
     }
 
     public void CreateBullet() // Called in animation
@@ -201,9 +203,19 @@ public class EnemyAI : Entity
         if (HP <= 0)
         {
             damageCollider.enabled = false;
-            gameManager.instance.updateGameGoal(-1);
+
+            if (spawnSource != null) 
+            {
+                spawnSource.enemyDied(this);
+            }
+            else
+            { 
+                gameManager.instance.updateGameGoal(-1); 
+            }
+
             agent.enabled = false;
             animator.enabled = false;
+
             Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
             if (physicsForce != null)
             {

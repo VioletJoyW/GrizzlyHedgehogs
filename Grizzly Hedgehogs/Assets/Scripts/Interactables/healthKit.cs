@@ -7,6 +7,7 @@ public class healthKit : MonoBehaviour, Iinteract
     [SerializeField] int healAmount;
     [SerializeField] Animator animator;
     [SerializeField] AudioSource aud;
+
     public bool CheckUnlocked()
     {
         return gameManager.instance.unlockedHealthKits;
