@@ -14,59 +14,111 @@ public class PointLightRing : MonoBehaviour
     [SerializeField] new GameObject light;
     [SerializeField] [Range(0, 50)] int count;
     [SerializeField] [Range(0, 50)] double radious;
+    [SerializeField] bool update;
+    [SerializeField] bool refresh;
 
 	List<double> positionX;
 	List<double> positionZ;
     List<GameObject> lights;
 	bool calculated = false;
 
-
 	void Start() 
     {
-        if (count == 0) return;
 		lights = new List<GameObject>();
 		positionX = new List<double>();
 		positionZ = new List<double>();
+		Refresh();
+
+	}
+
+	private void Refresh()
+	{
+		if (count == 0) return;
+		foreach(var light in lights) DestroyImmediate(light);
+		lights.Clear();
+
 		Vector3 center = transform.position;
-
-        float x = 0, z = 0;
-        for (int ndx = 0; ndx < count; ++ndx) 
-        {
-            CalculateCircle(ref x, ref z, ndx);
+		float _range = GetComponent<Light>().range;
+		Color _color = GetComponent<Light>().color;
+		float x = 0, z = 0;
+		Quaternion oldRot = transform.rotation;
+		transform.rotation = Quaternion.identity;
+		for (int ndx = 0; ndx < count; ++ndx)
+		{
+			CalculateCircle(ref x, ref z, ndx);
+			light.GetComponent<Light>().range = _range;
+			light.GetComponent<Light>().color = _color;
 			lights.Add(Instantiate(light, new Vector3(x + center.x, center.y, z + center.z), transform.rotation, transform));
-		}   
-    }
+		}
+		transform.rotation = oldRot;
+	}
+
+	private void Update()
+	{
+		if(update) 
+		{
+			if(refresh) 
+			{
+				Refresh();
+				refresh = false;
+			}
+			float _range = GetComponent<Light>().range;
+			Color _color = GetComponent<Light>().color;
+			Quaternion _oldRot = transform.rotation;
+			calculated = false;
+			float x = 0, z = 0;
+			Vector3 center = transform.position;
+			for (int ndx = 0; ndx < lights.Count; ++ndx) // Recalculate the new light positions
+			{
+				CalculateCircle(ref x, ref z, ndx);
+				lights[ndx].GetComponent<Light>().range = _range;
+				lights[ndx].GetComponent<Light>().color = _color;
+				lights[ndx].transform.position = new Vector3(x + center.x, center.y, z + center.z);
+				lights[ndx].transform.rotation = _oldRot;
+			}
+		}
+	}
+
+	// private void Update() // Don't use until bug is fixed
+	// {
+	//     if (count != lights.Count || radious != rad)
+	//     {
+	//         Vector3 center = transform.position;
+	//         rad = radious;
+	//         int ndx = 0;
+	//         float x = 0, z = 0;
+	//calculated = false;
+	//         if (count < lights.Count) // Remove lights
+	//         {
+	//             int size = lights.Count - count;
+	//             int rangeIndex = lights.Count - size;
+
+	//             for (int i = 0; i < lights.Count; ++i) DestroyImmediate(lights[i]);
+	//             lights.Clear();
+	//             for (; ndx < lights.Count; ++ndx) // Recalculate the new light positions
+	//             {
+	//                 CalculateCircle(ref x, ref z, ndx);
+	//                 lights.Add(Instantiate(light, new Vector3(x + center.x, center.y, z + center.z), transform.rotation, transform));
+	//                 //lights[ndx].transform.position = new Vector3(x + center.x, center.y, z + center.z);
+	//             }
+	//         }
+	//         else if (count > lights.Count)
+	//         {
+	//             for (; ndx < count; ++ndx)
+	//             {
+	//                 CalculateCircle(ref x, ref z, ndx);
+	//                 lights.Add(Instantiate(light, new Vector3(x + center.x, center.y, z + center.z), transform.rotation, transform));
+	//             }
+	//         }
+	//         else 
+	//         {
 
 
-    //private void Update() // Don't use until bug is fixed
-    //{
-    //    while (count != lights.Count)
-    //    {
-    //        Vector3 center = transform.position;
-    //        int x = 0, z = 0, ndx = 0;
-    //        calculated = false;
-    //        if (count < lights.Count) // Remove lights
-    //        {
-    //            int size = lights.Count - count;
-    //            lights.RemoveRange(lights.Count - size, size);
-    //            for (; ndx < lights.Count; ++ndx) // Recalculate the new light positions
-    //            {
-    //                CalculateCircle(ref x, ref z, ndx);
-    //                lights[ndx].transform.position = new Vector3(x + center.x, center.y, z + center.z);
-    //            }
-    //        }
-    //        else if (count > lights.Count)
-    //        {
-    //            for (; ndx < lights.Count; ++ndx)
-    //            {
-    //                CalculateCircle(ref x, ref z, ndx);
-    //                lights.Add(Instantiate(light, new Vector3(x + center.x, center.y, z + center.z), transform.rotation, transform));
-    //            }
-    //        }
-    //    }
-    //}
+	//}
+	//     }
+	// }
 
-    void CalculateCircle(ref float x, ref float y, int index) 
+	void CalculateCircle(ref float x, ref float y, int index) 
     {
         if (index > positionX.Count) return;
 
@@ -88,8 +140,8 @@ public class PointLightRing : MonoBehaviour
             calculated = true;
         }
 
-        x = (int) positionX[index];
-        y = (int) positionZ[index];
+        x = (float) positionX[index];
+        y = (float) positionZ[index];
     }
 
 
