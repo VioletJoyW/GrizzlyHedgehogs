@@ -833,7 +833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ff32eef3b9e2248815459b9b5bae5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 10
+  amount: 5
   sound: {fileID: 8300000, guid: 67ad25b9a26922147a2a7e012c773b02, type: 3}
 --- !u!1 &3644174181698105513
 GameObject:
