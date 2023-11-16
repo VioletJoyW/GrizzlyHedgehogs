@@ -77,7 +77,12 @@ public class gameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         playerSpawnPos = GameObject.FindWithTag("Respawn");
-        isPaused = false;
+
+        statePause();
+        menuActive = menuMain;
+        subMenuActive = subMain;
+        subMenuActive.SetActive(true);
+        menuActive.SetActive(true);
     }
 
     void Update()

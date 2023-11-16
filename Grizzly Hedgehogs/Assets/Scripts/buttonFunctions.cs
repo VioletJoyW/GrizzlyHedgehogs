@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class buttonFunctions : MonoBehaviour
 {
+    public void firstStart(Button button)
+    {
+        gameManager.instance.startRun();
+        button.gameObject.SetActive(false);
+    }
     public void resume()
     {
         gameManager.instance.stateUnPause();
