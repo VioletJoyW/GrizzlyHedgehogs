@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 10 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2883,7 +2883,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -30}
+  m_AnchoredPosition: {x: 600, y: -30}
   m_SizeDelta: {x: 375, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4074134576942110494
@@ -4711,6 +4711,7 @@ RectTransform:
   - {fileID: 1368737671754437296}
   - {fileID: 1593485493833804206}
   - {fileID: 2186311141652610779}
+  - {fileID: 7606519324218850645}
   m_Father: {fileID: 4955981313949695901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5921,7 +5922,7 @@ RectTransform:
   m_Father: {fileID: 2644014297453700991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7551,7 +7552,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 25 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7653,7 +7654,7 @@ RectTransform:
   m_Father: {fileID: 7676311099518321948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8326,7 +8327,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 15 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10027,7 +10028,7 @@ RectTransform:
   m_Father: {fileID: 3090548303783797396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11934,7 +11935,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 40 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12196,7 +12197,7 @@ RectTransform:
   m_Father: {fileID: 3298032942114629327}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -12251,7 +12252,7 @@ GameObject:
   - component: {fileID: 8283858481084828937}
   - component: {fileID: 963402604365263989}
   m_Layer: 5
-  m_Name: Gun-Legendary
+  m_Name: Gun-Sci Fi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12361,7 +12362,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8819867071273364866}
         m_TargetAssemblyTypeName: inventoryManager, Assembly-CSharp
-        m_MethodName: unlockGunLegendary
+        m_MethodName: unlockGunSciFi
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963402604365263989}
@@ -12911,7 +12912,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 30 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12992,7 +12993,7 @@ GameObject:
   - component: {fileID: 6822567723431821404}
   - component: {fileID: 7922671852013129727}
   m_Layer: 5
-  m_Name: Legendary
+  m_Name: Sci-Fi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13464,7 +13465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 000
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14101,7 +14102,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 35 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14412,7 +14413,6 @@ RectTransform:
   m_Children:
   - {fileID: 8938568361051668976}
   - {fileID: 1597919105862840241}
-  - {fileID: 7606519324218850645}
   - {fileID: 6878298736905720388}
   - {fileID: 3670916338446202670}
   m_Father: {fileID: 4955981313949695901}
@@ -15329,7 +15329,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "A weapon with moderate \ndamage, range, firing rate, and ammo capacity."
+  m_text: "A gun with moderate \ndamage, range, firing rate, and ammo capacity."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15774,7 +15774,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5798163729025782618}
-  m_Father: {fileID: 4270701731446989997}
+  m_Father: {fileID: 444067122698182168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -16447,7 +16447,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: -250}
+  m_AnchoredPosition: {x: -200, y: -250}
   m_SizeDelta: {x: 380, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5486132317364066826
@@ -17617,7 +17617,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 25 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17722,7 +17722,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -250}
+  m_AnchoredPosition: {x: 600, y: -250}
   m_SizeDelta: {x: 380, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3055824717124233088
@@ -18150,7 +18150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9102982309674856063
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18962,7 +18962,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 30 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -19141,7 +19141,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 10}
-  m_SizeDelta: {x: 300, y: 80}
+  m_SizeDelta: {x: 375, y: 80}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1633611224005512802
 CanvasRenderer:
@@ -19171,7 +19171,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A god-like gun wielded by only the skilled warriors.
+  m_text: "A futuristic gun with \nimpressive damage, range, firing rate, and ammo
+    capacity."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20583,7 +20584,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '# Gold'
+  m_text: 20 Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -22136,7 +22137,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: -30}
+  m_AnchoredPosition: {x: -200, y: -30}
   m_SizeDelta: {x: 375, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4929823844070346593
@@ -22373,9 +22374,9 @@ MonoBehaviour:
   - {fileID: 7809553841376970533}
   - {fileID: 1184874320530022714}
   - {fileID: 7797181646536929937}
-  - {fileID: 4863331818236333876}
-  - {fileID: 199210997707027261}
   - {fileID: 1824720930787126322}
+  - {fileID: 199210997707027261}
+  - {fileID: 4863331818236333876}
   controlsPageActive: {fileID: 8427586522771536487}
   subCredits: {fileID: 4836921324878532586}
   menuPause: {fileID: 961622285788990548}
@@ -23325,7 +23326,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Legendary
+  m_text: Sci-Fi
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -27475,17 +27476,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 173caf576744d90488cde4f613e8c1b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  costArmorAgile: 0
-  costArmorResilient: 0
-  costArmorElite: 0
-  costGunRifle: 0
-  costGunShotgun: 0
-  costGunLegendary: 0
-  costItemHealth: 5
-  costItemAmmo: 0
+  costArmorAgile: 25
+  costArmorResilient: 25
+  costArmorElite: 35
+  costGunRifle: 30
+  costGunShotgun: 30
+  costGunSciFi: 40
+  costItemHealth: 20
+  costItemAmmo: 15
   costItemDoor: 10
   selectedArmorButton: {fileID: 4571130334152506788}
   rifle: {fileID: 11400000, guid: 77039a8161f58a64e8c21a6b8cedfefe, type: 2}
   shotgun: {fileID: 11400000, guid: 91ae98f4d5617c242a0f8029c4597416, type: 2}
-  four: {fileID: 11400000, guid: a5195bc1856b44249bf32376e4f32a7a, type: 2}
-  sound: {fileID: 8300000, guid: 67ad25b9a26922147a2a7e012c773b02, type: 3}
+  sciFi: {fileID: 11400000, guid: a5195bc1856b44249bf32376e4f32a7a, type: 2}
+  purchase: {fileID: 8300000, guid: 67ad25b9a26922147a2a7e012c773b02, type: 3}
+  fail: {fileID: 8300000, guid: 94574e15da22a554e91d66eed02af5c4, type: 3}

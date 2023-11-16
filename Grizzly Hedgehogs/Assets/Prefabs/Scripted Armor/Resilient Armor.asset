@@ -15,6 +15,6 @@ MonoBehaviour:
   healthMax: 15
   staminaMax: 8
   speed: 10
-  sprintSpeed: 15
+  sprintSpeed: 14
   jumpHeight: 8
-  restoreStaminaRate: 1.25
+  restoreStaminaRate: 2.5

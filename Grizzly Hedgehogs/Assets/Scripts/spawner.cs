@@ -9,7 +9,8 @@ public class spawner : MonoBehaviour
     [SerializeField] int timeBetweenSpawns;
     [SerializeField] Transform[] spawnPos;
     [SerializeField] bool updatesGameGoal;
-    [SerializeField] bool randomized;
+    [SerializeField] bool randomizedObjects;
+    [SerializeField] bool randomizedPos;
 
     List<GameObject> spawnedObjects = new List<GameObject>();
 
@@ -55,19 +56,25 @@ public class spawner : MonoBehaviour
     {
         isSpawning = true;
 
-        if (randomized)
+        if (randomizedObjects)
         {
             numberObject = Random.Range(0, objectToSpawn.Length);
-            numberPos = Random.Range(0, spawnPos.Length);
         }
         else 
         {
             numberObject++;
-            if(numberObject >= objectToSpawn.Length)
+            if (numberObject >= objectToSpawn.Length)
             {
                 numberObject = 0;
             }
+        }
 
+        if (randomizedPos)
+        {
+            numberPos = Random.Range(0, spawnPos.Length);
+        }
+        else
+        {
             numberPos++;
             if (numberPos >= spawnPos.Length)
             {
@@ -105,5 +112,11 @@ public class spawner : MonoBehaviour
 
         isSpawning = false;
         startSpawning = false;
+    }
+
+    public void enemyDied(EnemyAI dead)
+    {
+        gameManager.instance.updateGameGoal(-1);
+        spawnedObjects.Remove(dead.gameObject);
     }
 }
