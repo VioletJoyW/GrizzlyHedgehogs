@@ -2153,14 +2153,15 @@ MonoBehaviour:
   shootPos: {fileID: 878530064327177837}
   headPos: {fileID: 3867213705459856534}
   damageCollider: {fileID: 8861237194360785015}
-  avatar: {fileID: 31900000, guid: 1c7103d7255e01244b7e5781f781836f, type: 2}
-  canAddToGoal: 0
+  laser: {fileID: 0}
+  fromSpawner: 0
   hitPoints: 4
   playerFaceSpeed: 6
   viewCone: 90
   shootCone: 5
   roamDist: 15
   roamPauseTime: 2
+  coverTime: 0
   bullet: {fileID: 7308311796046934712, guid: 6915260b4bd8c494aaabc7f98d7d9225, type: 3}
   shootRate: 1
 --- !u!195 &6228737554094154519
@@ -2177,7 +2178,7 @@ NavMeshAgent:
   m_Acceleration: 32
   avoidancePriority: 50
   m_AngularSpeed: 600
-  m_StoppingDistance: 9
+  m_StoppingDistance: 13
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,7 +23,8 @@ public class EnemyAI : Entity
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
     [SerializeField] Collider damageCollider;
-    [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] Renderer laser;
+    //[SerializeField] GameObject[] droppedItems;
 
     [Header("----- Config -----")]
     [SerializeField] bool fromSpawner = false;
@@ -74,11 +76,6 @@ public class EnemyAI : Entity
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.CompareTag("Enemy Sniper"))
-        {
-            // Sniper laser
-        }
-
         if (agent.isActiveAndEnabled)
         {
             animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
@@ -94,10 +91,6 @@ public class EnemyAI : Entity
             else if (!playerInRange)
             {
                 StartCoroutine(Roam());
-            }
-            if (HP <= (HP / 2))
-            {
-                //StartCoroutine(GetToCover());
             }
         }
     }
@@ -191,7 +184,6 @@ public class EnemyAI : Entity
         animator.SetTrigger("Shoot");
         aud.PlayOneShot(audShoot, audShootVol);
         yield return new WaitForSeconds(shootRate);
-
         isShooting = false;
     }
 
@@ -200,7 +192,7 @@ public class EnemyAI : Entity
         fromSpawner = on;
     }
 
-    public void CreateBullet() // Called in animation
+    public void CreateBullet() // Called in animation event
     {
         Instantiate(bullet, shootPos.position, transform.rotation);
     }
@@ -212,13 +204,18 @@ public class EnemyAI : Entity
 
         if (HP <= 0)
         {
+            //int ranItem = Random.Range(0, droppedItems.Length - 1); // Got an outOfBound Error
+            //Instantiate(droppedItems[ranItem], transform.position, droppedItems[ranItem].transform.rotation);
             damageCollider.enabled = false;
 
             gameManager.instance.updateGameGoal(-1);
 
             agent.enabled = false;
             animator.enabled = false;
-
+            if(gameObject.CompareTag("Enemy Sniper"))
+            {
+                laser.enabled = false;
+            }
             Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
             if (physicsForce != null)
             {
@@ -245,16 +242,4 @@ public class EnemyAI : Entity
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
-
-/*    IEnumerator GetToCover()
-    {
-        // Takes cover if health is half then original
-        isCovered = true;
-        yield return new WaitForSeconds(coverTime);
-        Vector3 coverPos = Random.insideUnitSphere - gameManager.instance.player.transform.position.normalized;
-        NavMeshHit hit;
-        NavMesh.SamplePosition(coverPos, out hit, roamDist, 1);
-        agent.SetDestination(hit.position);
-        isCovered = false;
-    }*/
 }
