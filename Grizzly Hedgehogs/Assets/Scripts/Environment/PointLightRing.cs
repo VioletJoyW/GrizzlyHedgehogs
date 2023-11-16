@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 //[ExecuteInEditMode]
 
@@ -12,9 +13,11 @@ public class PointLightRing : MonoBehaviour
 {
     [Header("========= Settings =========")]
     [SerializeField] new GameObject light;
-    [SerializeField] [Range(0, 50)] int count;
+    [SerializeField] [Range(0, 100)] int count;
+    [SerializeField] [Range(0, 50)] int angleCount;
     [SerializeField] [Range(0, 50)] double radious;
     [SerializeField] bool update;
+    [SerializeField] bool intensity;
     [SerializeField] bool refresh;
 
 	List<double> positionX;
@@ -39,15 +42,17 @@ public class PointLightRing : MonoBehaviour
 
 		Vector3 center = transform.position;
 		float _range = GetComponent<Light>().range;
+		float _intensity = GetComponent<Light>().intensity;
 		Color _color = GetComponent<Light>().color;
 		float x = 0, z = 0;
 		Quaternion oldRot = transform.rotation;
 		transform.rotation = Quaternion.identity;
 		for (int ndx = 0; ndx < count; ++ndx)
 		{
-			CalculateCircle(ref x, ref z, ndx);
+			CalculateCircle(ref x, ref z, ndx, true);
 			light.GetComponent<Light>().range = _range;
 			light.GetComponent<Light>().color = _color;
+			if(intensity) light.GetComponent<Light>().intensity = _intensity;
 			lights.Add(Instantiate(light, new Vector3(x + center.x, center.y, z + center.z), transform.rotation, transform));
 		}
 		transform.rotation = oldRot;
@@ -55,27 +60,44 @@ public class PointLightRing : MonoBehaviour
 
 	private void Update()
 	{
+		if(angleCount > 0)
+		{
+			float x = 0, z = 0;
+			Vector3 center = transform.position;
+			Quaternion oldRot = transform.rotation;
+			transform.rotation = Quaternion.identity;
+			calculated = false;
+			for (int ndx = 0; ndx < lights.Count; ++ndx) 
+			{
+				CalculateCircle(ref x, ref z, ndx);
+				lights[ndx].transform.position = new Vector3(x + center.x, center.y, z + center.z);
+			}
+			//angleCount = 0;
+			transform.rotation = oldRot;
+		}
 		if(update) 
 		{
+			float _range = GetComponent<Light>().range;
+			Color _color = GetComponent<Light>().color;
+			Quaternion _oldRot = transform.rotation;
+			transform.rotation = Quaternion.identity;
+			calculated = false;
+			float x = 0, z = 0;
+			Vector3 center = transform.position;
 			if(refresh) 
 			{
 				Refresh();
 				refresh = false;
 			}
-			float _range = GetComponent<Light>().range;
-			Color _color = GetComponent<Light>().color;
-			Quaternion _oldRot = transform.rotation;
-			calculated = false;
-			float x = 0, z = 0;
-			Vector3 center = transform.position;
+
 			for (int ndx = 0; ndx < lights.Count; ++ndx) // Recalculate the new light positions
 			{
 				CalculateCircle(ref x, ref z, ndx);
 				lights[ndx].GetComponent<Light>().range = _range;
 				lights[ndx].GetComponent<Light>().color = _color;
 				lights[ndx].transform.position = new Vector3(x + center.x, center.y, z + center.z);
-				lights[ndx].transform.rotation = _oldRot;
 			}
+			transform.rotation = _oldRot;
 		}
 	}
 
@@ -118,7 +140,7 @@ public class PointLightRing : MonoBehaviour
 	//     }
 	// }
 
-	void CalculateCircle(ref float x, ref float y, int index) 
+	void CalculateCircle(ref float x, ref float y, int index, bool _firstRun = false) 
     {
         if (index > positionX.Count) return;
 
@@ -128,13 +150,13 @@ public class PointLightRing : MonoBehaviour
             {
                 if (ndx < positionX.Count)
                 {
-                    positionX[ndx] = radious * Mathf.Cos(2 * Mathf.PI * ndx / count);
-                    positionZ[ndx] = radious * Mathf.Sin(2 * Mathf.PI * ndx / count);
+                    positionX[ndx] = radious * Mathf.Cos(2 * Mathf.PI * ndx / (count + (_firstRun ? 0 : angleCount) ));
+                    positionZ[ndx] = radious * Mathf.Sin(2 * Mathf.PI * ndx / (count + (_firstRun ? 0 : angleCount)));
                 }
                 else 
                 {
-					positionX.Add( radious * Mathf.Cos(2 * Mathf.PI * ndx / count));
-					positionZ.Add( radious * Mathf.Sin(2 * Mathf.PI * ndx / count));
+					positionX.Add( radious * Mathf.Cos(2 * Mathf.PI * ndx / (count + (_firstRun ? 0 : angleCount))));
+					positionZ.Add( radious * Mathf.Sin(2 * Mathf.PI * ndx / (count + (_firstRun ? 0 : angleCount))));
 				}
             }
             calculated = true;
