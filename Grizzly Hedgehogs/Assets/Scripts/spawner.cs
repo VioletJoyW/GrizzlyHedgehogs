@@ -24,11 +24,12 @@ public class spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager.instance.addSpawner(this);
+
         if (updatesGameGoal)
         {
             gameManager.instance.updateGameGoal(numberToSpawn);
         }
-        gameManager.instance.addSpawner(this);
     }
 
     // Update is called once per frame
@@ -46,6 +47,7 @@ public class spawner : MonoBehaviour
         {
             startSpawning = true;
         }
+
     }
 
 	/// <summary>
@@ -106,6 +108,11 @@ public class spawner : MonoBehaviour
             spawnedObjects.RemoveAt(i);
         }
 
+        if (updatesGameGoal)
+        {
+            gameManager.instance.updateGameGoal(numberToSpawn);
+        }
+
         spawnCount = 0;
         numberObject = -1;
         numberPos = -1;
@@ -114,9 +121,4 @@ public class spawner : MonoBehaviour
         startSpawning = false;
     }
 
-    public void enemyDied(EnemyAI dead)
-    {
-        gameManager.instance.updateGameGoal(-1);
-        spawnedObjects.Remove(dead.gameObject);
-    }
 }
