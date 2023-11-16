@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ac000b07ffc094c818de07c8d293e6, type: 3}
   m_Name: Basic Armor
   m_EditorClassIdentifier: 
-  inventoryButton: {fileID: 0}
   healthMax: 10
   staminaMax: 10
   speed: 10
-  sprintSpeed: 20
+  sprintSpeed: 16
   jumpHeight: 10
-  restoreStaminaRate: 1
+  restoreStaminaRate: 2

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Agile Armor
   m_EditorClassIdentifier: 
   healthMax: 8
-  staminaMax: 15
-  speed: 15
-  sprintSpeed: 25
-  jumpHeight: 15
-  restoreStaminaRate: 0.5
+  staminaMax: 16
+  speed: 12
+  sprintSpeed: 20
+  jumpHeight: 12
+  restoreStaminaRate: 1

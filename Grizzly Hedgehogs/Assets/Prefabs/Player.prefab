@@ -267,6 +267,7 @@ MonoBehaviour:
   jumpsMax: 2
   visionDistance: 5
   restoreStaminaRate: 0.5
+  drainStaminaRate: 0.8
   playerArmor: {fileID: 11400000, guid: 17b44187e9dc4114ba3e67f70f35e8c9, type: 2}
   gunsList:
   - {fileID: 11400000, guid: 5833120011322bc4a8bc0ec76f94fa7d, type: 2}
