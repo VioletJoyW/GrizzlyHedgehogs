@@ -24,7 +24,6 @@ public class EnemyAI : Entity
     [SerializeField] Transform headPos;
     [SerializeField] Collider damageCollider;
     [SerializeField] Renderer laser;
-    //[SerializeField] GameObject[] droppedItems;
 
     [Header("----- Config -----")]
     [SerializeField] bool fromSpawner = false;
@@ -36,20 +35,16 @@ public class EnemyAI : Entity
     [SerializeField] int shootCone;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
-    [SerializeField] int coverTime;
 
     [Header("----- Gun Stats -----")]
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
 
-    AudioSource source;
     Vector3 playerDir;
-    //Vector3 coverPos;
     bool playerInRange;
     float angleToPlayer;
     float stoppingDistOrig;
     bool destinationChosen;
-    //bool isCovered;
     private Rigidbody rb;
     Vector3 startingPos;
 
@@ -94,14 +89,6 @@ public class EnemyAI : Entity
             }
         }
     }
-
-    //IEnumerator PlaySteps() // No longer needed here. (It's in the Entity class now)
-    //{
-    //    isPlayingSteps = true;
-    //    aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
-    //    yield return new WaitForSeconds(1 / agent.velocity.normalized.magnitude);
-    //    isPlayingSteps = false;
-    //}
 
     /// <summary>
     /// Allows the enemy to roam to random locations relative to spawn point.
@@ -204,8 +191,6 @@ public class EnemyAI : Entity
 
         if (HP <= 0)
         {
-            //int ranItem = Random.Range(0, droppedItems.Length - 1); // Got an outOfBound Error
-            //Instantiate(droppedItems[ranItem], transform.position, droppedItems[ranItem].transform.rotation);
             damageCollider.enabled = false;
 
             gameManager.instance.updateGameGoal(-1);
