@@ -82,7 +82,7 @@ public class spawner : MonoBehaviour
             }
         }
 
-        GameObject objectClone = Instantiate(objectToSpawn[numberObject], spawnPos[numberPos].position, objectToSpawn[numberObject].transform.rotation);
+        GameObject objectClone = Instantiate(objectToSpawn[numberObject], spawnPos[numberPos].position, spawnPos[numberObject].transform.rotation);
 
         spawnedObjects.Add(objectClone);
 
