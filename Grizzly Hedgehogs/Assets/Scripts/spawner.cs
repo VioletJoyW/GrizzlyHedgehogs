@@ -113,4 +113,10 @@ public class spawner : MonoBehaviour
         isSpawning = false;
         startSpawning = false;
     }
+
+    public void enemyDied(EnemyAI dead)
+    {
+        gameManager.instance.updateGameGoal(-1);
+        spawnedObjects.Remove(dead.gameObject);
+    }
 }
