@@ -25,11 +25,6 @@ public class inventoryManager : MonoBehaviour
     [SerializeField] AudioClip purchase;
     [SerializeField] AudioClip fail;
 
-    void Start()
-    {
-
-    }
-
     public void armorSelection(Button selectedButton)
     {
         selectedArmorButton.image.color = Color.gray;

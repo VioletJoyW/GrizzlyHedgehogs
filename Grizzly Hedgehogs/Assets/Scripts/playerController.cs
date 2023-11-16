@@ -154,12 +154,6 @@ public class playerController : Entity
 	/// </summary>
 	/// <param name="moveSpeed"></param>
 	/// <returns></returns>
-	//IEnumerator PlaySteps(float moveSpeed)
- //   {
- //       isPlayingSteps = true;
- //       aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
- //       yield return new WaitForSeconds(3 / moveSpeed);
- //       isPlayingSteps = false;
 
 	//}
 

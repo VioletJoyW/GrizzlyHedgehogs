@@ -11,10 +11,6 @@ public class cameraController : MonoBehaviour
     float rotationX;
     [SerializeField] bool invertY;
 
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
