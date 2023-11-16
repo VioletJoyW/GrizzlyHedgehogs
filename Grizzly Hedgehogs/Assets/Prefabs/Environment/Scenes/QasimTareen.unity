@@ -7942,6 +7942,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySniper
       objectReference: {fileID: 0}
+    - target: {fileID: 4610806428224345410, guid: d0ae78a28c7615c4586dc97462e08527, type: 3}
+      propertyPath: fromSpawner
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5648408072058570282, guid: d0ae78a28c7615c4586dc97462e08527, type: 3}
       propertyPath: m_LocalPosition.x
       value: -34.55857

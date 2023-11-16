@@ -265,6 +265,7 @@ MonoBehaviour:
   - {fileID: 7929158004331232857, guid: 633d2c73568943744a442ca88cd3b141, type: 3}
   - {fileID: 7689400145490597196, guid: af97988bdf726fb4ca8f998880794422, type: 3}
   - {fileID: 7921675913493392983, guid: 326e02b2340e4e14aa8fa9a5bf812bc7, type: 3}
+  - {fileID: 1145943675285112284, guid: d0ae78a28c7615c4586dc97462e08527, type: 3}
   numberToSpawn: 4
   timeBetweenSpawns: 3
   spawnPos:
@@ -273,7 +274,8 @@ MonoBehaviour:
   - {fileID: 416848752632491602}
   - {fileID: 7857899068154960033}
   updatesGameGoal: 1
-  randomized: 1
+  randomizedObjects: 0
+  randomizedPos: 0
 --- !u!65 &1188323939946858467
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -86,7 +86,7 @@ public class spawner : MonoBehaviour
 
         spawnedObjects.Add(objectClone);
 
-        if (objectClone.CompareTag("Enemy"))
+        if (objectClone.CompareTag("Enemy") || objectClone.CompareTag("Enemy Sniper"))
         {
             objectClone.GetComponent<EnemyAI>().SetFromSpawner(true);
         }
