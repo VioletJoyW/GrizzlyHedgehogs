@@ -24,6 +24,8 @@ public class EnemyAI : Entity
     [SerializeField] Transform headPos;
     [SerializeField] Collider damageCollider;
     [SerializeField] Renderer laser;
+    [SerializeField] Collider[] _ragdollsCollider;
+    [SerializeField] Rigidbody[] _ragdolls;
 
     [Header("----- Config -----")]
     [SerializeField] bool fromSpawner = false;
@@ -59,6 +61,7 @@ public class EnemyAI : Entity
         AudioDamage = audioDamage;
         AudioDamageVolume = audioDamageVolume;
 
+        disableRag();
 		stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
 
@@ -184,6 +187,32 @@ public class EnemyAI : Entity
         Instantiate(bullet, shootPos.position, transform.rotation);
     }
 
+    public void disableRag()
+    {
+        for (int i = 0; i < _ragdollsCollider.Length; i++)
+        {
+            _ragdollsCollider[i].enabled = false;
+        }
+
+        for (int i = 0; i < _ragdolls.Length; i++)
+        {
+            _ragdolls[i].isKinematic = true;
+        }
+    }
+
+    public void enableRag()
+    {
+        for (int i = 0; i < _ragdollsCollider.Length; i++)
+        {
+            _ragdollsCollider[i].enabled = true;
+        }
+
+        for (int i = 0; i < _ragdolls.Length; i++)
+        {
+            _ragdolls[i].isKinematic = false;
+        }
+    }
+
     public override void TakeDamage(int amount)
     {
         HP -= amount;
@@ -191,6 +220,7 @@ public class EnemyAI : Entity
 
         if (HP <= 0)
         {
+            enableRag();
             damageCollider.enabled = false;
 
             gameManager.instance.updateGameGoal(-1);

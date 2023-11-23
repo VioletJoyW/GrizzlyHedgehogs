@@ -122,7 +122,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -286,7 +286,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -376,6 +376,38 @@ MonoBehaviour:
   headPos: {fileID: 3650523404236047864}
   damageCollider: {fileID: 5750574720173148972}
   laser: {fileID: 527832834221424215}
+  _ragdollsCollider:
+  - {fileID: 6944544331803865574}
+  - {fileID: 134632271019315767}
+  - {fileID: 7208963782046905224}
+  - {fileID: 6691946709576502615}
+  - {fileID: 2224905550943175028}
+  - {fileID: 7627898834041787870}
+  - {fileID: 5702560773944617201}
+  - {fileID: 4273134833301176056}
+  - {fileID: 8257650746154197055}
+  - {fileID: 6872418440159802088}
+  - {fileID: 8738211831525689770}
+  - {fileID: 3318242208632856066}
+  - {fileID: 8121269048469173346}
+  - {fileID: 5042448608854210530}
+  - {fileID: 3860749737368892246}
+  _ragdolls:
+  - {fileID: 7784086193144295289}
+  - {fileID: 7801711598502334974}
+  - {fileID: 7934568499711562082}
+  - {fileID: 5266313792764097814}
+  - {fileID: 5074768657002728492}
+  - {fileID: 3756411327416183812}
+  - {fileID: 6755588702353424385}
+  - {fileID: 2152746880380146014}
+  - {fileID: 8917639687637532136}
+  - {fileID: 3219081942159671831}
+  - {fileID: 3359838173040361622}
+  - {fileID: 6912658342692132546}
+  - {fileID: 8627414030365830977}
+  - {fileID: 1916669667471929266}
+  - {fileID: 288410027834161850}
   fromSpawner: 0
   hitPoints: 2
   playerFaceSpeed: 6
@@ -383,7 +415,6 @@ MonoBehaviour:
   shootCone: 5
   roamDist: 10
   roamPauseTime: 2
-  coverTime: 0
   bullet: {fileID: 7308311796046934712, guid: 7c1101e6556221e4b93d4c96f03633ba, type: 3}
   shootRate: 5
 --- !u!195 &2682954246789474167
@@ -448,7 +479,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.15, y: 2.5, z: 1.2}
+  m_Size: {x: 1, y: 2.5, z: 0.8}
   m_Center: {x: 0, y: 1.25, z: 0}
 --- !u!135 &3952282787726699811
 SphereCollider:
@@ -688,7 +719,7 @@ CharacterJoint:
     limit: 40
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -851,7 +882,7 @@ CharacterJoint:
     limit: 40
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -982,7 +1013,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -1176,7 +1207,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -1402,7 +1433,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -1669,7 +1700,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -1800,7 +1831,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -2184,7 +2215,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -2315,7 +2346,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -2446,7 +2477,7 @@ CharacterJoint:
     limit: 0
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -2577,7 +2608,7 @@ CharacterJoint:
     limit: 40
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
@@ -2708,7 +2739,7 @@ CharacterJoint:
     limit: 40
     bounciness: 0
     contactDistance: 0
-  m_EnableProjection: 0
+  m_EnableProjection: 1
   m_ProjectionDistance: 0.1
   m_ProjectionAngle: 180
   m_BreakForce: Infinity
