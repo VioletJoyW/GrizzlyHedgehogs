@@ -11,11 +11,13 @@ using UnityEngine.SocialPlatforms;
 
 public class PointLightRing : MonoBehaviour
 {
-    [Header("========= Settings =========")]
+    [Header("========= Objects =========")]
     [SerializeField] new GameObject light;
+    [Header("========= Settings =========")]
     [SerializeField] [Range(0, 100)] int count;
     [SerializeField] [Range(0, 50)] int angleCount;
     [SerializeField] [Range(0, 50)] double radious;
+    [SerializeField] [Range(0, 500)] float activationDistance = 200.0f;
     [SerializeField] bool update;
     [SerializeField] bool intensity;
     [SerializeField] bool refresh;
@@ -23,10 +25,13 @@ public class PointLightRing : MonoBehaviour
 	List<double> positionX;
 	List<double> positionZ;
     List<GameObject> lights;
+	Light centerLight;
 	bool calculated = false;
-
+	bool childrenOn = false;
+	bool childrenWasOn = false;
 	void Start() 
     {
+		centerLight = GetComponent<Light>();
 		lights = new List<GameObject>();
 		positionX = new List<double>();
 		positionZ = new List<double>();
@@ -60,6 +65,26 @@ public class PointLightRing : MonoBehaviour
 
 	private void Update()
 	{
+		Vector3 playerPos = gameManager.instance.player.transform.position;
+		Vector3 distance = transform.position - playerPos; // the distance from the player
+		UnityEngine.Debug.DrawRay(playerPos, transform.position, Color.magenta);
+		childrenOn = (distance.magnitude < activationDistance);
+		if (!childrenOn) // Truns off the lights if the player is not near by.
+		{
+			if(centerLight != null) centerLight.enabled = false;
+			foreach (Transform child in transform)
+				child.gameObject.SetActive(false);
+			childrenWasOn = false;
+			return;
+		}
+		else if (!childrenWasOn) 
+		{
+			if (centerLight != null) centerLight.enabled = true;
+			foreach (Transform child in transform)
+				child.gameObject.SetActive(true);
+			childrenWasOn = true;
+		}
+
 		if(angleCount > 0)
 		{
 			float x = 0, z = 0;
