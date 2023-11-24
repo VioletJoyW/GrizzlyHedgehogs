@@ -8,6 +8,7 @@ public class spawner : MonoBehaviour
     [SerializeField] int numberToSpawn;
     [SerializeField] int timeBetweenSpawns;
     [SerializeField] Transform[] spawnPos;
+    [SerializeField] GameObject mapMarker;
     [SerializeField] bool updatesGameGoal;
     [SerializeField] bool randomizedObjects;
     [SerializeField] bool randomizedPos;
@@ -30,6 +31,11 @@ public class spawner : MonoBehaviour
         {
             gameManager.instance.updateGameGoal(numberToSpawn);
         }
+
+        if(mapMarker != null)
+        {
+            mapMarker.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -38,6 +44,11 @@ public class spawner : MonoBehaviour
         if (startSpawning && !isSpawning && spawnCount < numberToSpawn)
         {
             StartCoroutine(Spawn());
+
+            if (mapMarker != null)
+            {
+                mapMarker.SetActive(false);
+            }
         }
     }
 
@@ -47,7 +58,6 @@ public class spawner : MonoBehaviour
         {
             startSpawning = true;
         }
-
     }
 
 	/// <summary>
