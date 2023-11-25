@@ -88,10 +88,11 @@ public class playerController : Entity
 
             SelectGun();
 
-            if (Input.GetButton("Fire1") && !isShooting)
-            {
-                StartCoroutine(Shoot());
-            }
+
+            if (Input.GetButtonDown("Reload")) StartCoroutine(ReloadGun());
+            else if (Input.GetButton("Fire1") && !isShooting)
+              StartCoroutine(Shoot());
+            
 
             gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
         }
@@ -250,6 +251,38 @@ public class playerController : Entity
             isShooting = false;
         }
     }
+
+	/// <summary>
+	/// Reloads the gun.
+	/// </summary>
+	IEnumerator ReloadGun() 
+    {
+        int currentAmmo = gunsList[selectedGun].ammoCurrent;
+        int maxAmmo = gunsList[selectedGun].ammoMax;
+        int totalAmmo = gunsList[selectedGun].ammoTotal;
+		if (!isShooting && currentAmmo < maxAmmo && totalAmmo > 0) 
+        {
+            int reloadAmount = maxAmmo - currentAmmo;
+
+            if (reloadAmount <= totalAmmo) 
+            {
+                gunsList[selectedGun].ammoTotal -= reloadAmount;
+                gunsList[selectedGun].ammoCurrent += reloadAmount;
+            }
+            else // We use this branch if the total amount is less than the reload amount. 
+            {
+				gunsList[selectedGun].ammoTotal = 0;
+				gunsList[selectedGun].ammoCurrent += totalAmmo;
+			}
+            float oldPitch = aud.pitch;
+            aud.pitch = .08f;
+            aud.PlayOneShot(gunsList[selectedGun].emptySound, .5f);
+            aud.pitch = oldPitch;
+            
+        }
+        yield return new WaitForSeconds(.5f); // Stops spam.
+    }
+
 
     /// <summary>
     /// Restores stamina over time.
