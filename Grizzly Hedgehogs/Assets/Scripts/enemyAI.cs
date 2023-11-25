@@ -189,29 +189,28 @@ public class EnemyAI : Entity
 
     public void disableRag()
     {
-        for (int i = 0; i < _ragdollsCollider.Length; i++)
-        {
-            _ragdollsCollider[i].enabled = false;
-        }
+		/* I noticed that "_ragdollsCollider" & "_ragdolls" will usually have the same length. 
+        *  So I put them into one loop to save time.
+		*/
+		for (int i = 0; i < _ragdolls.Length; i++)
+		{
+			if(i < _ragdollsCollider.Length) _ragdollsCollider[i].enabled = false;
+			_ragdolls[i].isKinematic = true;
+		}
 
-        for (int i = 0; i < _ragdolls.Length; i++)
-        {
-            _ragdolls[i].isKinematic = true;
-        }
-    }
+	}
 
     public void enableRag()
     {
-        for (int i = 0; i < _ragdollsCollider.Length; i++)
-        {
-            _ragdollsCollider[i].enabled = true;
-        }
-
-        for (int i = 0; i < _ragdolls.Length; i++)
-        {
-            _ragdolls[i].isKinematic = false;
-        }
-    }
+		/* I noticed that "_ragdollsCollider" & "_ragdolls" will usually have the same length. 
+        *  So I put them into one loop to save time.
+		*/
+		for (int i = 0; i < _ragdolls.Length; i++)
+		{
+			if (i < _ragdollsCollider.Length) _ragdollsCollider[i].enabled = true;
+			_ragdolls[i].isKinematic = false;
+		}
+	}
 
     public override void TakeDamage(int amount)
     {
