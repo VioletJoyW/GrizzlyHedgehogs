@@ -17,6 +17,8 @@ MonoBehaviour:
   shootRate: 0.75
   ammoCurrent: 5
   ammoMax: 12
+  ammoTotal: 0
+  ammoTotalMax: 36
   model: {fileID: 131900, guid: 1d8e61deede12df46b37e582ad640c5c, type: 3}
   hitEffect: {fileID: 4634835636247944694, guid: 65cd2d137a572bd43bf4b4ec2c6aaca9, type: 3}
   shootSound: {fileID: 8300000, guid: b9ea3fb2686ce5a4c84a168096adced8, type: 3}

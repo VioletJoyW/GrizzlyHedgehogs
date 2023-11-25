@@ -10,6 +10,8 @@ public class ScriptableGunStats : ScriptableObject
     public float shootRate;
     public int ammoCurrent;
     public int ammoMax;
+    public int ammoTotal; // Total amount of ammo on hand
+    public int ammoTotalMax; // Maximum amount of total ammo on hand
 
     public GameObject model;
     public ParticleSystem hitEffect;
