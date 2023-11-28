@@ -39,6 +39,16 @@ public class buttonFunctions : MonoBehaviour
         gameManager.instance.switchControlsPage(-1);
     }
 
+    public void settings()
+    {
+        gameManager.instance.showSettings();
+    }
+
+    public void settingsPage(int page)
+    {
+        gameManager.instance.switchSettingsPage(page);
+    }
+
     public void credits()
     {
         gameManager.instance.showCredits();

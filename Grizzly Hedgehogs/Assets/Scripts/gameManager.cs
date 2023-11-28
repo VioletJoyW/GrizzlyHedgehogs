@@ -11,12 +11,17 @@ public class gameManager : MonoBehaviour
     [Header("_-_-_- Menus -_-_-_")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject subMenuActive;
+
     [SerializeField] GameObject menuMain;
     [SerializeField] GameObject subMain;
     [SerializeField] GameObject subControls;
     [SerializeField] GameObject[] controlsPages;
     [SerializeField] GameObject controlsPageActive;
     [SerializeField] GameObject subCredits;
+    [SerializeField] GameObject subSettings;
+    [SerializeField] GameObject[] settingsPages;
+    [SerializeField] GameObject settingsPageActive;
+
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
@@ -169,6 +174,25 @@ public class gameManager : MonoBehaviour
         controlsPageActive.SetActive(false);
         controlsPageActive = controlsPages[controlsPage];
         controlsPageActive.SetActive(true);
+    }
+
+    public void showSettings()
+    {
+        subMenuActive.SetActive(false);
+        subMenuActive = subSettings;
+        switchSettingsPage(0);
+        subMenuActive.SetActive(true);
+    }
+    public void switchSettingsPage(int page)
+    {
+        if (page >= settingsPages.Length || page < 0)
+        {
+            return;
+        }
+
+        settingsPageActive.SetActive(false);
+        settingsPageActive = settingsPages[page];
+        settingsPageActive.SetActive(true);
     }
 
     public void showCredits()
