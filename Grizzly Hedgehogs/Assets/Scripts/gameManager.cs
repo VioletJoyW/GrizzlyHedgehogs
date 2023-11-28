@@ -53,6 +53,7 @@ public class gameManager : MonoBehaviour
 
     [Header("_-_-_- Audio Files -_-_-_")]
     [SerializeField] AudioSource source;
+    [SerializeField] AudioClip buttonPressed;
 
 
     public bool isPaused;
@@ -374,9 +375,14 @@ public class gameManager : MonoBehaviour
         playerAmmoBackground.color = orig;
     }
 
-    public void PlaySound(AudioClip clip)
+    public void PlaySound(AudioClip clip, float vol = 0.5f)
     {
-        source.PlayOneShot(clip);
+        source.PlayOneShot(clip, vol);
+    }
+
+    public void PlayButtonPress()
+    {
+        source.PlayOneShot(buttonPressed);
     }
 
 }

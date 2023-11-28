@@ -8,7 +8,7 @@ public class settingsManager : MonoBehaviour
 {
     public static settingsManager sm;
 
-    [Header("_-_-_- Labels -_-_-_")]
+    [Header("_-_-_- Components -_-_-_")]
     [SerializeField] TMP_Text sensitivityValue;
     [SerializeField] TMP_Text globalVolValue;
     [SerializeField] TMP_Text playerVolValue;
@@ -21,6 +21,8 @@ public class settingsManager : MonoBehaviour
     [SerializeField] Toggle camBobCheck;
     [SerializeField] Button[] Keys;
     [SerializeField] Slider[] VolValues;
+
+    [SerializeField] AudioClip testAudio;
 
     [Header("_-_-_- Defaults -_-_-_")]
     [SerializeField] float camSensitivityDefault;
@@ -86,6 +88,8 @@ public class settingsManager : MonoBehaviour
 
     public void resetCamera()
     {
+        gameManager.instance.PlayButtonPress();
+
         camSensitivity = camSensitivityDefault;
         sensitivityValue.text = camSensitivity.ToString();
         camSliderValue.value = camSensitivity;
@@ -99,6 +103,8 @@ public class settingsManager : MonoBehaviour
 
     public void resetAudio()
     {
+        gameManager.instance.PlayButtonPress();
+
         globalVol = globalVolDefault;
         globalVolValue.text = globalVol.ToString("F2");
         playerVol = playerVolDefault;
@@ -120,6 +126,8 @@ public class settingsManager : MonoBehaviour
 
     public void resetControls()
     {
+        gameManager.instance.PlayButtonPress();
+
         forwards = forwardsDefault;
         backwards = backwardsDefault;
         left = leftDefault;
@@ -160,32 +168,38 @@ public class settingsManager : MonoBehaviour
         globalVol = vol.value;
         globalVolValue.text = vol.value.ToString("F2");
         AudioListener.volume = globalVol;
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
     public void changePlayerVol(Slider vol)
     {
         playerVol = vol.value;
         playerVolValue.text = vol.value.ToString("F2");
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
     public void changeEnemyVol(Slider vol)
     {
         enemyVol = vol.value;
         enemyVolValue.text = vol.value.ToString("F2");
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
     public void changeEnviromentVol(Slider vol)
     {
         enviromentVol = vol.value;
         enviromentVolValue.text = vol.value.ToString("F2");
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
     public void changeMusicVol(Slider vol)
     {
         musicVol = vol.value;
         musicVolValue.text = vol.value.ToString("F2");
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
 
     public void startKeyChange(Button key)
     {
         if(!waitingForKey)
         {
+            gameManager.instance.PlayButtonPress();
             StartCoroutine(AssignKey(key));
         }
     }

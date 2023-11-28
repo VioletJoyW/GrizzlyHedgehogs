@@ -28418,6 +28418,7 @@ MonoBehaviour:
   - {fileID: 6401574481209678192}
   - {fileID: 6997531462202723843}
   - {fileID: 3873093705498090413}
+  testAudio: {fileID: 8300000, guid: b050aea26f01d14438660632e38f2bd6, type: 3}
   camSensitivityDefault: 400
   invertYDefault: 0
   camBobDefault: 1
@@ -30558,6 +30559,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerScript: {fileID: 0}
   source: {fileID: 4171664199334474931}
+  buttonPressed: {fileID: 8300000, guid: 9a5a5c893aacb9243a198eb475cd3a70, type: 3}
   isPaused: 0
   unlockedDoors: 0
   unlockedHealthKits: 0
