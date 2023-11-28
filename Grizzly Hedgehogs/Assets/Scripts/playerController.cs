@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class playerController : Entity
@@ -39,12 +40,15 @@ public class playerController : Entity
 
 
     private int selectedGun = 0;
+    private int jumpTimes;
 
     private bool isRunning;
     private bool isRestoringStamina;
+    private bool isCrouching;
+    private bool isCrouchingActive;
 
+    private float lastCameraYPos;
     private Vector3 move;
-    private int jumpTimes;
     private Vector3 playerVelocity;
 
     void Start()
@@ -111,6 +115,7 @@ public class playerController : Entity
 
         float moveSpeed;
 
+        // Sprint code
         if (Input.GetButton("Sprint") && currentStamina > 0.2f)
         {
             if (!isRunning)
@@ -122,6 +127,27 @@ public class playerController : Entity
         {
             moveSpeed = playerArmor.speed;
         }
+        // Crouch code
+        if (Input.GetButton("Crouch") && !isCrouching) 
+        {
+            if(!isCrouchingActive)
+            {
+                lastCameraYPos = Camera.main.transform.position.y;
+                isCrouchingActive = true;
+            }
+            Vector3 pos = Camera.main.transform.position;
+            pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos * .5f, Time.deltaTime * 8);
+			Camera.main.transform.position = pos;
+			isCrouching = Camera.main.transform.position.y < (lastCameraYPos * .5f) * 1.1f;
+        }
+        else if ((isCrouching || isCrouchingActive) && !Input.GetButton("Crouch"))
+        {
+			Vector3 pos = Camera.main.transform.position;
+			pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos, Time.deltaTime * 8);
+			Camera.main.transform.position = pos;
+            isCrouching = false;
+            isCrouchingActive = !(Camera.main.transform.position.y >= lastCameraYPos);
+		}
 
         move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
 
