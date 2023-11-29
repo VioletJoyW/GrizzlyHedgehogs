@@ -17,6 +17,7 @@ public class door : MonoBehaviour, Iinteract
     {
         open = !open;
         anim.SetBool("isOpen", open);
+        aud.volume = settingsManager.sm.objectVol;
         aud.Play();
     }
 }

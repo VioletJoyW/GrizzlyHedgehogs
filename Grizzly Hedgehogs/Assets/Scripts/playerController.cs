@@ -11,7 +11,7 @@ public class playerController : Entity
     [Header("_-_-_- Player Stats -_-_-_")]
     [Range(1, 20)][SerializeField] int health;
     [Range(1, 20)][SerializeField] float currentStamina;
-
+    [SerializeField] float crouchSpeed;
     [Range(-10, -30)][SerializeField] float gravityFloat;
     [Range(1, 4)][SerializeField] int jumpsMax;
     [SerializeField] int visionDistance;
@@ -24,6 +24,8 @@ public class playerController : Entity
     [SerializeField] GameObject gunModel;
 
     [Header("_-_-_- Audio -_-_-_")]
+    [Range(0, 1)][SerializeField] float playerVol;
+    [Range(0, 1)][SerializeField] float objectVol;
     [SerializeField] AudioClip[] audioDamage;
     [Range(0, 1)][SerializeField] float audioDamageVolume;
     [SerializeField] AudioClip[] audJump;
@@ -47,16 +49,23 @@ public class playerController : Entity
     private int jumpTimes;
     private Vector3 playerVelocity;
 
+    float lastCameraYPos;
+    float damColliderLastHeight;
+    bool isCrouchingActive;
+    bool isCrouching;
+
     void Start()
     {
 		//Setting Entity vars
 		HitPoints = health;
 		AudioSource = audioSource;
 		AudioSteps = audioStep;
-		AudioStepVolume = audioStepVolume;
+		AudioStepVolume = audioStepVolume * playerVol;
 		AudioDamage = audioDamage;
-		AudioDamageVolume = audioDamageVolume;
+		AudioDamageVolume = audioDamageVolume * playerVol;
 
+		lastCameraYPos = Camera.main.transform.localPosition.y;
+		damColliderLastHeight = controller.height;
 		SpawnPlayer();
         ChangeGunModel();
     }
@@ -74,7 +83,7 @@ public class playerController : Entity
             gunsList[i].ammoCurrent = gunsList[i].ammoMax;
         }
         gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
-        transform.position = gameManager.instance.playerSpawnPos.transform.position;
+        transform.position = gameManager.instance.playerSpawnPos.transform.localPosition;
         controller.enabled = true;
     }
 
@@ -88,9 +97,8 @@ public class playerController : Entity
 
             SelectGun();
 
-
-            if (Input.GetButtonDown("Reload")) StartCoroutine(ReloadGun());
-            else if (Input.GetButton("Fire1") && !isShooting)
+            if (Input.GetKeyDown(settingsManager.sm.reload)) StartCoroutine(ReloadGun());
+            else if (Input.GetKeyDown(settingsManager.sm.shoot) && !isShooting)
               StartCoroutine(Shoot());
             
 
@@ -111,7 +119,8 @@ public class playerController : Entity
 
         float moveSpeed;
 
-        if (Input.GetButton("Sprint") && currentStamina > 0.2f)
+        // Sprint code
+        if (Input.GetKeyDown(settingsManager.sm.sprint) && currentStamina > 0.2f)
         {
             if (!isRunning)
                 StartCoroutine(Sprint());
@@ -122,8 +131,64 @@ public class playerController : Entity
         {
             moveSpeed = playerArmor.speed;
         }
+        // Crouch code
+        if (Input.GetKeyDown(settingsManager.sm.crouch) && !isCrouching && jumpTimes == 0)
+        {
+            if (!isCrouchingActive)
+            {
 
-        move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+                isCrouchingActive = true;
+            }
+            Vector3 pos = Camera.main.transform.localPosition;
+            controller.height = Mathf.Lerp(controller.height, damColliderLastHeight * .5f, Time.deltaTime * crouchSpeed);
+            pos.y = Mathf.Lerp(Camera.main.transform.localPosition.y, lastCameraYPos * .5f, Time.deltaTime * crouchSpeed);
+            
+            Camera.main.transform.localPosition = pos;
+            isCrouching = Camera.main.transform.localPosition.y < (lastCameraYPos * .5f);// * 1.1f;
+        }
+        else if ((isCrouching || isCrouchingActive) && !Input.GetKeyDown(settingsManager.sm.crouch))
+        {
+            Vector3 pos = Camera.main.transform.localPosition;
+            pos.y = Mathf.Lerp(Camera.main.transform.localPosition.y, lastCameraYPos, Time.deltaTime * 8);
+            controller.height = Mathf.Lerp(controller.height, damColliderLastHeight, Time.deltaTime * crouchSpeed);
+           
+            Camera.main.transform.localPosition = pos;
+            isCrouching = false;
+            if (Camera.main.transform.localPosition.y >= ((int) lastCameraYPos)) 
+            {
+                isCrouchingActive = false;
+                Camera.main.transform.localPosition = new Vector3(Camera.main.transform.localPosition.x, lastCameraYPos, Camera.main.transform.localPosition.z);
+                controller.height = damColliderLastHeight;
+            }
+        }
+        //print("Damage Collider Last hieght: " + damColliderLastHeight);
+        //print("Camera Last Height: " + lastCameraYPos);
+        // Crouch code END
+
+        float moveX = 0;
+        float moveZ = 0;
+        if (Input.GetKey(settingsManager.sm.left))
+        {
+            moveX = -1;
+        }
+        else if (Input.GetKey(settingsManager.sm.right))
+        {
+            moveX = 1;
+        }
+
+        if (Input.GetKey(settingsManager.sm.backwards))
+        {
+            moveZ = -1;
+        }
+        else if (Input.GetKey(settingsManager.sm.forwards))
+        {
+            moveZ = 1;
+        }
+
+        move = transform.right * moveX + transform.forward * moveZ;
+
+        //move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+        //Debug.Log(Input.GetAxis("Horizontal"));
 
         controller.Move(move * Time.deltaTime * moveSpeed);
 
@@ -132,9 +197,9 @@ public class playerController : Entity
             StartCoroutine(PlaySteps(3, moveSpeed));
         }
 
-        if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax)
+        if (Input.GetKeyDown(settingsManager.sm.jump) && jumpTimes < jumpsMax && !isCrouchingActive)
         {
-            aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
+            aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol * playerVol);
             playerVelocity.y = playerArmor.jumpHeight;
             jumpTimes++;
         }
@@ -176,9 +241,9 @@ public class playerController : Entity
                     gameManager.instance.ShowLockedPrompt(true); 
                     gameManager.instance.ShowInteractPrompt(false);
 
-                    if (Input.GetButtonDown("Interact"))
+                    if (Input.GetKeyDown(settingsManager.sm.interact))
                     {
-                        aud.PlayOneShot(audLock, audLockVol);
+                        aud.PlayOneShot(audLock, audLockVol * objectVol);
                     }
 
                     return;
@@ -187,7 +252,7 @@ public class playerController : Entity
                 gameManager.instance.ShowInteractPrompt(true);
                 gameManager.instance.ShowLockedPrompt(false);
 
-                if (Input.GetButtonDown("Interact"))
+                if (Input.GetKeyDown(settingsManager.sm.interact))
                 {
                     interactable.Interact();
                 }
@@ -239,14 +304,14 @@ public class playerController : Entity
                     damageable.TakeDamage(gunsList[selectedGun].shootDamage);
                 }
             }
-            aud.PlayOneShot(gunsList[selectedGun].shootSound, gunsList[selectedGun].shootSoundVol);
+            aud.PlayOneShot(gunsList[selectedGun].shootSound, gunsList[selectedGun].shootSoundVol * objectVol);
             yield return new WaitForSeconds(gunsList[selectedGun].shootRate);
             isShooting = false;
         }
         else
         {
             StartCoroutine(gameManager.instance.AmmoFlashRed());
-            aud.PlayOneShot(gunsList[selectedGun].emptySound, gunsList[selectedGun].emptySoundVol);
+            aud.PlayOneShot(gunsList[selectedGun].emptySound, gunsList[selectedGun].emptySoundVol * objectVol);
             yield return new WaitForSeconds(.5f);
             isShooting = false;
         }
@@ -276,7 +341,7 @@ public class playerController : Entity
 			}
             float oldPitch = aud.pitch;
             aud.pitch = .08f;
-            aud.PlayOneShot(gunsList[selectedGun].emptySound, .5f);
+            aud.PlayOneShot(gunsList[selectedGun].emptySound, gunsList[selectedGun].emptySoundVol * objectVol);
             aud.pitch = oldPitch;
             
         }
@@ -303,7 +368,7 @@ public class playerController : Entity
             HP -= amount;
         }
 
-        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol);
+        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol * playerVol);
 
         StartCoroutine(gameManager.instance.PlayerFlashDamage());
 
@@ -319,7 +384,7 @@ public class playerController : Entity
     /// <param name="amount"></param>
     public void AddHealth(int amount)
     {
-        aud.PlayOneShot(audHeal, audHealVol);
+        aud.PlayOneShot(audHeal, audHealVol * playerVol);
 
         HP += amount;
 
@@ -344,7 +409,7 @@ public class playerController : Entity
     /// <param name="amount"></param>
     public void AddAmmo(int amount)
     {
-        aud.PlayOneShot(audReload, audReloadVol);
+        aud.PlayOneShot(audReload, audReloadVol * objectVol);
 
         gunsList[selectedGun].ammoCurrent += amount;
 
@@ -398,6 +463,19 @@ public class playerController : Entity
     {
         gunModel.GetComponent<MeshFilter>().sharedMesh = gunsList[selectedGun].model.GetComponent<MeshFilter>().sharedMesh;
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = gunsList[selectedGun].model.GetComponent<MeshRenderer>().sharedMaterial;
+    }
+
+    public void ChangePlayerVol(float volume)
+    {
+        playerVol = volume;
+
+        AudioStepVolume = audioStepVolume * playerVol;
+        AudioDamageVolume = audioDamageVolume * playerVol;
+    }
+
+    public void ChangeObjectVol(float volume)
+    {
+        objectVol = volume;
     }
 
 }

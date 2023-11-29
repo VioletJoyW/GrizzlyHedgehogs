@@ -17,6 +17,7 @@ public class healthKit : MonoBehaviour, Iinteract
         animator.SetTrigger("isOpen");
         gameManager.instance.playerScript.AddHealth(healAmount);
 
+        aud.volume = settingsManager.sm.objectVol;
         aud.Play();
     }
 

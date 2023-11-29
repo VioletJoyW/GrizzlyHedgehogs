@@ -41,7 +41,9 @@ public class settingsManager : MonoBehaviour
     [SerializeField] KeyCode rightDefault;
     [SerializeField] KeyCode jumpDefault;
     [SerializeField] KeyCode sprintDefault;
+    [SerializeField] KeyCode crouchDefault;
     [SerializeField] KeyCode interactDefault;
+    [SerializeField] KeyCode shootDefault;
     [SerializeField] KeyCode reloadDefault;
 
     [Header("_-_-_- Current -_-_-_")]
@@ -52,7 +54,7 @@ public class settingsManager : MonoBehaviour
     public float globalVol;
     public float playerVol;
     public float enemyVol;
-    public float enviromentVol;
+    public float objectVol;
     public float musicVol;
 
     public KeyCode forwards;
@@ -61,7 +63,9 @@ public class settingsManager : MonoBehaviour
     public KeyCode right;
     public KeyCode jump;
     public KeyCode sprint;
+    public KeyCode crouch;
     public KeyCode interact;
+    public KeyCode shoot;
     public KeyCode reload;
 
     Event keyEvent;
@@ -70,6 +74,7 @@ public class settingsManager : MonoBehaviour
 
     void Start()
     {
+        sm = this;
         resetCamera();
         resetAudio();
         resetControls();
@@ -111,8 +116,8 @@ public class settingsManager : MonoBehaviour
         playerVolValue.text = playerVol.ToString("F2");
         enemyVol = enemyVolDefault;
         enemyVolValue.text = enemyVol.ToString("F2");
-        enviromentVol = enviromentVolDefault;
-        enviromentVolValue.text = enviromentVol.ToString("F2");
+        objectVol = enviromentVolDefault;
+        enviromentVolValue.text = objectVol.ToString("F2");
         musicVol = musicVolDefault;
         musicVolValue.text = musicVol.ToString("F2");
 
@@ -134,7 +139,9 @@ public class settingsManager : MonoBehaviour
         right = rightDefault;
         jump = jumpDefault;
         sprint = sprintDefault;
+        crouch = crouchDefault;
         interact = interactDefault;
+        shoot = shootDefault;
         reload = reloadDefault;
         
         Keys[0].GetComponentInChildren<TMP_Text>().text = forwards.ToString();
@@ -143,8 +150,10 @@ public class settingsManager : MonoBehaviour
         Keys[3].GetComponentInChildren<TMP_Text>().text = right.ToString();
         Keys[4].GetComponentInChildren<TMP_Text>().text = jump.ToString();
         Keys[5].GetComponentInChildren<TMP_Text>().text = sprint.ToString();
-        Keys[6].GetComponentInChildren<TMP_Text>().text = interact.ToString();
-        Keys[7].GetComponentInChildren<TMP_Text>().text = reload.ToString();
+        Keys[6].GetComponentInChildren<TMP_Text>().text = crouch.ToString();
+        Keys[7].GetComponentInChildren<TMP_Text>().text = interact.ToString();
+        Keys[8].GetComponentInChildren <TMP_Text>().text = shoot.ToString();
+        Keys[9].GetComponentInChildren<TMP_Text>().text = reload.ToString();
     }
 
     public void changeCamSensitivity(Slider sensitivity)
@@ -175,6 +184,7 @@ public class settingsManager : MonoBehaviour
         playerVol = vol.value;
         playerVolValue.text = vol.value.ToString("F2");
         gameManager.instance.PlaySound(testAudio, vol.value);
+        gameManager.instance.playerScript.ChangePlayerVol(playerVol);
     }
     public void changeEnemyVol(Slider vol)
     {
@@ -184,9 +194,10 @@ public class settingsManager : MonoBehaviour
     }
     public void changeEnviromentVol(Slider vol)
     {
-        enviromentVol = vol.value;
+        objectVol = vol.value;
         enviromentVolValue.text = vol.value.ToString("F2");
         gameManager.instance.PlaySound(testAudio, vol.value);
+        gameManager.instance.playerScript.ChangeObjectVol(objectVol);
     }
     public void changeMusicVol(Slider vol)
     {
@@ -199,6 +210,7 @@ public class settingsManager : MonoBehaviour
     {
         if(!waitingForKey)
         {
+            key.GetComponentInChildren<TMP_Text>().text = "...";
             gameManager.instance.PlayButtonPress();
             StartCoroutine(AssignKey(key));
         }
@@ -207,7 +219,30 @@ public class settingsManager : MonoBehaviour
     IEnumerator WaitForKey()
     {
         while (!keyEvent.isKey)
-        { yield return null; }
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                newKey = KeyCode.Mouse0;
+                waitingForKey = false;
+                break;
+            }
+            
+            if (Input.GetMouseButtonDown(1))
+            {
+                newKey = KeyCode.Mouse1;
+                waitingForKey = false;
+                break;
+            }
+
+            if (Input.GetMouseButtonDown(2))
+            {
+                newKey = KeyCode.Mouse2;
+                waitingForKey = false;
+                break;
+            }
+
+            yield return null; 
+        }
     }
 
     IEnumerator AssignKey(Button key)
@@ -236,8 +271,14 @@ public class settingsManager : MonoBehaviour
             case "Sprint":
                 sprint = newKey;
                 break;
+            case "Crouch":
+                crouch = newKey;
+                break;
             case "Interact":
                 interact = newKey;
+                break;
+            case "Shoot":
+                shoot = newKey;
                 break;
             case "Reload":
                 reload = newKey;

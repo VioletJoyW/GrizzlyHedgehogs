@@ -8,7 +8,8 @@ using UnityEngine.AI;
 public class EnemyAI : Entity
 {
 	[Header("----- Audio -----")]
-	[SerializeField] new AudioSource audio;
+    [Range(0, 1)][SerializeField] float enemyVol;
+    [SerializeField] new AudioSource audio;
 	[SerializeField] AudioClip[] audioStep;
 	[Range(0, 1)][SerializeField] float audioStepVolume;
 	[SerializeField] AudioClip[] audioDamage;
@@ -57,9 +58,9 @@ public class EnemyAI : Entity
         HitPoints = hitPoints;
         AudioSource = audio;
         AudioSteps = audioStep;
-        AudioStepVolume = audioStepVolume;
+        AudioStepVolume = audioStepVolume * enemyVol;
         AudioDamage = audioDamage;
-        AudioDamageVolume = audioDamageVolume;
+        AudioDamageVolume = audioDamageVolume * enemyVol;
 
         disableRag();
 		stoppingDistOrig = agent.stoppingDistance;
@@ -123,7 +124,7 @@ public class EnemyAI : Entity
         angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
 
         Debug.DrawRay(headPos.position, playerDir);
-        Debug.Log(angleToPlayer);
+        //Debug.Log(angleToPlayer);
 
         RaycastHit hit;
 
@@ -172,7 +173,7 @@ public class EnemyAI : Entity
     {
         isShooting = true;
         animator.SetTrigger("Shoot");
-        aud.PlayOneShot(audShoot, audShootVol);
+        aud.PlayOneShot(audShoot, audShootVol * enemyVol);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
     }
@@ -215,7 +216,7 @@ public class EnemyAI : Entity
     public override void TakeDamage(int amount)
     {
         HP -= amount;
-        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol);
+        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol * enemyVol);
 
         if (HP <= 0)
         {
@@ -255,5 +256,12 @@ public class EnemyAI : Entity
     {
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
+    }
+
+    public void ChangeEnemyVol(float volume)
+    {
+        enemyVol = volume;
+        AudioStepVolume = audioStepVolume * enemyVol;
+        AudioDamageVolume = audioDamageVolume * enemyVol;
     }
 }
