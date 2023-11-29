@@ -128,26 +128,31 @@ public class playerController : Entity
             moveSpeed = playerArmor.speed;
         }
         // Crouch code
-        if (Input.GetButton("Crouch") && !isCrouching) 
+        if (Input.GetButton("Crouch") && !isCrouching && jumpTimes == 0)
         {
-            if(!isCrouchingActive)
+            if (!isCrouchingActive)
             {
                 lastCameraYPos = Camera.main.transform.position.y;
                 isCrouchingActive = true;
             }
             Vector3 pos = Camera.main.transform.position;
             pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos * .5f, Time.deltaTime * 8);
-			Camera.main.transform.position = pos;
-			isCrouching = Camera.main.transform.position.y < (lastCameraYPos * .5f) * 1.1f;
+            Camera.main.transform.position = pos;
+            isCrouching = Camera.main.transform.position.y < (lastCameraYPos * .5f) * 1.1f;
         }
         else if ((isCrouching || isCrouchingActive) && !Input.GetButton("Crouch"))
         {
-			Vector3 pos = Camera.main.transform.position;
-			pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos, Time.deltaTime * 8);
-			Camera.main.transform.position = pos;
+            Vector3 pos = Camera.main.transform.position;
+            pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos, Time.deltaTime * 8);
+            Camera.main.transform.position = pos;
             isCrouching = false;
-            isCrouchingActive = !(Camera.main.transform.position.y >= lastCameraYPos);
-		}
+            if ((Camera.main.transform.position.y >= ((int)lastCameraYPos))) 
+            {
+                isCrouchingActive = false;
+                Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, lastCameraYPos, Camera.main.transform.position.z);
+            }
+        }
+
 
         move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
 
@@ -158,7 +163,7 @@ public class playerController : Entity
             StartCoroutine(PlaySteps(3, moveSpeed));
         }
 
-        if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax)
+        if (Input.GetButtonDown("Jump") && jumpTimes < jumpsMax && !isCrouchingActive)
         {
             aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
             playerVelocity.y = playerArmor.jumpHeight;
