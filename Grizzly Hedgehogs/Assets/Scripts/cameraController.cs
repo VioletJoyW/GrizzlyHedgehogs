@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class cameraController : MonoBehaviour
 {
-    [SerializeField] int camSensitivity;
+    //[SerializeField] int camSensitivity;
     [SerializeField] int camMin;
     [SerializeField] int camMax;
 
     float rotationX;
-    [SerializeField] bool invertY;
+    //[SerializeField] bool invertY;
 
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * camSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * camSensitivity;
+        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * settingsManager.sm.camSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * settingsManager.sm.camSensitivity;
 
-        if (invertY)
+        if (settingsManager.sm.invertY)
         {
             rotationX += mouseY;
         }

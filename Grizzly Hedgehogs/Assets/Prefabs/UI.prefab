@@ -7227,11 +7227,11 @@ RectTransform:
   - {fileID: 159876324316832232}
   - {fileID: 862325763958690103}
   - {fileID: 9109426106895051482}
+  - {fileID: 3832408747045725559}
+  - {fileID: 7165254974671920588}
   - {fileID: 4541486277301550680}
   - {fileID: 1830720394702164750}
   - {fileID: 296633694041363169}
-  - {fileID: 3832408747045725559}
-  - {fileID: 7165254974671920588}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
