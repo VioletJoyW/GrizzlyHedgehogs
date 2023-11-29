@@ -64,9 +64,11 @@ public class playerController : Entity
 		AudioDamage = audioDamage;
 		AudioDamageVolume = audioDamageVolume;
 
+		lastCameraYPos = Camera.main.transform.localPosition.y;
+		damColliderLastHeight = controller.height;
 		SpawnPlayer();
         ChangeGunModel();
-    }
+	}
 
     /// <summary>
     /// Spawns the player at the player spawn postion.
@@ -81,7 +83,7 @@ public class playerController : Entity
             gunsList[i].ammoCurrent = gunsList[i].ammoMax;
         }
         gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
-        transform.position = gameManager.instance.playerSpawnPos.transform.position;
+        transform.position = gameManager.instance.playerSpawnPos.transform.localPosition;
         controller.enabled = true;
     }
 
@@ -135,33 +137,33 @@ public class playerController : Entity
         {
             if (!isCrouchingActive)
             {
-                lastCameraYPos = Camera.main.transform.position.y;
-                damColliderLastHeight = controller.height;
+
                 isCrouchingActive = true;
             }
-            Vector3 pos = Camera.main.transform.position;
+            Vector3 pos = Camera.main.transform.localPosition;
             controller.height = Mathf.Lerp(controller.height, damColliderLastHeight * .5f, Time.deltaTime * crouchSpeed);
-            pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos * .5f, Time.deltaTime * crouchSpeed);
+            pos.y = Mathf.Lerp(Camera.main.transform.localPosition.y, lastCameraYPos * .5f, Time.deltaTime * crouchSpeed);
             
-            Camera.main.transform.position = pos;
-            isCrouching = Camera.main.transform.position.y < (lastCameraYPos * .5f);// * 1.1f;
+            Camera.main.transform.localPosition = pos;
+            isCrouching = Camera.main.transform.localPosition.y < (lastCameraYPos * .5f);// * 1.1f;
         }
         else if ((isCrouching || isCrouchingActive) && !Input.GetButton("Crouch"))
         {
-            Vector3 pos = Camera.main.transform.position;
-            pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos, Time.deltaTime * crouchSpeed);
-			controller.height = Mathf.Lerp(controller.height, damColliderLastHeight, Time.deltaTime * crouchSpeed);
-
-			Camera.main.transform.position = pos;
+            Vector3 pos = Camera.main.transform.localPosition;
+            pos.y = Mathf.Lerp(Camera.main.transform.localPosition.y, lastCameraYPos, Time.deltaTime * 8);
+            controller.height = Mathf.Lerp(controller.height, damColliderLastHeight, Time.deltaTime * crouchSpeed);
+           
+            Camera.main.transform.localPosition = pos;
             isCrouching = false;
-            if ((Camera.main.transform.position.y >= (Mathf.Round(lastCameraYPos * 2) * .5f))) 
+            if (Camera.main.transform.localPosition.y >= ((int) lastCameraYPos)) 
             {
                 isCrouchingActive = false;
-                Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, lastCameraYPos, Camera.main.transform.position.z);
+                Camera.main.transform.localPosition = new Vector3(Camera.main.transform.localPosition.x, lastCameraYPos, Camera.main.transform.localPosition.z);
                 controller.height = damColliderLastHeight;
-
-			}
+            }
         }
+        print("Damage Collider Last hieght: " + damColliderLastHeight);
+        print("Camera Last Height: " + lastCameraYPos);
 		// Crouch code END
 
 		move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
@@ -205,7 +207,7 @@ public class playerController : Entity
     /// </summary>
     void Interactions()
     {
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * visionDistance, Color.red);
+        Debug.DrawRay(Camera.main.transform.localPosition, Camera.main.transform.forward * visionDistance, Color.red);
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, visionDistance))
         {
