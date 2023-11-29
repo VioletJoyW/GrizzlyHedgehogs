@@ -122,7 +122,7 @@ public class playerController : Entity
         float moveSpeed;
 
         // Sprint code
-        if (Input.GetKeyDown(settingsManager.sm.sprint) && currentStamina > 0.2f)
+        if (Input.GetKey(settingsManager.sm.sprint) && currentStamina > 0.2f)
         {
             if (!isRunning)
                 StartCoroutine(Sprint());
@@ -134,7 +134,7 @@ public class playerController : Entity
             moveSpeed = playerArmor.speed;
         }
         // Crouch code
-        if (Input.GetKeyDown(settingsManager.sm.crouch) && !isCrouching && jumpTimes == 0)
+        if (Input.GetKey(settingsManager.sm.crouch) && !isCrouching && jumpTimes == 0)
         {
             if (!isCrouchingActive)
             {
@@ -148,7 +148,7 @@ public class playerController : Entity
             Camera.main.transform.localPosition = pos;
             isCrouching = Camera.main.transform.localPosition.y < (lastCameraYPos * .5f);// * 1.1f;
         }
-        else if ((isCrouching || isCrouchingActive) && !Input.GetKeyDown(settingsManager.sm.crouch))
+        else if ((isCrouching || isCrouchingActive) && !Input.GetKey(settingsManager.sm.crouch))
         {
             Vector3 pos = Camera.main.transform.localPosition;
             pos.y = Mathf.Lerp(Camera.main.transform.localPosition.y, lastCameraYPos, Time.deltaTime * 8);
@@ -163,8 +163,8 @@ public class playerController : Entity
                 controller.height = damColliderLastHeight;
             }
         }
-        //print("Damage Collider Last hieght: " + damColliderLastHeight);
-        //print("Camera Last Height: " + lastCameraYPos);
+        print("Damage Collider Last hieght: " + damColliderLastHeight);
+        print("Camera Last Height: " + lastCameraYPos);
         // Crouch code END
 
         float moveX = 0;
