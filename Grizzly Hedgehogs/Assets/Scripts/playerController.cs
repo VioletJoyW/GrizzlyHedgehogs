@@ -18,7 +18,6 @@ public class playerController : Entity
     [SerializeField] int visionDistance;
     [SerializeField] float restoreStaminaRate;
     [SerializeField] float drainStaminaRate;
-    [SerializeField] int crouchSpeed;
 
     [Header("_-_-_- Armor & Guns -_-_-_")]
     [SerializeField] ScriptableArmorStats playerArmor;
@@ -56,10 +55,6 @@ public class playerController : Entity
     private Vector3 move;
     private Vector3 playerVelocity;
 
-    float lastCameraYPos;
-    float damColliderLastHeight;
-    bool isCrouchingActive;
-    bool isCrouching;
 
     void Start()
     {
