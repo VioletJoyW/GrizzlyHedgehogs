@@ -18,6 +18,7 @@ public class playerController : Entity
     [SerializeField] int visionDistance;
     [SerializeField] float restoreStaminaRate;
     [SerializeField] float drainStaminaRate;
+    [SerializeField] int crouchSpeed;
 
     [Header("_-_-_- Armor & Guns -_-_-_")]
     [SerializeField] ScriptableArmorStats playerArmor;
@@ -48,6 +49,8 @@ public class playerController : Entity
     private bool isCrouchingActive;
 
     private float lastCameraYPos;
+    private float damColliderLastHeight;
+
     private Vector3 move;
     private Vector3 playerVelocity;
 
@@ -133,28 +136,35 @@ public class playerController : Entity
             if (!isCrouchingActive)
             {
                 lastCameraYPos = Camera.main.transform.position.y;
+                damColliderLastHeight = controller.height;
                 isCrouchingActive = true;
             }
             Vector3 pos = Camera.main.transform.position;
-            pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos * .5f, Time.deltaTime * 8);
+            controller.height = Mathf.Lerp(controller.height, damColliderLastHeight * .5f, Time.deltaTime * crouchSpeed);
+            pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos * .5f, Time.deltaTime * crouchSpeed);
+            
             Camera.main.transform.position = pos;
-            isCrouching = Camera.main.transform.position.y < (lastCameraYPos * .5f) * 1.1f;
+            isCrouching = Camera.main.transform.position.y < (lastCameraYPos * .5f);// * 1.1f;
         }
         else if ((isCrouching || isCrouchingActive) && !Input.GetButton("Crouch"))
         {
             Vector3 pos = Camera.main.transform.position;
-            pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos, Time.deltaTime * 8);
-            Camera.main.transform.position = pos;
+            pos.y = Mathf.Lerp(Camera.main.transform.position.y, lastCameraYPos, Time.deltaTime * crouchSpeed);
+			controller.height = Mathf.Lerp(controller.height, damColliderLastHeight, Time.deltaTime * crouchSpeed);
+
+			Camera.main.transform.position = pos;
             isCrouching = false;
-            if ((Camera.main.transform.position.y >= ((int)lastCameraYPos))) 
+            if ((Camera.main.transform.position.y >= (Mathf.Round(lastCameraYPos * 2) * .5f))) 
             {
                 isCrouchingActive = false;
                 Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, lastCameraYPos, Camera.main.transform.position.z);
-            }
+                controller.height = damColliderLastHeight;
+
+			}
         }
+		// Crouch code END
 
-
-        move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+		move = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
 
         controller.Move(move * Time.deltaTime * moveSpeed);
 
