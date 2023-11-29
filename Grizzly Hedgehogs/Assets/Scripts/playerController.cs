@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class playerController : Entity
@@ -17,6 +18,7 @@ public class playerController : Entity
     [SerializeField] int visionDistance;
     [SerializeField] float restoreStaminaRate;
     [SerializeField] float drainStaminaRate;
+    [SerializeField] int crouchSpeed;
 
     [Header("_-_-_- Armor & Guns -_-_-_")]
     [SerializeField] ScriptableArmorStats playerArmor;
@@ -41,12 +43,17 @@ public class playerController : Entity
 
 
     private int selectedGun = 0;
+    private int jumpTimes;
 
     private bool isRunning;
     private bool isRestoringStamina;
+    private bool isCrouching;
+    private bool isCrouchingActive;
+
+    private float lastCameraYPos;
+    private float damColliderLastHeight;
 
     private Vector3 move;
-    private int jumpTimes;
     private Vector3 playerVelocity;
 
     float lastCameraYPos;
@@ -68,7 +75,7 @@ public class playerController : Entity
 		damColliderLastHeight = controller.height;
 		SpawnPlayer();
         ChangeGunModel();
-    }
+	}
 
     /// <summary>
     /// Spawns the player at the player spawn postion.
@@ -229,7 +236,7 @@ public class playerController : Entity
     /// </summary>
     void Interactions()
     {
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * visionDistance, Color.red);
+        Debug.DrawRay(Camera.main.transform.localPosition, Camera.main.transform.forward * visionDistance, Color.red);
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, visionDistance))
         {
