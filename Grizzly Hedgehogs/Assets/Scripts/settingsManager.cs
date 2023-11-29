@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.UIElements;
 
 public class settingsManager : MonoBehaviour
 {
     public static settingsManager sm;
 
-    [Header("_-_-_- Labels -_-_-_")]
+    [Header("_-_-_- Components -_-_-_")]
     [SerializeField] TMP_Text sensitivityValue;
     [SerializeField] TMP_Text globalVolValue;
     [SerializeField] TMP_Text playerVolValue;
     [SerializeField] TMP_Text enemyVolValue;
     [SerializeField] TMP_Text enviromentVolValue;
     [SerializeField] TMP_Text musicVolValue;
+
+    [SerializeField] Slider camSliderValue;
+    [SerializeField] Toggle invertYCheck;
+    [SerializeField] Toggle camBobCheck;
+    [SerializeField] Button[] Keys;
+    [SerializeField] Slider[] VolValues;
+
+    [SerializeField] AudioClip testAudio;
 
     [Header("_-_-_- Defaults -_-_-_")]
     [SerializeField] float camSensitivityDefault;
@@ -35,9 +42,7 @@ public class settingsManager : MonoBehaviour
     [SerializeField] KeyCode jumpDefault;
     [SerializeField] KeyCode sprintDefault;
     [SerializeField] KeyCode interactDefault;
-    [SerializeField] KeyCode shootDefault;
     [SerializeField] KeyCode reloadDefault;
-
 
     [Header("_-_-_- Current -_-_-_")]
     public float camSensitivity;
@@ -57,7 +62,6 @@ public class settingsManager : MonoBehaviour
     public KeyCode jump;
     public KeyCode sprint;
     public KeyCode interact;
-    public KeyCode shoot;
     public KeyCode reload;
 
     Event keyEvent;
@@ -75,26 +79,55 @@ public class settingsManager : MonoBehaviour
     private void OnGUI()
     {
         keyEvent = Event.current;
+        if(keyEvent.isKey && waitingForKey)
+        {
+            newKey = keyEvent.keyCode;
+            waitingForKey = false;
+        }
     }
 
     public void resetCamera()
     {
+        gameManager.instance.PlayButtonPress();
+
         camSensitivity = camSensitivityDefault;
+        sensitivityValue.text = camSensitivity.ToString();
+        camSliderValue.value = camSensitivity;
+
         invertY = invertYDefault;
+        invertYCheck.isOn = invertY;
+
         camBob = camBobDefault;
+        camBobCheck.isOn = camBob;
     }
 
     public void resetAudio()
     {
+        gameManager.instance.PlayButtonPress();
+
         globalVol = globalVolDefault;
+        globalVolValue.text = globalVol.ToString("F2");
         playerVol = playerVolDefault;
+        playerVolValue.text = playerVol.ToString("F2");
         enemyVol = enemyVolDefault;
+        enemyVolValue.text = enemyVol.ToString("F2");
         enviromentVol = enviromentVolDefault;
+        enviromentVolValue.text = enviromentVol.ToString("F2");
         musicVol = musicVolDefault;
+        musicVolValue.text = musicVol.ToString("F2");
+
+        for(int i = 0; i < VolValues.Length; i++)
+        {
+            VolValues[i].value = 0.5f;
+        }
+
+        AudioListener.volume = globalVol;
     }
 
     public void resetControls()
     {
+        gameManager.instance.PlayButtonPress();
+
         forwards = forwardsDefault;
         backwards = backwardsDefault;
         left = leftDefault;
@@ -102,50 +135,115 @@ public class settingsManager : MonoBehaviour
         jump = jumpDefault;
         sprint = sprintDefault;
         interact = interactDefault;
-        shoot = shootDefault;
         reload = reloadDefault;
+        
+        Keys[0].GetComponentInChildren<TMP_Text>().text = forwards.ToString();
+        Keys[1].GetComponentInChildren<TMP_Text>().text = backwards.ToString();
+        Keys[2].GetComponentInChildren<TMP_Text>().text = left.ToString();
+        Keys[3].GetComponentInChildren<TMP_Text>().text = right.ToString();
+        Keys[4].GetComponentInChildren<TMP_Text>().text = jump.ToString();
+        Keys[5].GetComponentInChildren<TMP_Text>().text = sprint.ToString();
+        Keys[6].GetComponentInChildren<TMP_Text>().text = interact.ToString();
+        Keys[7].GetComponentInChildren<TMP_Text>().text = reload.ToString();
     }
 
-    public void changeCamSensitivity(float sensitivity)
+    public void changeCamSensitivity(Slider sensitivity)
     {
-        camSensitivity = sensitivity;
-        sensitivityValue.text = sensitivity.ToString();
+        camSensitivity = sensitivity.value;
+        sensitivityValue.text = sensitivity.value.ToString();
     }
 
-    public void changeInvertY(bool state)
+    public void changeInvertY(Toggle state)
     {
-        invertY = state;
+        invertY = state.isOn;
     }
 
-    public void changeCamBob(bool state)
+    public void changeCamBob(Toggle state)
     {
-        camBob = state; 
+        camBob = state.isOn; 
     }
 
-    public void changeGlobalVol(float vol)
+    public void changeGlobalVol(Slider vol)
     {
-        globalVol = vol;
-        globalVolValue.text = vol.ToString();
+        globalVol = vol.value;
+        globalVolValue.text = vol.value.ToString("F2");
+        AudioListener.volume = globalVol;
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
-    public void changePlayerVol(float vol)
+    public void changePlayerVol(Slider vol)
     {
-        playerVol = vol;
-        playerVolValue.text = vol.ToString();
+        playerVol = vol.value;
+        playerVolValue.text = vol.value.ToString("F2");
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
-    public void changeEnemyVol(float vol)
+    public void changeEnemyVol(Slider vol)
     {
-        enemyVol = vol;
-        enemyVolValue.text = vol.ToString();
+        enemyVol = vol.value;
+        enemyVolValue.text = vol.value.ToString("F2");
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
-    public void changeEnviromentVol(float vol)
+    public void changeEnviromentVol(Slider vol)
     {
-        enviromentVol = vol;
-        enviromentVolValue.text = vol.ToString();
+        enviromentVol = vol.value;
+        enviromentVolValue.text = vol.value.ToString("F2");
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
-    public void changeMusicVol(float vol)
+    public void changeMusicVol(Slider vol)
     {
-        musicVol = vol;
-        musicVolValue.text = vol.ToString();
+        musicVol = vol.value;
+        musicVolValue.text = vol.value.ToString("F2");
+        gameManager.instance.PlaySound(testAudio, vol.value);
     }
 
+    public void startKeyChange(Button key)
+    {
+        if(!waitingForKey)
+        {
+            gameManager.instance.PlayButtonPress();
+            StartCoroutine(AssignKey(key));
+        }
+    }
+
+    IEnumerator WaitForKey()
+    {
+        while (!keyEvent.isKey)
+        { yield return null; }
+    }
+
+    IEnumerator AssignKey(Button key)
+    {
+        waitingForKey = true;
+
+        yield return WaitForKey();
+
+        switch(key.name)
+        {
+            case "Forwards":
+                forwards = newKey;
+                break;
+            case "Backwards":
+                backwards = newKey;
+                break;
+            case "Left":
+                left = newKey;
+                break;
+            case "Right":
+                right = newKey;
+                break;
+            case "Jump":
+                jump = newKey;
+                break;
+            case "Sprint":
+                sprint = newKey;
+                break;
+            case "Interact":
+                interact = newKey;
+                break;
+            case "Reload":
+                reload = newKey;
+                break;
+        }
+
+        key.GetComponentInChildren<TMP_Text>().text = newKey.ToString();
+    }
 }
