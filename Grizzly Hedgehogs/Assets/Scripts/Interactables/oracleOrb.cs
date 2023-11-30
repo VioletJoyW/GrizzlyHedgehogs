@@ -9,6 +9,8 @@ public class oracleOrb : MonoBehaviour, Iinteract
     public AudioSource aud;
     [Range(0, 1)] public float iSoundVol;
 
+    bool levelDone = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +19,6 @@ public class oracleOrb : MonoBehaviour, Iinteract
 
     public bool CheckUnlocked()
     {
-        // TODO:
         return true;
     }
 
@@ -29,7 +30,9 @@ public class oracleOrb : MonoBehaviour, Iinteract
         if (iSound != null)
             aud.PlayOneShot(iSound, iSoundVol);
 
-        if (CheckUnlocked())
+        //TODO: Check if Level Win conditions are met
+
+        if (levelDone)
         {
             //Win dialog & take player to the next level
         }
