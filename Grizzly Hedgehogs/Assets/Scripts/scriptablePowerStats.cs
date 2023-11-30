@@ -15,7 +15,7 @@ public class scriptablePowerStats : ScriptableObject
 	[SerializeField] bool isShield;
 	
 	[Header("_-_-_-Stats_-_-_-")]
-	[SerializeField] PowerBuffer.PowerType powerType;
+	[SerializeField] PowerBuffer.PowerType power;
 	[SerializeField] int effectMultiplier;
 	[SerializeField] int effect;
 	[Header("--------Only use this for a very powerful attack/shield--------")]

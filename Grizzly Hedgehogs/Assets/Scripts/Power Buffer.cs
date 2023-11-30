@@ -6,7 +6,7 @@ public class PowerBuffer
 {
 	public static short powerCount = -1;
 	/// <summary>
-	/// Power types. This will be responsible for dealing damage/shield effects in a specific way.
+	/// Power types. These are flags responsible for dealing damage/shield effects in a specific way.
 	/// </summary>
 	public enum PowerType 
 	{
@@ -15,6 +15,7 @@ public class PowerBuffer
 		FLAME = 0x1,
 		FROST = 0x2,
 		ELECTRICITY = 0x4,
+		ELECTRIC_FLAME = ELECTRICITY | FLAME, // <- Use '|' to combine power effects.
 		/* Add new power types here ^^^
 		 * Try not to go past 64 types, and follow this pattern:
 		 * (0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, etc...) 
@@ -26,7 +27,7 @@ public class PowerBuffer
 		 * NEW_TYPE2 = 0x10,
 		 * etc...
 		 */
-		MAX_TYPE = ELECTRICITY + 1 // Change this when adding a new type, example: MAX_TYPE = <New_Type> + 1
+		MAX_TYPE = ELECTRIC_FLAME + 1 // Change this when adding a new type, example: MAX_TYPE = <New_Type> + 1
 	};
 
 	protected List<scriptablePowerStats> powerList = null;

@@ -113,6 +113,7 @@ public class playerController : Entity
     /// </summary>
     void Movement()
     {
+
         if (controller.isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
@@ -163,8 +164,8 @@ public class playerController : Entity
                 controller.height = damColliderLastHeight;
             }
         }
-        print("Damage Collider Last hieght: " + damColliderLastHeight);
-        print("Camera Last Height: " + lastCameraYPos);
+        //print("Damage Collider Last hieght: " + damColliderLastHeight);
+        //print("Camera Last Height: " + lastCameraYPos);
         // Crouch code END
 
         float moveX = 0;
