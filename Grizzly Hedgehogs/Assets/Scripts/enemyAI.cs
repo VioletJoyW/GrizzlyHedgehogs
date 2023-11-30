@@ -210,7 +210,17 @@ public class EnemyAI : Entity
 		{
 			if (i < _ragdollsCollider.Length) _ragdollsCollider[i].enabled = true;
 			_ragdolls[i].isKinematic = false;
-		}
+
+            if(gameManager.instance.beybladebeybladeLETITRIP)
+            {
+                Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
+                if (physicsForce != null)
+                {
+                    return;
+                }
+                rb.AddForce(physicsForce.normalized * physicsForce.magnitude, ForceMode.VelocityChange);
+            }
+        }
 	}
 
     public override void TakeDamage(int amount)
@@ -231,12 +241,6 @@ public class EnemyAI : Entity
             {
                 laser.enabled = false;
             }
-            Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
-            if (physicsForce != null)
-            {
-                return;
-            }
-            rb.AddForce(physicsForce.normalized * physicsForce.magnitude, ForceMode.Impulse);
         }
         else
         {

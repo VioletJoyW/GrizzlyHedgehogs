@@ -68,6 +68,7 @@ public class gameManager : MonoBehaviour
     
     public bool playerUnkillable = false;
     public bool infiniteAmmo = false;
+    public bool beybladebeybladeLETITRIP = false;
 
     bool inDialog;
     string dialogCurrent;
@@ -254,7 +255,12 @@ public class gameManager : MonoBehaviour
     {
         infiniteAmmo = !infiniteAmmo;
     }
-    
+
+    public void LETITRIP()
+    {
+        beybladebeybladeLETITRIP = !beybladebeybladeLETITRIP;
+    }
+
     /// <summary>
     /// Displays win screen.
     /// </summary>
