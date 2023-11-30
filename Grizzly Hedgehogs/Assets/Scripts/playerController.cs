@@ -480,4 +480,13 @@ public class playerController : Entity
         objectVol = volume;
     }
 
+    public float GetPlayerGravity()
+    {
+        return gravityFloat;
+    }
+
+    public void SetPlayerGravity(float grav)
+    {
+        gravityFloat = grav;
+    }
 }
