@@ -255,6 +255,8 @@ public class gameManager : MonoBehaviour
         infiniteAmmo = !infiniteAmmo;
     }
     
+
+
     /// <summary>
     /// Displays win screen.
     /// </summary>

@@ -41,6 +41,8 @@ public class playerController : Entity
     [Range(0, 1)][SerializeField] float audLockVol;
 
 
+    private InventoryManager inventoryManager;
+
     private int selectedGun = 0;
     private int jumpTimes;
 
@@ -68,7 +70,9 @@ public class playerController : Entity
 
 		lastCameraYPos = Camera.main.transform.localPosition.y;
 		damColliderLastHeight = controller.height;
-		SpawnPlayer();
+		
+        inventoryManager = new InventoryManager();
+        SpawnPlayer();
         ChangeGunModel();
 	}
 
@@ -476,5 +480,20 @@ public class playerController : Entity
     {
         objectVol = volume;
     }
+
+    public void AddItemToInventory(Iitem item) 
+    {
+		if (inventoryManager == null) return;
+		inventoryManager.AddItem(item);
+    }
+
+    public void AddItemsToInventory(Iitem[] items) 
+    {
+        if (inventoryManager == null) return;
+        foreach (Iitem item in items)
+          inventoryManager.AddItem(item);
+    }
+
+
 
 }
