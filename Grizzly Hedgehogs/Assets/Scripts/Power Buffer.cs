@@ -1,0 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PowerBuffer 
+{
+	public static short powerCount = -1;
+	/// <summary>
+	/// Power types. This will be responsible for dealing damage/shield effects in a specific way.
+	/// </summary>
+	public enum PowerType 
+	{
+		None = -1,
+		NORAMAL,
+		FLAME = 0x1,
+		FROST = 0x2,
+		ELECTRICITY = 0x4,
+		/* Add new power types here ^^^
+		 * Try not to go past 64 types, and follow this pattern:
+		 * (0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, etc...) 
+		 * Example:
+		 * FLAME = 0x1,
+		 * FROST = 0x2,
+		 * ELECTRICITY = 0x4,
+		 * NEW_TYPE1 = 0x8,
+		 * NEW_TYPE2 = 0x10,
+		 * etc...
+		 */
+		MAX_TYPE = ELECTRICITY + 1 // Change this when adding a new type, example: MAX_TYPE = <New_Type> + 1
+	};
+
+	protected List<scriptablePowerStats> powerList = null;
+	protected scriptablePowerStats currentPower;
+
+
+	public PowerBuffer() 
+	{
+		powerList = new List<scriptablePowerStats>();
+	}
+
+	/// <summary>
+	/// Gets the currently active power.
+	/// </summary>
+	public scriptablePowerStats GetCurrentPower { get => currentPower;}
+
+	/// <summary>
+	/// Sets the currently active power.
+	/// </summary>
+	public int SetCurrentPower { set => currentPower = powerList[value]; }
+
+	/// <summary>
+	/// Use this to add a power.
+	/// </summary>
+	/// <param name="power"></param>
+	public void AddPower(scriptablePowerStats power) 
+	{
+		powerList.Add(power);
+	}
+
+	/// <summary>
+	/// Removes a power by its id.
+	/// </summary>
+	/// <param name="powerID"></param>
+	public void RemovePower(ref int powerID)
+	{
+		powerList.RemoveAt(powerID);
+	}
+
+	/// <summary>
+	/// Gets the list of currently owned powers.
+	/// </summary>
+	public List<scriptablePowerStats> PowerList { get => powerList; }
+
+	/// <summary>
+	/// Gets the owned power count.
+	/// </summary>
+	public int Count { get { return powerList.Count; } }
+
+}
+
+

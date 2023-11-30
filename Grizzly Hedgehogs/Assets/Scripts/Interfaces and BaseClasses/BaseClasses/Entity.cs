@@ -17,6 +17,11 @@ public abstract class Entity : MonoBehaviour, IDamage
 	protected bool isShooting;
 	protected bool isPlayingSteps;
 
+	/// <summary>
+	/// This object is null by default. create a new one to use.
+	/// </summary>
+	protected PowerBuffer powerBuffer = null;
+
 	//Getters and setters
 	public int HitPoints { get => HP; set => HP = value; }
 	public AudioSource AudioSource { get => aud; set => aud = value; }
@@ -50,5 +55,7 @@ public abstract class Entity : MonoBehaviour, IDamage
 		yield return new WaitForSeconds(_time_seconds / _moveSpeed);
 		isPlayingSteps = false;
 	}
+
+	public PowerBuffer PowerBuffer { get => powerBuffer; }
 
 }
