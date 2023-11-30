@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: Ice Bullet
   m_EditorClassIdentifier: 
   isShield: 0
-  power: 0
-  effectMultiplier: 0
-  effect: 0
+  power: 4
+  effect: 2
+  effectMultiplier: 1
+  staminaCost: 2
   coolDown: 0
+  visualEffect: {fileID: 0}
+  soundEffect: {fileID: 0}
+  effectVol: 0
+  activationSound: {fileID: 0}
+  activationSoundVol: 0
+  deactivationSound: {fileID: 0}
+  deactivationSoundVol: 0

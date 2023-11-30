@@ -31,12 +31,20 @@ public class PowerBuffer
 		//^^^DO NOT USE THIS AS A TYPE. It may break the system.
 	};
 
+
+	string name;
+
 	protected List<scriptablePowerStats> powerList = null;
 	protected scriptablePowerStats currentPower;
-
+	protected bool isActive = false;
 
 	public PowerBuffer() 
 	{
+		powerList = new List<scriptablePowerStats>();
+	}
+	public PowerBuffer(string _name) 
+	{
+		Name = _name;
 		powerList = new List<scriptablePowerStats>();
 	}
 
@@ -57,6 +65,7 @@ public class PowerBuffer
 	public void AddPower(scriptablePowerStats power) 
 	{
 		powerList.Add(power);
+		if (currentPower == null) currentPower = powerList[0];
 	}
 
 	/// <summary>
@@ -71,13 +80,19 @@ public class PowerBuffer
 	/// <summary>
 	/// Gets the list of currently owned powers.
 	/// </summary>
-	public List<scriptablePowerStats> PowerList { get => powerList; }
+	public List<scriptablePowerStats> PowerList { get => powerList; }// Note: "get => var;"  works the same as "get {return var;}"
 
 	/// <summary>
 	/// Gets the owned power count.
 	/// </summary>
 	public int Count { get { return powerList.Count; } }
 
+	/// <summary>
+	/// Tells you if the power buffer is active.
+	/// </summary>
+	public bool IsActive { get => isActive; set => isActive = value; }
+
+	public string Name { get => "PowerBuffer-" + name; set => name = value; }
 }
 
 
