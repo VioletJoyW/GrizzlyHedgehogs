@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.ComponentModel;
+using System.Globalization;
 
 public class gameManager : MonoBehaviour
 {
@@ -30,13 +32,16 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuInventory;
 
     [Header("_-_-_- HUD -_-_-_")]
+
+    [SerializeField] GameObject hud;
+
     [SerializeField] GameObject playerDamageScreen;
     [SerializeField] TMP_Text enemyCountText;
     [SerializeField] TMP_Text tempGoldCountText;
     [SerializeField] TMP_Text totalGoldCountText;
 
-    [SerializeField] GameObject interactPrompt;
-    [SerializeField] GameObject lockedPrompt;
+    [SerializeField] GameObject dialogDisplay;
+    [SerializeField] GameObject promptDisplay;
 
     [SerializeField] Image playerHealthBar;
     [SerializeField] TMP_Text playerHealthText;
@@ -64,6 +69,11 @@ public class gameManager : MonoBehaviour
     
     public bool playerUnkillable = false;
     public bool infiniteAmmo = false;
+    public bool beybladebeybladeLETITRIP = false;
+
+    bool inDialog;
+    string dialogCurrent;
+    bool firstDialog = true;
 
     float timescaleOrig;
     int enemiesRemaining;
@@ -93,7 +103,11 @@ public class gameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Cancel") && !isPaused)
+        if(inDialog && Input.anyKeyDown)
+        {
+            ShowDialog(dialogCurrent);
+        }
+        else if(Input.GetButtonDown("Cancel") && !isPaused)
         {
             showPauseMenu();
         }
@@ -127,8 +141,10 @@ public class gameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = timescaleOrig;
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        menuActive.SetActive(false);
+        if (menuActive != null)
+        { menuActive.SetActive(false); }
         menuActive = null;
     }
 
@@ -240,7 +256,12 @@ public class gameManager : MonoBehaviour
     {
         infiniteAmmo = !infiniteAmmo;
     }
-    
+
+    public void LETITRIP()
+    {
+        beybladebeybladeLETITRIP = !beybladebeybladeLETITRIP;
+    }
+
     /// <summary>
     /// Displays win screen.
     /// </summary>
@@ -269,8 +290,7 @@ public class gameManager : MonoBehaviour
     public void exitToInventory()
     {
         menuActive.SetActive(false);
-        ShowInteractPrompt(false);
-        ShowLockedPrompt(false);
+        ShowPrompt(false);
         menuActive = menuInventory;
         addTotalGold(tempGold);
         menuActive.SetActive(true);
@@ -293,7 +313,7 @@ public class gameManager : MonoBehaviour
 	public void updateGameGoal(int amount)
     {
         enemiesRemaining += amount;
-        enemyCountText.text = enemiesRemaining.ToString("0");
+        enemyCountText.GetComponent<TMP_Text>().text = enemiesRemaining.ToString("0");
         if (enemiesRemaining <= 0)
         {
             youWin();
@@ -316,7 +336,7 @@ public class gameManager : MonoBehaviour
     public void addTotalGold(int amount)
     {
         totalGold += amount;
-        totalGoldCountText.text = totalGold.ToString("0");
+        totalGoldCountText.GetComponent<TMP_Text>().text = totalGold.ToString("0");
     }
 
 	/// <summary>
@@ -350,14 +370,89 @@ public class gameManager : MonoBehaviour
         playerAmmoText.text = ammoCurrent.ToString("0") + " / " + ammoMax.ToString("0");
     }
 
-    public void ShowInteractPrompt(bool on)
+    public void ShowPrompt(bool on, string prompt = "")
     {
-        interactPrompt.SetActive(on);
+        promptDisplay.SetActive(on);
+        promptDisplay.GetComponentInChildren<TMP_Text>().text = prompt;
+        if(prompt.Length > 30)
+        {
+            promptDisplay.GetComponentInChildren<TMP_Text>().fontSize = 66 - prompt.Length;
+        }
     }
 
-    public void ShowLockedPrompt(bool on)
+    public void ShowDialog(string dialog)
     {
-        lockedPrompt.SetActive(on);
+        int charMax = (int)(5170/ dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize);
+
+        int cutIndex = 0;
+
+        int space;
+        int period;
+        int forceBreak;
+        bool final = false;
+
+        if (dialog.Length <= 0)
+        {
+            inDialog = false;
+            firstDialog = true;
+            dialogDisplay.SetActive(false);
+            stateUnPause();
+            return;
+        }
+
+        isPaused = true;
+        Time.timeScale = 0f;
+
+        dialogDisplay.SetActive(true);
+        inDialog = true;
+
+        dialogCurrent = dialog;
+
+        if (dialog.Length < charMax)
+        {
+            final = true;
+        }
+        else
+        {
+            space = dialog.LastIndexOf(" ", charMax);
+            period = dialog.LastIndexOf(".", charMax);
+            forceBreak = dialog.LastIndexOf("\n", charMax);
+
+            if(forceBreak != -1)
+            {
+                cutIndex = forceBreak;
+            }
+            else if (period != -1 && period < space && space - period > charMax / 5)
+            {
+                cutIndex = period;
+            }
+            else if (space != -1)
+            {
+                cutIndex = space;
+            }
+            else
+            {
+                cutIndex = charMax - 1;
+            }
+        }
+
+        if (final)
+        {
+            dialogDisplay.GetComponentInChildren<TMP_Text>().text = dialog;
+            dialogCurrent = "";
+            return;
+        }
+
+        dialogDisplay.GetComponentInChildren<TMP_Text>().text = dialog.Remove(cutIndex + 1);
+
+        if (firstDialog)
+        {
+            firstDialog = !firstDialog;
+        }
+        else
+        {
+            dialogCurrent = dialog.Remove(0, cutIndex + 1);
+        }
     }
 
     public IEnumerator PlayerFlashDamage()
@@ -383,6 +478,17 @@ public class gameManager : MonoBehaviour
     public void PlayButtonPress()
     {
         source.PlayOneShot(buttonPressed);
+    }
+
+    public void ChangeTextSize()
+    {
+        Vector3 changeScale = new Vector3(settingsManager.sm.textSize, settingsManager.sm.textSize, settingsManager.sm.textSize);
+        
+        hud.transform.localScale = changeScale;
+
+        promptDisplay.transform.localScale = changeScale;
+
+        dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize = 36 * settingsManager.sm.textSize;
     }
 
 }

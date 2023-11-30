@@ -163,8 +163,8 @@ public class playerController : Entity
                 controller.height = damColliderLastHeight;
             }
         }
-        print("Damage Collider Last hieght: " + damColliderLastHeight);
-        print("Camera Last Height: " + lastCameraYPos);
+        //print("Damage Collider Last hieght: " + damColliderLastHeight);
+        //print("Camera Last Height: " + lastCameraYPos);
         // Crouch code END
 
         float moveX = 0;
@@ -240,8 +240,7 @@ public class playerController : Entity
             {
                 if (!interactable.CheckUnlocked())
                 {
-                    gameManager.instance.ShowLockedPrompt(true); 
-                    gameManager.instance.ShowInteractPrompt(false);
+                    gameManager.instance.ShowPrompt(true, "[Locked]");
 
                     if (Input.GetKeyDown(settingsManager.sm.interact))
                     {
@@ -251,8 +250,7 @@ public class playerController : Entity
                     return;
                 }
 
-                gameManager.instance.ShowInteractPrompt(true);
-                gameManager.instance.ShowLockedPrompt(false);
+                gameManager.instance.ShowPrompt(true, "Press [" + settingsManager.sm.interact.ToString() + "] to interact");
 
                 if (Input.GetKeyDown(settingsManager.sm.interact))
                 {
@@ -261,8 +259,7 @@ public class playerController : Entity
                 return;
             }
         }
-        gameManager.instance.ShowLockedPrompt(false);
-        gameManager.instance.ShowInteractPrompt(false);
+        gameManager.instance.ShowPrompt(false);
     }
 
     /// <summary>

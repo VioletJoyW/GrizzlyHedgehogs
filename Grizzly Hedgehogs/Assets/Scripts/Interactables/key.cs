@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class gold : MonoBehaviour, Iinteract
+public class key : MonoBehaviour, Iinteract
 {
     [SerializeField] int amount;
     [SerializeField] AudioClip sound;
