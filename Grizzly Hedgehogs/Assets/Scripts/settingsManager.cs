@@ -10,6 +10,7 @@ public class settingsManager : MonoBehaviour
 
     [Header("_-_-_- Components -_-_-_")]
     [SerializeField] TMP_Text sensitivityValue;
+    [SerializeField] GameObject textSizeValue;
     [SerializeField] TMP_Text globalVolValue;
     [SerializeField] TMP_Text playerVolValue;
     [SerializeField] TMP_Text enemyVolValue;
@@ -17,6 +18,7 @@ public class settingsManager : MonoBehaviour
     [SerializeField] TMP_Text musicVolValue;
 
     [SerializeField] Slider camSliderValue;
+    [SerializeField] Slider textSliderValue;
     [SerializeField] Toggle invertYCheck;
     [SerializeField] Toggle camBobCheck;
     [SerializeField] Button[] Keys;
@@ -28,6 +30,7 @@ public class settingsManager : MonoBehaviour
     [SerializeField] float camSensitivityDefault;
     [SerializeField] bool invertYDefault;
     [SerializeField] bool camBobDefault;
+    [SerializeField] float textSizeDefault;
 
     [SerializeField] float globalVolDefault;
     [SerializeField] float playerVolDefault;
@@ -50,6 +53,7 @@ public class settingsManager : MonoBehaviour
     public float camSensitivity;
     public bool invertY;
     public bool camBob;
+    public float textSize;
 
     public float globalVol;
     public float playerVol;
@@ -75,7 +79,7 @@ public class settingsManager : MonoBehaviour
     void Start()
     {
         sm = this;
-        resetCamera();
+        resetVisuals();
         resetAudio();
         resetControls();
         waitingForKey = false;
@@ -91,7 +95,7 @@ public class settingsManager : MonoBehaviour
         }
     }
 
-    public void resetCamera()
+    public void resetVisuals()
     {
         gameManager.instance.PlayButtonPress();
 
@@ -104,6 +108,12 @@ public class settingsManager : MonoBehaviour
 
         camBob = camBobDefault;
         camBobCheck.isOn = camBob;
+
+        textSize = textSizeDefault;
+        textSizeValue.GetComponentInChildren<TMP_Text>().text = textSize.ToString();
+        textSliderValue.value = textSize;
+
+        gameManager.instance.ChangeTextSize();
     }
 
     public void resetAudio()
@@ -160,6 +170,15 @@ public class settingsManager : MonoBehaviour
     {
         camSensitivity = sensitivity.value;
         sensitivityValue.text = sensitivity.value.ToString();
+    }
+
+    public void changeTextSize(Slider size)
+    {
+        textSize = size.value;
+        textSizeValue.GetComponentInChildren<TMP_Text>().text = size.value.ToString("F2");
+        textSizeValue.transform.localScale = new Vector3(size.value, size.value, size.value);
+
+        gameManager.instance.ChangeTextSize();
     }
 
     public void changeInvertY(Toggle state)
@@ -286,5 +305,13 @@ public class settingsManager : MonoBehaviour
         }
 
         key.GetComponentInChildren<TMP_Text>().text = newKey.ToString();
+        if(newKey.ToString().Length > 10)
+        {
+            key.GetComponentInChildren<TMP_Text>().fontSize = (10 - newKey.ToString().Length)*2 + 50;
+        }
+        else
+        {
+            key.GetComponentInChildren<TMP_Text>().fontSize = 50;
+        }
     }
 }
