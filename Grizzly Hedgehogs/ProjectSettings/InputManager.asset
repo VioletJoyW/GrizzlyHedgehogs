@@ -361,8 +361,8 @@ InputManager:
     m_Name: Power_Change
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: e
-    positiveButton: q
+    negativeButton: 3
+    positiveButton: 1
     altNegativeButton: '-'
     altPositiveButton: =
     gravity: 1000

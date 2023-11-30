@@ -45,8 +45,9 @@ public class playerController : Entity
 
     private int selectedGun = 0;
     private int jumpTimes;
+    private int pBFButtonCoolDownTimerID; // Power Buffer button cool down timer. (used for delaying key press)
 
-    private bool isRunning;
+	private bool isRunning;
     private bool isRestoringStamina;
     private bool isCrouching;
     private bool isCrouchingActive;
@@ -76,6 +77,9 @@ public class playerController : Entity
             powerBuffer.AddPower(power);
         }
         //--------------------------------------------------
+
+        //Create a timer for the button press and set the cool down for half a second.
+        Utillities.CreateGlobalTimer(.5f, ref pBFButtonCoolDownTimerID);
 
 		lastCameraYPos = Camera.main.transform.localPosition.y;
 		damColliderLastHeight = controller.height;
@@ -112,12 +116,14 @@ public class playerController : Entity
 
             Interactions();
 
+            //Update the timer.
+            Utillities.UpdateGlobalTimer(pBFButtonCoolDownTimerID);
             SelectPower();
             SelectGun();
 
             if (Input.GetKeyDown(settingsManager.sm.reload)) StartCoroutine(ReloadGun());
             else if (Input.GetKeyDown(settingsManager.sm.shoot) && !isShooting)
-              StartCoroutine(Shoot());
+            StartCoroutine(Shoot());
             
 
             gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
@@ -312,8 +318,8 @@ public class playerController : Entity
 
                 if (hit.transform != transform && damageable != null)
                 {
-                    //Here I'm adding the "Power Buffer" damage to the guns damage
-                    bool canUsePB = (powerBuffer.IsActive && !powerBuffer.GetCurrentPower.IsShield);
+					//Here I’m adding the "Power Buffer" damage to the guns’ damage.
+					bool canUsePB = (powerBuffer.IsActive && !powerBuffer.GetCurrentPower.IsShield);
 
 					damageable.TakeDamage(gunsList[selectedGun].shootDamage + ( canUsePB? powerBuffer.GetCurrentPower.Effect * powerBuffer.GetCurrentPower.EffectMultiplier : 0));
                     if (canUsePB) 
@@ -494,9 +500,11 @@ public class playerController : Entity
                 int dir = (int)Input.GetAxisRaw("Power_Change");
 
 				print("Power: " + powerBuffer.GetCurrentPower.name);
-				if (dir == 0) return;
+				//We don't attempt a selection until the timer is up or until the player does something with it.
+				if (dir == 0 || !Utillities.IsGlobalTimerDone(pBFButtonCoolDownTimerID)) return;
                 int index = (currentPowerID + dir) % powerBuffer.Count;
                 powerBuffer.SetCurrentPower = (index < 0) ? powerBuffer.Count - 1 : index;
+                Utillities.ResetGlobalTimer(pBFButtonCoolDownTimerID);
 			}
 		}
 
