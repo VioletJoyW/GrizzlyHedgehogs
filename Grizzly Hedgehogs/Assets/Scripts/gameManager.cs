@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.ComponentModel;
+using System.Globalization;
 
 public class gameManager : MonoBehaviour
 {
@@ -381,39 +382,76 @@ public class gameManager : MonoBehaviour
 
     public void ShowDialog(string dialog)
     {
+        int charMax = (int)(5170/ dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize);
+
+        int cutIndex = 0;
+
+        int space;
+        int period;
+        int forceBreak;
+        bool final = false;
+
+        if (dialog.Length <= 0)
+        {
+            inDialog = false;
+            firstDialog = true;
+            dialogDisplay.SetActive(false);
+            stateUnPause();
+            return;
+        }
+
         isPaused = true;
         Time.timeScale = 0f;
 
         dialogDisplay.SetActive(true);
         inDialog = true;
 
-        int charMax = (int)(5170 / dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize);
-
         dialogCurrent = dialog;
 
-        if(dialog.Length == 0)
+        if (dialog.Length < charMax)
         {
-            inDialog = false;
-            firstDialog = true;
-            dialogDisplay.SetActive(false);
-            stateUnPause();
+            final = true;
         }
         else
         {
-            dialogDisplay.GetComponentInChildren<TMP_Text>().text = dialog;
+            space = dialog.LastIndexOf(" ", charMax);
+            period = dialog.LastIndexOf(".", charMax);
+            forceBreak = dialog.LastIndexOf("\n", charMax);
 
-            if(dialog.Length < charMax)
+            if(forceBreak != -1)
             {
-                charMax = dialog.Length;
+                cutIndex = forceBreak;
             }
-            if (firstDialog)
+            else if (period != -1 && period < space && space - period > charMax / 5)
             {
-                firstDialog = !firstDialog;
+                cutIndex = period;
+            }
+            else if (space != -1)
+            {
+                cutIndex = space;
             }
             else
             {
-                dialogCurrent = dialog.Remove(0, charMax);
+                cutIndex = charMax - 1;
             }
+        }
+
+        if (final)
+        {
+            dialogDisplay.GetComponentInChildren<TMP_Text>().text = dialog;
+            dialogCurrent = "";
+            return;
+        }
+
+        dialogDisplay.GetComponentInChildren<TMP_Text>().text = dialog.Remove(cutIndex + 1);
+
+        if (firstDialog)
+        {
+            firstDialog = !firstDialog;
+        }
+        else
+        {
+            dialogCurrent = dialog.Remove(0, cutIndex + 1);
         }
     }
 
