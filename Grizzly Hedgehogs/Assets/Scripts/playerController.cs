@@ -499,6 +499,8 @@ public class playerController : Entity
 			    int currentPowerID = powerBuffer.GetCurrentPower.ID;
                 int dir = (int)Input.GetAxisRaw("Power_Change");
 
+                
+
 				print("Power: " + powerBuffer.GetCurrentPower.name);
 				//We don't attempt a selection until the timer is up or until the player does something with it.
 				if (dir == 0 || !Utillities.IsGlobalTimerDone(pBFButtonCoolDownTimerID)) return;
