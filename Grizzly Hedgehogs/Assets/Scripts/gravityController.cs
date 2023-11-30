@@ -5,7 +5,7 @@ using UnityEngine;
 public class gravityController : MonoBehaviour
 {
     float oldGravity;
-    [Range(-2, -100)][SerializeField] float newGravity;
+    [Range(100, -100)][SerializeField] float newGravity;
     
     private void OnTriggerEnter(Collider other)
     {
