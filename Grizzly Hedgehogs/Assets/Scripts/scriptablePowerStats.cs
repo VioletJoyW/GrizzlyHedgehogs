@@ -7,19 +7,52 @@ using UnityEngine;
 public class scriptablePowerStats : ScriptableObject
 {
 	
-	[Header("_-_-_-Global Settings_-_-_-")]
-	[Tooltip("Controls the maximum powers allowed.")]
-	public static byte MAX_POWER_COUNT = 100;
+	//_-_-_-Global Script Settings_-_-_-
+	//Controls the maximum powers allowed.
+	public static byte MAX_POWER_COUNT = 10; //<- Set at 10 since I don't know how many powers will be added.  
 	
 	[Header("_-_-_-Settings_-_-_-")]
 	[SerializeField] bool isShield;
 	
 	[Header("_-_-_-Stats_-_-_-")]
-	[SerializeField] PowerBuffer.PowerType power;
-	[SerializeField] int effectMultiplier;
+	[Tooltip("Sets the power type.")]
+	[SerializeField] PowerBuffer.PowerType power = PowerBuffer.PowerType.None;
+	
+	[Tooltip("Sets the amount of damage (defense if it's a shield) the entity will have.")]
 	[SerializeField] int effect;
-	[Header("--------Only use this for a very powerful attack/shield--------")]
+	
+	[Tooltip("Sets how much the effect is multiplied by.")]
+	[SerializeField] int effectMultiplier = 1;
+	
+	[Tooltip("Only use this for a very powerful attack/shield!")]
 	[SerializeField] float coolDown = 0;
+
+	[Tooltip("A visual effect for when the power is used (this is optional).")]
+	public ParticleSystem visualEffect;
+
+
+	[Tooltip("A sound that plays when the power is used (this is optional).")]
+	public AudioClip soundEffect;
+
+	[Tooltip("Volume of the effect.")]
+	[Range(0, 1)] public float effectVol;
+
+
+
+	[Tooltip("A sound that plays when the power is turned on (this is optional).")]
+	public AudioClip activationSound;
+
+	[Tooltip("Volume of the activation sound effect.")]
+	[Range(0, 1)] public float activationSoundVol;
+
+
+
+	[Tooltip("A sound that plays when the power is turned off (this is optional).")]
+	public AudioClip deactivationSound;
+
+	[Tooltip("Volume of the deactivation sound effect.")]
+	[Range(0, 1)] public float deactivationSoundVol;
+
 
 	protected byte id;
 

@@ -10,11 +10,11 @@ public class PowerBuffer
 	/// </summary>
 	public enum PowerType 
 	{
-		None = -1,
-		NORAMAL,
-		FLAME = 0x1,
-		FROST = 0x2,
-		ELECTRICITY = 0x4,
+		None = 0x0,
+		NORAMAL = 0x1,
+		FLAME = 0x2,
+		FROST = 0x4,
+		ELECTRICITY = 0x8,
 		ELECTRIC_FLAME = ELECTRICITY | FLAME, // <- Use '|' to combine power effects.
 		/* Add new power types here ^^^
 		 * Try not to go past 64 types, and follow this pattern:
@@ -27,7 +27,8 @@ public class PowerBuffer
 		 * NEW_TYPE2 = 0x10,
 		 * etc...
 		 */
-		MAX_TYPE = ELECTRIC_FLAME + 1 // Change this when adding a new type, example: MAX_TYPE = <New_Type> + 1
+		DONT_USE_MAX_TYPE_ = ELECTRIC_FLAME + 1 // Change this when adding a new type, example: MAX_TYPE = <New_Type> + 1
+		//^^^DO NOT USE THIS AS A TYPE. It may break the system.
 	};
 
 	protected List<scriptablePowerStats> powerList = null;
