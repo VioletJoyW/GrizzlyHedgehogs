@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Gun Stats")]
 public class ScriptableGunStats : ScriptableObject
 {
+
     public int shootDamage;
     public int shootDistance;
     public float shootRate;
@@ -21,4 +22,6 @@ public class ScriptableGunStats : ScriptableObject
 
     public AudioClip emptySound;
     [Range(0, 1)] public float emptySoundVol;
+
+    
 }

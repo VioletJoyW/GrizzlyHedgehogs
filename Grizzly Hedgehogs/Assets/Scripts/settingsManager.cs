@@ -44,6 +44,8 @@ public class settingsManager : MonoBehaviour
     [SerializeField] KeyCode rightDefault;
     [SerializeField] KeyCode jumpDefault;
     [SerializeField] KeyCode sprintDefault;
+    [SerializeField] KeyCode powerBtnScrollUpDefault;
+    [SerializeField] KeyCode powerBtnScrollDownDefault;
     [SerializeField] KeyCode crouchDefault;
     [SerializeField] KeyCode interactDefault;
     [SerializeField] KeyCode shootDefault;
@@ -68,6 +70,8 @@ public class settingsManager : MonoBehaviour
     public KeyCode jump;
     public KeyCode sprint;
     public KeyCode crouch;
+    public KeyCode powerBtnScrollUp;
+    public KeyCode powerBtnScrollDown;
     public KeyCode interact;
     public KeyCode shoot;
     public KeyCode reload;
@@ -150,6 +154,8 @@ public class settingsManager : MonoBehaviour
         jump = jumpDefault;
         sprint = sprintDefault;
         crouch = crouchDefault;
+        powerBtnScrollDown = powerBtnScrollDownDefault;
+        powerBtnScrollUp = powerBtnScrollUpDefault;
         interact = interactDefault;
         shoot = shootDefault;
         reload = reloadDefault;
