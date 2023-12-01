@@ -29,6 +29,7 @@ public class EnemyAI : Entity
     [SerializeField] Rigidbody[] _ragdolls;
 
     [Header("----- Config -----")]
+	[SerializeField] static float GlobalEnemyVol = 1.0f;
     [SerializeField] bool fromSpawner = false;
     
     [Header("----- Enemy Stats -----")]
@@ -43,7 +44,10 @@ public class EnemyAI : Entity
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
 
-    Vector3 playerDir;
+
+
+
+	Vector3 playerDir;
     bool playerInRange;
     float angleToPlayer;
     float stoppingDistOrig;
@@ -81,7 +85,7 @@ public class EnemyAI : Entity
             
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
             {
-                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude));
+                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude, GlobalEnemyVol));
             }
             if (playerInRange && !CanSeePlayer())
             {
@@ -258,10 +262,8 @@ public class EnemyAI : Entity
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
 
-    public void ChangeEnemyVol(float volume)
+    public static void ChangeEnemyVol(float volume)
     {
-        enemyVol = volume;
-        AudioStepVolume = audioStepVolume * enemyVol;
-        AudioDamageVolume = audioDamageVolume * enemyVol;
+		GlobalEnemyVol = volume;
     }
 }
