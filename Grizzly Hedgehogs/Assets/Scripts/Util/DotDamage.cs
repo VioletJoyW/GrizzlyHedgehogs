@@ -6,6 +6,7 @@ public static class DotDamage
 {
 
 	static List<_DotDamage> dotDamages = null;
+	static int dotObjCount = 0;
 
 	/// <summary>
 	/// <para>Will deal DOT damage to an entity.</para><para> Note: This function will auto remove the "DotDamage" object.
@@ -15,12 +16,22 @@ public static class DotDamage
 	/// <param name="duration"></param>
 	/// <param name="maxHealth"></param>
 	/// <param name="entity"></param>
-	/// <param name="id"></param>
 	public static void DealDOTDamage(float rate, float duration, int maxHealth, ref Entity entity) 
 	{
 		if(dotDamages == null) dotDamages = new List<_DotDamage>();
-		int id = dotDamages.Count;
-		dotDamages.Add(new _DotDamage(id, rate, duration, maxHealth, ref entity)); // Add a new damage for that entity.
+		int id = dotObjCount;
+
+		if (dotDamages.Count < 1 || dotObjCount == dotDamages.Count)
+		{
+			dotDamages.Add(new _DotDamage(id, rate, duration, maxHealth, ref entity)); // Add a new dot damage for that entity.
+		}
+		else // We hit this branch if the we have some open slots.
+		{
+			for (int ndx = 0; ndx < dotDamages.Count; ndx++)
+				if (dotDamages[ndx] == null) dotDamages[ndx] = new _DotDamage(id, rate, duration, maxHealth, ref entity);
+			
+		}
+		++dotObjCount;
 	}
 
 	/// <summary>
@@ -36,8 +47,18 @@ public static class DotDamage
 	public static void DealDOTDamageManual(float rate, float duration, int maxHealth, ref Entity entity, out int id) 
 	{
 		if(dotDamages == null) dotDamages = new List<_DotDamage>();
-		id = dotDamages.Count;
-		dotDamages.Add(new _DotDamage(id, rate, duration, maxHealth, ref entity, false)); // Add a new damage for that entity.
+		id = dotObjCount;
+
+		if (dotDamages.Count < 1 || dotObjCount == dotDamages.Count)
+		{
+			dotDamages.Add(new _DotDamage(id, rate, duration, maxHealth, ref entity, false)); // Add a new dot damage for that entity.
+		}
+		else // We hit this branch if the we have some open slots.
+		{
+			for (int ndx = 0; ndx < dotDamages.Count; ++ndx)
+				if (dotDamages[ndx] == null) dotDamages[ndx] = new _DotDamage(id, rate, duration, maxHealth, ref entity, false);
+		}
+		++dotObjCount;
 	}
 
 	/// <summary>
@@ -46,8 +67,11 @@ public static class DotDamage
 	/// <param name="id"></param>
 	public static void RemoveDOTDamage(int id) 
 	{
-		if( dotDamages == null) return;
-		dotDamages.RemoveAt(id);
+		if(dotDamages == null) return;
+		dotDamages[id] = null;
+		--dotObjCount;
+		if(dotObjCount < 1) dotDamages.Clear(); // We only need to clear if our object count is empty.
+
 	}
 
 	/// <summary>
@@ -80,6 +104,7 @@ public static class DotDamage
 
 		public _DotDamage(int id, float rate, float duration, int maxHealth,ref Entity entity, bool autoDel = true)
 		{
+			this.id = id;
 			this.rate = rate;
 			this.maxHealth = maxHealth;
 			this.entity = entity;
@@ -103,8 +128,10 @@ public static class DotDamage
 				timer.Update(Time.deltaTime);
 				yield return null; // pause this funtion call for a sec.
 			}
-			if(autoDel) dotDamages.RemoveAt(id); // Remove this object from the damage list.
+			if(autoDel) RemoveDOTDamage(id); // Remove this object from the damage list.
 		}
+
+
 
 		/// <summary>
 		/// Lets you know when the damage is done being delt. 
