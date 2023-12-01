@@ -19429,7 +19429,7 @@ MonoBehaviour:
   rightDefault: 100
   jumpDefault: 32
   sprintDefault: 304
-  powerBtnToggleDefault: 126
+  powerBtnToggleDefault: 9
   powerBtnScrollUpDefault: 49
   powerBtnScrollDownDefault: 51
   crouchDefault: 306

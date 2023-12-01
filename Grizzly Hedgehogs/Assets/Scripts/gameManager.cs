@@ -489,7 +489,7 @@ public class gameManager : MonoBehaviour
     {
         if (userReady)
         {
-            source.PlayOneShot(buttonPressed);
+           if(buttonPressed != null) source.PlayOneShot(buttonPressed);
         }
     }
 
