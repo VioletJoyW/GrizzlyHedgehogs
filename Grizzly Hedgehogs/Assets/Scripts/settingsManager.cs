@@ -44,6 +44,9 @@ public class settingsManager : MonoBehaviour
     [SerializeField] KeyCode rightDefault;
     [SerializeField] KeyCode jumpDefault;
     [SerializeField] KeyCode sprintDefault;
+    [SerializeField] KeyCode powerBtnToggleDefault;
+    [SerializeField] KeyCode powerBtnScrollUpDefault;
+    [SerializeField] KeyCode powerBtnScrollDownDefault;
     [SerializeField] KeyCode crouchDefault;
     [SerializeField] KeyCode interactDefault;
     [SerializeField] KeyCode shootDefault;
@@ -68,6 +71,9 @@ public class settingsManager : MonoBehaviour
     public KeyCode jump;
     public KeyCode sprint;
     public KeyCode crouch;
+    public KeyCode powerBtnToggle;
+    public KeyCode powerBtnScrollUp;
+    public KeyCode powerBtnScrollDown;
     public KeyCode interact;
     public KeyCode shoot;
     public KeyCode reload;
@@ -76,7 +82,7 @@ public class settingsManager : MonoBehaviour
     bool waitingForKey;
     KeyCode newKey;
 
-    void Start()
+    void Awake()
     {
         sm = this;
         resetVisuals();
@@ -150,6 +156,9 @@ public class settingsManager : MonoBehaviour
         jump = jumpDefault;
         sprint = sprintDefault;
         crouch = crouchDefault;
+        powerBtnToggle = powerBtnToggleDefault;
+        powerBtnScrollDown = powerBtnScrollDownDefault;
+        powerBtnScrollUp = powerBtnScrollUpDefault;
         interact = interactDefault;
         shoot = shootDefault;
         reload = reloadDefault;
@@ -164,6 +173,9 @@ public class settingsManager : MonoBehaviour
         Keys[7].GetComponentInChildren<TMP_Text>().text = interact.ToString();
         Keys[8].GetComponentInChildren <TMP_Text>().text = shoot.ToString();
         Keys[9].GetComponentInChildren<TMP_Text>().text = reload.ToString();
+        Keys[10].GetComponentInChildren<TMP_Text>().text = powerBtnToggle.ToString();
+        Keys[11].GetComponentInChildren<TMP_Text>().text = powerBtnScrollUp.ToString();
+        Keys[12].GetComponentInChildren<TMP_Text>().text = powerBtnScrollDown.ToString();
     }
 
     public void changeCamSensitivity(Slider sensitivity)
@@ -301,6 +313,15 @@ public class settingsManager : MonoBehaviour
                 break;
             case "Reload":
                 reload = newKey;
+                break;
+            case "Toggle Powers":
+                powerBtnToggle = newKey;
+                break;
+            case "Power Up":
+                powerBtnScrollUp = newKey;
+                break;
+            case "Power Down":
+                powerBtnScrollDown = newKey;
                 break;
         }
 

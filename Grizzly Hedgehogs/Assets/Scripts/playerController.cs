@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class playerController : Entity
@@ -18,8 +20,9 @@ public class playerController : Entity
     [SerializeField] int visionDistance;
     [SerializeField] float restoreStaminaRate;
     [SerializeField] float drainStaminaRate;
+    [SerializeField] scriptablePowerStats[] powerStats; // A list of powers set in the inspector. Not meant to be used outside of initialization.
 
-    [Header("_-_-_- Armor & Guns -_-_-_")]
+	[Header("_-_-_- Armor & Guns -_-_-_")]
     [SerializeField] ScriptableArmorStats playerArmor;
     [SerializeField] List<ScriptableGunStats> gunsList;
     [SerializeField] GameObject gunModel;
@@ -43,8 +46,9 @@ public class playerController : Entity
 
     private int selectedGun = 0;
     private int jumpTimes;
+    private int pBFButtonCoolDownTimerID; // Power Buffer button cool down timer. (used for delaying key press)
 
-    private bool isRunning;
+	private bool isRunning;
     private bool isRestoringStamina;
     private bool isCrouching;
     private bool isCrouchingActive;
@@ -56,7 +60,9 @@ public class playerController : Entity
     private Vector3 playerVelocity;
 
 
-    void Start()
+
+
+	void Start()
     {
 		//Setting Entity vars
 		HitPoints = health;
@@ -65,6 +71,16 @@ public class playerController : Entity
 		AudioStepVolume = audioStepVolume * playerVol;
 		AudioDamage = audioDamage;
 		AudioDamageVolume = audioDamageVolume * playerVol;
+        powerBuffer = new PowerBuffer(name);
+        foreach(var power in powerStats) // Init set powers
+        {
+            power.Init(); // <- This needs to be called since Unity doesn't want to call awake in a scriptable for some reason.
+            powerBuffer.AddPower(power);
+        }
+        //--------------------------------------------------
+
+        //Create a timer for the button press and set the cool down for half a second.
+        Utillities.CreateGlobalTimer(.3f, ref pBFButtonCoolDownTimerID);
 
 		lastCameraYPos = Camera.main.transform.localPosition.y;
 		damColliderLastHeight = controller.height;
@@ -93,15 +109,22 @@ public class playerController : Entity
     {
         if (!gameManager.instance.isPaused)
         { 
+
+            if(Input.GetKeyUp(settingsManager.sm.powerBtnToggle))
+                powerBuffer.IsActive = !powerBuffer.IsActive;
+
             Movement();
 
             Interactions();
 
+            //Update the timer.
+            Utillities.UpdateGlobalTimer(pBFButtonCoolDownTimerID);
+            SelectPower();
             SelectGun();
 
             if (Input.GetKeyDown(settingsManager.sm.reload)) StartCoroutine(ReloadGun());
             else if (Input.GetKeyDown(settingsManager.sm.shoot) && !isShooting)
-              StartCoroutine(Shoot());
+            StartCoroutine(Shoot());
             
 
             gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
@@ -113,6 +136,7 @@ public class playerController : Entity
     /// </summary>
     void Movement()
     {
+
         if (controller.isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
@@ -201,7 +225,7 @@ public class playerController : Entity
 
         if (Input.GetKeyDown(settingsManager.sm.jump) && jumpTimes < jumpsMax && !isCrouchingActive)
         {
-            aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol * playerVol);
+            aud.PlayOneShot(audJump[UnityEngine.Random.Range(0, audJump.Length)], audJumpVol * playerVol);
             playerVelocity.y = playerArmor.jumpHeight;
             jumpTimes++;
         }
@@ -216,14 +240,6 @@ public class playerController : Entity
         }
     }
 
-	/// <summary>
-	/// Plays footstep sounds by a speed factor.
-	/// Used for player movement.
-	/// </summary>
-	/// <param name="moveSpeed"></param>
-	/// <returns></returns>
-
-	//}
 
     /// <summary>
     /// Processes the interation raycast.
@@ -300,7 +316,14 @@ public class playerController : Entity
 
                 if (hit.transform != transform && damageable != null)
                 {
-                    damageable.TakeDamage(gunsList[selectedGun].shootDamage);
+					//Here I’m adding the "Power Buffer" damage to the guns’ damage.
+					bool canUsePB = (powerBuffer.IsActive && !powerBuffer.GetCurrentPower.IsShield);
+
+					damageable.TakeDamage(gunsList[selectedGun].shootDamage + ( canUsePB? powerBuffer.GetCurrentPower.Effect * powerBuffer.GetCurrentPower.EffectMultiplier : 0));
+                    if (canUsePB) 
+                    {
+                        currentStamina -= powerBuffer.GetCurrentPower.StaminaCost;
+                    }
                 }
             }
             aud.PlayOneShot(gunsList[selectedGun].shootSound, gunsList[selectedGun].shootSoundVol * objectVol);
@@ -364,10 +387,17 @@ public class playerController : Entity
     {
         if (!gameManager.instance.playerUnkillable) //Part of testing codes
         {
-            HP -= amount;
-        }
+            // If the "Power Buffer" is active & it's a shield, use the effect value to subtract some damage.
+            bool canUsePB = (powerBuffer.IsActive && powerBuffer.GetCurrentPower.IsShield && currentStamina > 0);
 
-        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol * playerVol);
+			HP -= Mathf.Max(0, amount - (canUsePB ? powerBuffer.GetCurrentPower.Effect * powerBuffer.GetCurrentPower.EffectMultiplier : 0));
+            if (canUsePB) 
+                currentStamina = Mathf.Max(0, currentStamina - powerBuffer.GetCurrentPower.StaminaCost);
+
+
+		}
+
+        aud.PlayOneShot(audDamage[UnityEngine.Random.Range(0, audDamage.Length)], audDamageVol * playerVol);
 
         StartCoroutine(gameManager.instance.PlayerFlashDamage());
 
@@ -443,6 +473,7 @@ public class playerController : Entity
 	/// </summary>
 	void SelectGun()
     {
+        //TODO-DejaKill: Make the gun scrolling loop?
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < gunsList.Count - 1)
         {
             selectedGun++;
@@ -454,6 +485,30 @@ public class playerController : Entity
             ChangeGunModel();
         }
     }
+
+    void SelectPower() 
+    {
+        if (powerBuffer.IsActive) 
+        {
+            //print("Selected Power: "+ powerBuffer.GetCurrentPower.name);
+
+			if (powerBuffer.Count > 0)
+			{
+			    int currentPowerID = powerBuffer.GetCurrentPower.ID;
+                int dir = Convert.ToByte(Input.GetKey(settingsManager.sm.powerBtnScrollUp)) - Convert.ToByte(Input.GetKey(settingsManager.sm.powerBtnScrollDown));
+                
+
+				print("Power: " + powerBuffer.GetCurrentPower.name);
+				
+                //We don't attempt a selection until the timer is up or until the player does something with it.
+				if (dir == 0 || !Utillities.IsGlobalTimerDone(pBFButtonCoolDownTimerID)) return;
+                int index = (currentPowerID + dir) % powerBuffer.Count;
+                powerBuffer.SetCurrentPower = (index < 0) ? powerBuffer.Count - 1 : index;
+                Utillities.ResetGlobalTimer(pBFButtonCoolDownTimerID);
+			}
+		}
+
+	}
 
 	/// <summary>
 	/// Change the current gun to a different gun in the list.
