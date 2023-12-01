@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IDamage
 {
 
-	public enum EntityType { NONE, ENEMIES, PLAYER }
+	//Not needed for now..
+	//public enum EntityType { NONE, ENEMIES, PLAYER }
 
 	protected int HP;
 
@@ -59,6 +60,9 @@ public abstract class Entity : MonoBehaviour, IDamage
 		isPlayingSteps = false;
 	}
 
+	/// <summary>
+	/// Get the Entity's "Power Buffer" object.
+	/// </summary>
 	public PowerBuffer PowerBuffer { get => powerBuffer; }
 
 }
