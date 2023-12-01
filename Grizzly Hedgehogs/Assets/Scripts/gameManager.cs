@@ -86,6 +86,8 @@ public class gameManager : MonoBehaviour
     GameObject menuPrevious;
     int controlsPage;
 
+    bool userReady = false;
+
     void Awake()
     {
         instance = this;
@@ -99,6 +101,11 @@ public class gameManager : MonoBehaviour
         subMenuActive = subMain;
         subMenuActive.SetActive(true);
         menuActive.SetActive(true);
+    }
+
+    private void Start()
+    {
+        userReady = true;
     }
 
     void Update()
@@ -472,12 +479,18 @@ public class gameManager : MonoBehaviour
 
     public void PlaySound(AudioClip clip, float vol = 0.5f)
     {
-        source.PlayOneShot(clip, vol);
+        if (userReady)
+        {
+            source.PlayOneShot(clip, vol);
+        }
     }
 
     public void PlayButtonPress()
     {
-        source.PlayOneShot(buttonPressed);
+        if (userReady)
+        {
+            source.PlayOneShot(buttonPressed);
+        }
     }
 
     public void ChangeTextSize()

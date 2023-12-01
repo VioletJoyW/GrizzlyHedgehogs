@@ -110,7 +110,7 @@ public class playerController : Entity
         if (!gameManager.instance.isPaused)
         { 
 
-            if(Input.GetButtonUp("PowerBuffer_toggle"))
+            if(Input.GetKeyUp(settingsManager.sm.powerBtnToggle))
                 powerBuffer.IsActive = !powerBuffer.IsActive;
 
             Movement();
