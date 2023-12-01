@@ -59,7 +59,8 @@ public class gameManager : MonoBehaviour
     [Header("_-_-_- Audio Files -_-_-_")]
     [SerializeField] AudioSource source;
     [SerializeField] AudioClip buttonPressed;
-
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioClip[] musicClips;
 
     public bool isPaused;
 
@@ -87,10 +88,14 @@ public class gameManager : MonoBehaviour
     int controlsPage;
 
     bool userReady = false;
+    int musicCurr = 1;
 
     void Awake()
     {
         instance = this;
+
+        DontDestroyOnLoad(this.gameObject);
+
         timescaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
@@ -153,6 +158,11 @@ public class gameManager : MonoBehaviour
         if (menuActive != null)
         { menuActive.SetActive(false); }
         menuActive = null;
+
+        if (musicSource.clip == musicClips[0])
+        { 
+            ChangeMusic(musicCurr); 
+        }
     }
 
     //Show Menus
@@ -164,6 +174,7 @@ public class gameManager : MonoBehaviour
         subMenuActive = subMain;
         subMenuActive.SetActive(true);
         menuActive.SetActive(true);
+        ChangeMusic(0);
     }
     public void showMain()
     {
@@ -479,6 +490,25 @@ public class gameManager : MonoBehaviour
         playerAmmoBackground.color = Color.red;
         yield return new WaitForSeconds(.1f);
         playerAmmoBackground.color = orig;
+    }
+
+    public void ChangeMusic(int clip)
+    {
+        if(clip >= musicClips.Length || clip < 0)
+        {
+            return;
+        }
+        else if(clip != 0)
+        {
+            musicCurr = clip;
+        }
+
+        musicSource.clip = musicClips[clip];
+    }
+
+    public void ChangeMusicVol()
+    {
+        musicSource.volume = settingsManager.sm.musicVol;
     }
 
     public void PlaySound(AudioClip clip, float vol = 0.5f)

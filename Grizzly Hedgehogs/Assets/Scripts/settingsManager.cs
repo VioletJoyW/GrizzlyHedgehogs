@@ -85,6 +85,9 @@ public class settingsManager : MonoBehaviour
     void Awake()
     {
         sm = this;
+
+        DontDestroyOnLoad(this.gameObject);
+
         resetVisuals();
         resetAudio();
         resetControls();
@@ -143,6 +146,7 @@ public class settingsManager : MonoBehaviour
         }
 
         AudioListener.volume = globalVol;
+        gameManager.instance.ChangeMusicVol();
     }
 
     public void resetControls()
@@ -234,7 +238,7 @@ public class settingsManager : MonoBehaviour
     {
         musicVol = vol.value;
         musicVolValue.text = vol.value.ToString("F2");
-        gameManager.instance.PlaySound(testAudio, vol.value);
+        gameManager.instance.ChangeMusicVol();
     }
 
     public void startKeyChange(Button key)
