@@ -317,13 +317,17 @@ public class gameManager : MonoBehaviour
 	/// Adds to enemy count.
 	/// </summary>
 	/// <param name="amount"></param>
-	public void updateGameGoal(int amount)
+	public bool updateEnemyCount(int amount)
     {
         enemiesRemaining += amount;
         enemyCountText.GetComponent<TMP_Text>().text = enemiesRemaining.ToString("0");
         if (enemiesRemaining <= 0)
         {
-            youWin();
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

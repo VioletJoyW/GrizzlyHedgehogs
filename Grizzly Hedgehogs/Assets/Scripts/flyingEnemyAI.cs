@@ -66,7 +66,7 @@ public class flyingEnemyAI : Entity
         stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
         if (!canAddToGoal) // If we're not in a spawner, add ourselves to the goal. 
-            gameManager.instance.updateGameGoal(1);
+            gameManager.instance.updateEnemyCount(1);
     }
 
     // Update is called once per frame
@@ -203,7 +203,7 @@ public class flyingEnemyAI : Entity
         if (HP <= 0)
         {
             damageCollider.enabled = false;
-            gameManager.instance.updateGameGoal(-1);
+            gameManager.instance.updateEnemyCount(-1);
             agent.enabled = false;
             animator.enabled = false;
             Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
