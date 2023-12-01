@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IDamage
 {
 
+	public enum EntityType { NONE, ENEMIES, PLAYER }
+
 	protected int HP;
 
 	protected AudioSource aud;
@@ -32,6 +34,7 @@ public abstract class Entity : MonoBehaviour, IDamage
 	public bool IsShooting { get => isShooting; set => isShooting = value; }
 	public bool IsPlayingSteps { get => isPlayingSteps; set => isPlayingSteps = value; }
 
+
 	/// <summary>
 	/// Subtracts from HP by an amount.
 	/// </summary>
@@ -48,10 +51,10 @@ public abstract class Entity : MonoBehaviour, IDamage
 	/// Plays walking sound effects.
 	/// </summary>
 	/// <returns></returns>
-	protected IEnumerator PlaySteps(int _time_seconds, float _moveSpeed) 
+	protected IEnumerator PlaySteps(int _time_seconds, float _moveSpeed, float vol = 1) 
 	{
 		isPlayingSteps = true;
-		if(audStep.Length > 0)aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+		if(audStep.Length > 0)aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol * vol);
 		yield return new WaitForSeconds(_time_seconds / _moveSpeed);
 		isPlayingSteps = false;
 	}
