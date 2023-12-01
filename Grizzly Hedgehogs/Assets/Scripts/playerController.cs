@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -79,7 +80,7 @@ public class playerController : Entity
         //--------------------------------------------------
 
         //Create a timer for the button press and set the cool down for half a second.
-        Utillities.CreateGlobalTimer(.5f, ref pBFButtonCoolDownTimerID);
+        Utillities.CreateGlobalTimer(.3f, ref pBFButtonCoolDownTimerID);
 
 		lastCameraYPos = Camera.main.transform.localPosition.y;
 		damColliderLastHeight = controller.height;
@@ -224,7 +225,7 @@ public class playerController : Entity
 
         if (Input.GetKeyDown(settingsManager.sm.jump) && jumpTimes < jumpsMax && !isCrouchingActive)
         {
-            aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol * playerVol);
+            aud.PlayOneShot(audJump[UnityEngine.Random.Range(0, audJump.Length)], audJumpVol * playerVol);
             playerVelocity.y = playerArmor.jumpHeight;
             jumpTimes++;
         }
@@ -399,7 +400,7 @@ public class playerController : Entity
 
 		}
 
-        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol * playerVol);
+        aud.PlayOneShot(audDamage[UnityEngine.Random.Range(0, audDamage.Length)], audDamageVol * playerVol);
 
         StartCoroutine(gameManager.instance.PlayerFlashDamage());
 
@@ -497,12 +498,12 @@ public class playerController : Entity
 			if (powerBuffer.Count > 0)
 			{
 			    int currentPowerID = powerBuffer.GetCurrentPower.ID;
-                int dir = (int)Input.GetAxisRaw("Power_Change");
-
+                int dir = Convert.ToByte(Input.GetKey(settingsManager.sm.powerBtnScrollUp)) - Convert.ToByte(Input.GetKey(settingsManager.sm.powerBtnScrollDown));
                 
 
 				print("Power: " + powerBuffer.GetCurrentPower.name);
-				//We don't attempt a selection until the timer is up or until the player does something with it.
+				
+                //We don't attempt a selection until the timer is up or until the player does something with it.
 				if (dir == 0 || !Utillities.IsGlobalTimerDone(pBFButtonCoolDownTimerID)) return;
                 int index = (currentPowerID + dir) % powerBuffer.Count;
                 powerBuffer.SetCurrentPower = (index < 0) ? powerBuffer.Count - 1 : index;

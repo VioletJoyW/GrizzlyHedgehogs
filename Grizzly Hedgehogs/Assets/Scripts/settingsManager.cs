@@ -144,6 +144,8 @@ public class settingsManager : MonoBehaviour
         jump = jumpDefault;
         sprint = sprintDefault;
         crouch = crouchDefault;
+        powerBtnScrollDown = powerBtnScrollDownDefault;
+        powerBtnScrollUp = powerBtnScrollUpDefault;
         interact = interactDefault;
         shoot = shootDefault;
         reload = reloadDefault;
