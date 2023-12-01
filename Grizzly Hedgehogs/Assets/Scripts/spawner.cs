@@ -29,7 +29,7 @@ public class spawner : MonoBehaviour
 
         if (updatesGameGoal)
         {
-            gameManager.instance.updateGameGoal(numberToSpawn);
+            gameManager.instance.updateEnemyCount(numberToSpawn);
         }
 
         if(mapMarker != null)
@@ -120,7 +120,7 @@ public class spawner : MonoBehaviour
 
         if (updatesGameGoal)
         {
-            gameManager.instance.updateGameGoal(numberToSpawn);
+            gameManager.instance.updateEnemyCount(numberToSpawn);
         }
 
         spawnCount = 0;

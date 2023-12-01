@@ -68,7 +68,7 @@ public class EnemyAI : Entity
 
         if (!fromSpawner) // If we're not in a spawner, add ourselves to the goal. 
         {
-            gameManager.instance.updateGameGoal(1);
+            gameManager.instance.updateEnemyCount(1);
         }
 	}
 
@@ -223,7 +223,7 @@ public class EnemyAI : Entity
             enableRag();
             damageCollider.enabled = false;
 
-            gameManager.instance.updateGameGoal(-1);
+            gameManager.instance.updateEnemyCount(-1);
 
             agent.enabled = false;
             animator.enabled = false;
