@@ -23,6 +23,12 @@ public class door : MonoBehaviour, Iinteract
         aud.Play();
         for (int i = 0; i < InventoryManager.Inventory.Count && !isUnlocked; i++)
         {
+            // if null then continue
+            if (InventoryManager.Inventory[i] == null)
+            {
+                continue;
+            }
+            // compares keyid
             if (InventoryManager.Inventory[i].ID == keyID)
             {
                 isUnlocked = true;
@@ -33,9 +39,5 @@ public class door : MonoBehaviour, Iinteract
         {
             open = !open;
         }
-    }
-    public void findKey()
-    {
-
     }
 }
