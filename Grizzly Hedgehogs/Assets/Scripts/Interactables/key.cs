@@ -11,7 +11,7 @@ public class key : MonoBehaviour, Iitem, Iinteract
 
     int inventoryID;
 
-    void Awake()
+    void Start()
     {
         keyID = ID;
     }
