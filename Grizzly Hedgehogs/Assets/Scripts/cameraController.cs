@@ -14,10 +14,10 @@ public class cameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * settingsManager.sm.camSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * settingsManager.sm.camSensitivity;
+        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * settingsManager.sm.settingsCurr.camSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * settingsManager.sm.settingsCurr.camSensitivity;
 
-        if (settingsManager.sm.invertY)
+        if (settingsManager.sm.settingsCurr.invertY)
         {
             rotationX += mouseY;
         }

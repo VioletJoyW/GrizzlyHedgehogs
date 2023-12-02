@@ -15,7 +15,7 @@ public class ammoKit : MonoBehaviour, Iinteract
     {
         animator.SetTrigger("isOpen");
         gameManager.instance.playerScript.AddAmmo(ammoAmount);
-        aud.volume = settingsManager.sm.objectVol;
+        aud.volume = settingsManager.sm.settingsCurr.objectVol;
         aud.Play();
     }
 

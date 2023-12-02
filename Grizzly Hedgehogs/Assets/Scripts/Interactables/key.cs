@@ -14,7 +14,7 @@ public class key : MonoBehaviour, Iinteract
     public void Interact()
     {
         gameManager.instance.AddTempGold(amount);
-        gameManager.instance.PlaySound(sound, settingsManager.sm.objectVol);
+        gameManager.instance.PlaySound(sound, settingsManager.sm.settingsCurr.objectVol);
         Destroy(gameObject);
     }
 

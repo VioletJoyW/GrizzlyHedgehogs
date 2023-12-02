@@ -8,6 +8,8 @@ public class settingsManager : MonoBehaviour
 {
     public static settingsManager sm;
 
+    public ScriptableSettings settingsCurr;
+
     [Header("_-_-_- Components -_-_-_")]
     [SerializeField] TMP_Text sensitivityValue;
     [SerializeField] GameObject textSizeValue;
@@ -52,46 +54,32 @@ public class settingsManager : MonoBehaviour
     [SerializeField] KeyCode shootDefault;
     [SerializeField] KeyCode reloadDefault;
 
-    [Header("_-_-_- Current -_-_-_")]
-    public float camSensitivity;
-    public bool invertY;
-    public bool camBob;
-    public float textSize;
-
-    public float globalVol;
-    public float playerVol;
-    public float enemyVol;
-    public float objectVol;
-    public float musicVol;
-
-    public KeyCode forwards;
-    public KeyCode backwards;
-    public KeyCode left;
-    public KeyCode right;
-    public KeyCode jump;
-    public KeyCode sprint;
-    public KeyCode crouch;
-    public KeyCode powerBtnToggle;
-    public KeyCode powerBtnScrollUp;
-    public KeyCode powerBtnScrollDown;
-    public KeyCode interact;
-    public KeyCode shoot;
-    public KeyCode reload;
-
     Event keyEvent;
     bool waitingForKey;
     KeyCode newKey;
 
-    void Awake()
+    bool UInoises = false;
+
+    void Start()
     {
         sm = this;
 
-        DontDestroyOnLoad(this.gameObject);
+        if(!settingsCurr.varsSet)
+        {
+            resetVisuals();
+            resetAudio();
+            resetControls();
+            settingsCurr.varsSet = true;
+        }
+        else
+        {
+            gameManager.instance.ChangeTextSize();
+            AudioListener.volume = settingsCurr.globalVol;
+            gameManager.instance.ChangeMusicVol();
+        }
 
-        resetVisuals();
-        resetAudio();
-        resetControls();
         waitingForKey = false;
+        StartCoroutine(slidersMakeNoise());
     }
 
     private void OnGUI()
@@ -106,137 +94,157 @@ public class settingsManager : MonoBehaviour
 
     public void resetVisuals()
     {
-        gameManager.instance.PlayButtonPress();
+        if (UInoises)
+        {
+            gameManager.instance.PlayButtonPress();
+        }
 
-        camSensitivity = camSensitivityDefault;
-        sensitivityValue.text = camSensitivity.ToString();
-        camSliderValue.value = camSensitivity;
+        settingsCurr.camSensitivity = camSensitivityDefault;
+        sensitivityValue.text = settingsCurr.camSensitivity.ToString();
+        camSliderValue.value = settingsCurr.camSensitivity;
 
-        invertY = invertYDefault;
-        invertYCheck.isOn = invertY;
+        settingsCurr.invertY = invertYDefault;
+        invertYCheck.isOn = settingsCurr.invertY;
 
-        camBob = camBobDefault;
-        camBobCheck.isOn = camBob;
+        //settingsCurr.camBob = camBobDefault;
+        //camBobCheck.isOn = settingsCurr.camBob;
 
-        textSize = textSizeDefault;
-        textSizeValue.GetComponentInChildren<TMP_Text>().text = textSize.ToString();
-        textSliderValue.value = textSize;
+        settingsCurr.textSize = textSizeDefault;
+        textSizeValue.GetComponentInChildren<TMP_Text>().text = settingsCurr.textSize.ToString();
+        textSliderValue.value = settingsCurr.textSize;
 
         gameManager.instance.ChangeTextSize();
     }
 
     public void resetAudio()
     {
-        gameManager.instance.PlayButtonPress();
+        if (UInoises)
+        {
+            gameManager.instance.PlayButtonPress();
+        }
 
-        globalVol = globalVolDefault;
-        globalVolValue.text = globalVol.ToString("F2");
-        playerVol = playerVolDefault;
-        playerVolValue.text = playerVol.ToString("F2");
-        enemyVol = enemyVolDefault;
-        enemyVolValue.text = enemyVol.ToString("F2");
-        objectVol = enviromentVolDefault;
-        enviromentVolValue.text = objectVol.ToString("F2");
-        musicVol = musicVolDefault;
-        musicVolValue.text = musicVol.ToString("F2");
+        settingsCurr.globalVol = globalVolDefault;
+        globalVolValue.text = settingsCurr.globalVol.ToString("F2");
+        settingsCurr.playerVol = playerVolDefault;
+        playerVolValue.text = settingsCurr.playerVol.ToString("F2");
+        settingsCurr.enemyVol = enemyVolDefault;
+        enemyVolValue.text = settingsCurr.enemyVol.ToString("F2");
+        settingsCurr.objectVol = enviromentVolDefault;
+        enviromentVolValue.text = settingsCurr.objectVol.ToString("F2");
+        settingsCurr.musicVol = musicVolDefault;
+        musicVolValue.text = settingsCurr.musicVol.ToString("F2");
 
         for(int i = 0; i < VolValues.Length; i++)
         {
             VolValues[i].value = 0.5f;
         }
 
-        AudioListener.volume = globalVol;
+        AudioListener.volume = settingsCurr.globalVol;
         gameManager.instance.ChangeMusicVol();
     }
 
     public void resetControls()
     {
-        gameManager.instance.PlayButtonPress();
+        if (UInoises)
+        {
+            gameManager.instance.PlayButtonPress();
+        }
 
-        forwards = forwardsDefault;
-        backwards = backwardsDefault;
-        left = leftDefault;
-        right = rightDefault;
-        jump = jumpDefault;
-        sprint = sprintDefault;
-        crouch = crouchDefault;
-        powerBtnToggle = powerBtnToggleDefault;
-        powerBtnScrollDown = powerBtnScrollDownDefault;
-        powerBtnScrollUp = powerBtnScrollUpDefault;
-        interact = interactDefault;
-        shoot = shootDefault;
-        reload = reloadDefault;
+        settingsCurr.forwards = forwardsDefault;
+        settingsCurr.backwards = backwardsDefault;
+        settingsCurr.left = leftDefault;
+        settingsCurr.right = rightDefault;
+        settingsCurr.jump = jumpDefault;
+        settingsCurr.sprint = sprintDefault;
+        settingsCurr.crouch = crouchDefault;
+        settingsCurr.powerBtnToggle = powerBtnToggleDefault;
+        settingsCurr.powerBtnScrollDown = powerBtnScrollDownDefault;
+        settingsCurr.powerBtnScrollUp = powerBtnScrollUpDefault;
+        settingsCurr.interact = interactDefault;
+        settingsCurr.shoot = shootDefault;
+        settingsCurr.reload = reloadDefault;
         
-        Keys[0].GetComponentInChildren<TMP_Text>().text = forwards.ToString();
-        Keys[1].GetComponentInChildren<TMP_Text>().text = backwards.ToString();
-        Keys[2].GetComponentInChildren<TMP_Text>().text = left.ToString();
-        Keys[3].GetComponentInChildren<TMP_Text>().text = right.ToString();
-        Keys[4].GetComponentInChildren<TMP_Text>().text = jump.ToString();
-        Keys[5].GetComponentInChildren<TMP_Text>().text = sprint.ToString();
-        Keys[6].GetComponentInChildren<TMP_Text>().text = crouch.ToString();
-        Keys[7].GetComponentInChildren<TMP_Text>().text = interact.ToString();
-        Keys[8].GetComponentInChildren <TMP_Text>().text = shoot.ToString();
-        Keys[9].GetComponentInChildren<TMP_Text>().text = reload.ToString();
-        Keys[10].GetComponentInChildren<TMP_Text>().text = powerBtnToggle.ToString();
-        Keys[11].GetComponentInChildren<TMP_Text>().text = powerBtnScrollUp.ToString();
-        Keys[12].GetComponentInChildren<TMP_Text>().text = powerBtnScrollDown.ToString();
+        Keys[0].GetComponentInChildren<TMP_Text>().text = settingsCurr.forwards.ToString();
+        Keys[1].GetComponentInChildren<TMP_Text>().text = settingsCurr.backwards.ToString();
+        Keys[2].GetComponentInChildren<TMP_Text>().text = settingsCurr.left.ToString();
+        Keys[3].GetComponentInChildren<TMP_Text>().text = settingsCurr.right.ToString();
+        Keys[4].GetComponentInChildren<TMP_Text>().text = settingsCurr.jump.ToString();
+        Keys[5].GetComponentInChildren<TMP_Text>().text = settingsCurr.sprint.ToString();
+        Keys[6].GetComponentInChildren<TMP_Text>().text = settingsCurr.crouch.ToString();
+        Keys[7].GetComponentInChildren<TMP_Text>().text = settingsCurr.interact.ToString();
+        Keys[8].GetComponentInChildren <TMP_Text>().text = settingsCurr.shoot.ToString();
+        Keys[9].GetComponentInChildren<TMP_Text>().text = settingsCurr.reload.ToString();
+        Keys[10].GetComponentInChildren<TMP_Text>().text = settingsCurr.powerBtnToggle.ToString();
+        Keys[11].GetComponentInChildren<TMP_Text>().text = settingsCurr.powerBtnScrollUp.ToString();
+        Keys[12].GetComponentInChildren<TMP_Text>().text = settingsCurr.powerBtnScrollDown.ToString();
     }
 
     public void changeCamSensitivity(Slider sensitivity)
     {
-        camSensitivity = sensitivity.value;
+        settingsCurr.camSensitivity = sensitivity.value;
         sensitivityValue.text = sensitivity.value.ToString();
     }
 
     public void changeTextSize(Slider size)
     {
-        textSize = size.value;
+        settingsCurr.textSize = size.value;
         textSizeValue.GetComponentInChildren<TMP_Text>().text = size.value.ToString("F2");
         textSizeValue.transform.localScale = new Vector3(size.value, size.value, size.value);
-
         gameManager.instance.ChangeTextSize();
     }
 
     public void changeInvertY(Toggle state)
     {
-        invertY = state.isOn;
+        settingsCurr.invertY = state.isOn;
     }
 
     public void changeCamBob(Toggle state)
     {
-        camBob = state.isOn; 
+        settingsCurr.camBob = state.isOn; 
     }
 
     public void changeGlobalVol(Slider vol)
     {
-        globalVol = vol.value;
+        settingsCurr.globalVol = vol.value;
         globalVolValue.text = vol.value.ToString("F2");
-        AudioListener.volume = globalVol;
-        gameManager.instance.PlaySound(testAudio, vol.value);
+        AudioListener.volume = settingsCurr.globalVol; 
+        if (UInoises)
+        {
+            gameManager.instance.PlaySound(testAudio, vol.value);
+        }
     }
     public void changePlayerVol(Slider vol)
     {
-        playerVol = vol.value;
-        playerVolValue.text = vol.value.ToString("F2");
-        gameManager.instance.PlaySound(testAudio, vol.value);
-        gameManager.instance.playerScript.ChangePlayerVol(playerVol);
+        settingsCurr.playerVol = vol.value;
+        playerVolValue.text = vol.value.ToString("F2"); 
+        if (UInoises)
+        {
+            gameManager.instance.PlaySound(testAudio, vol.value);
+        }
+        gameManager.instance.playerScript.ChangePlayerVol(settingsCurr.playerVol);
     }
     public void changeEnemyVol(Slider vol)
     {
-        enemyVol = vol.value;
-        enemyVolValue.text = vol.value.ToString("F2");
-        gameManager.instance.PlaySound(testAudio, vol.value);
+        settingsCurr.enemyVol = vol.value;
+        enemyVolValue.text = vol.value.ToString("F2"); 
+        if (UInoises)
+        {
+            gameManager.instance.PlaySound(testAudio, vol.value);
+        }
     }
     public void changeEnviromentVol(Slider vol)
     {
-        objectVol = vol.value;
-        enviromentVolValue.text = vol.value.ToString("F2");
-        gameManager.instance.PlaySound(testAudio, vol.value);
-        gameManager.instance.playerScript.ChangeObjectVol(objectVol);
+        settingsCurr.objectVol = vol.value;
+        enviromentVolValue.text = vol.value.ToString("F2"); 
+        if (UInoises)
+        {
+            gameManager.instance.PlaySound(testAudio, vol.value);
+        }
+        gameManager.instance.playerScript.ChangeObjectVol(settingsCurr.objectVol);
     }
     public void changeMusicVol(Slider vol)
     {
-        musicVol = vol.value;
+        settingsCurr.musicVol = vol.value;
         musicVolValue.text = vol.value.ToString("F2");
         gameManager.instance.ChangeMusicVol();
     }
@@ -289,43 +297,43 @@ public class settingsManager : MonoBehaviour
         switch(key.name)
         {
             case "Forwards":
-                forwards = newKey;
+                settingsCurr.forwards = newKey;
                 break;
             case "Backwards":
-                backwards = newKey;
+                settingsCurr.backwards = newKey;
                 break;
             case "Left":
-                left = newKey;
+                settingsCurr.left = newKey;
                 break;
             case "Right":
-                right = newKey;
+                settingsCurr.right = newKey;
                 break;
             case "Jump":
-                jump = newKey;
+                settingsCurr.jump = newKey;
                 break;
             case "Sprint":
-                sprint = newKey;
+                settingsCurr.sprint = newKey;
                 break;
             case "Crouch":
-                crouch = newKey;
+                settingsCurr.crouch = newKey;
                 break;
             case "Interact":
-                interact = newKey;
+                settingsCurr.interact = newKey;
                 break;
             case "Shoot":
-                shoot = newKey;
+                settingsCurr.shoot = newKey;
                 break;
             case "Reload":
-                reload = newKey;
+                settingsCurr.reload = newKey;
                 break;
             case "Toggle Powers":
-                powerBtnToggle = newKey;
+                settingsCurr.powerBtnToggle = newKey;
                 break;
             case "Power Up":
-                powerBtnScrollUp = newKey;
+                settingsCurr.powerBtnScrollUp = newKey;
                 break;
             case "Power Down":
-                powerBtnScrollDown = newKey;
+                settingsCurr.powerBtnScrollDown = newKey;
                 break;
         }
 
@@ -339,4 +347,11 @@ public class settingsManager : MonoBehaviour
             key.GetComponentInChildren<TMP_Text>().fontSize = 50;
         }
     }
+
+    IEnumerator slidersMakeNoise()
+    {
+        yield return new WaitForSeconds(0.1f);
+        UInoises = true;
+    }
+
 }

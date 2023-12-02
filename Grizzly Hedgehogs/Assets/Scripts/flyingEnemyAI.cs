@@ -78,7 +78,7 @@ public class flyingEnemyAI : Entity
 
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
             {
-                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude));
+                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude, true));
             }
 
             if (playerInRange && !CanSeePlayer())

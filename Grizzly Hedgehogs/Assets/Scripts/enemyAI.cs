@@ -8,7 +8,6 @@ using UnityEngine.AI;
 public class EnemyAI : Entity
 {
 	[Header("----- Audio -----")]
-    [Range(0, 1)][SerializeField] float enemyVol;
     [SerializeField] new AudioSource audio;
 	[SerializeField] AudioClip[] audioStep;
 	[Range(0, 1)][SerializeField] float audioStepVolume;
@@ -29,7 +28,6 @@ public class EnemyAI : Entity
     [SerializeField] Rigidbody[] _ragdolls;
 
     [Header("----- Config -----")]
-	[SerializeField] static float GlobalEnemyVol = 1.0f;
     [SerializeField] bool fromSpawner = false;
     
     [Header("----- Enemy Stats -----")]
@@ -62,9 +60,9 @@ public class EnemyAI : Entity
         HitPoints = hitPoints;
         AudioSource = audio;
         AudioSteps = audioStep;
-        AudioStepVolume = audioStepVolume * enemyVol;
+        AudioStepVolume = audioStepVolume;
         AudioDamage = audioDamage;
-        AudioDamageVolume = audioDamageVolume * enemyVol;
+        AudioDamageVolume = audioDamageVolume;
 
         disableRag();
 		stoppingDistOrig = agent.stoppingDistance;
@@ -85,7 +83,7 @@ public class EnemyAI : Entity
             
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
             {
-                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude, GlobalEnemyVol));
+                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude, true));
             }
             if (playerInRange && !CanSeePlayer())
             {
@@ -177,7 +175,7 @@ public class EnemyAI : Entity
     {
         isShooting = true;
         animator.SetTrigger("Shoot");
-        aud.PlayOneShot(audShoot, audShootVol * enemyVol);
+        aud.PlayOneShot(audShoot, audShootVol * settingsManager.sm.settingsCurr.enemyVol);
         yield return new WaitForSeconds(shootRate);
         isShooting = false;
     }
@@ -230,7 +228,7 @@ public class EnemyAI : Entity
     public override void TakeDamage(int amount)
     {
         HP -= amount;
-        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol * enemyVol);
+        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol * settingsManager.sm.settingsCurr.enemyVol);
 
         if (HP <= 0)
         {
@@ -266,8 +264,4 @@ public class EnemyAI : Entity
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
 
-    public static void ChangeEnemyVol(float volume)
-    {
-		GlobalEnemyVol = volume;
-    }
 }

@@ -123,6 +123,11 @@ public class spawner : MonoBehaviour
             gameManager.instance.updateEnemyCount(numberToSpawn);
         }
 
+        if (mapMarker != null)
+        {
+            mapMarker.SetActive(true);
+        }
+
         spawnCount = 0;
         numberObject = -1;
         numberPos = -1;

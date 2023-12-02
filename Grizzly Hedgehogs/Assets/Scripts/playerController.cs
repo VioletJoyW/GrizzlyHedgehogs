@@ -110,7 +110,7 @@ public class playerController : Entity
         if (!gameManager.instance.isPaused)
         { 
 
-            if(Input.GetKeyUp(settingsManager.sm.powerBtnToggle))
+            if(Input.GetKeyUp(settingsManager.sm.settingsCurr.powerBtnToggle))
                 powerBuffer.IsActive = !powerBuffer.IsActive;
 
             Movement();
@@ -122,8 +122,8 @@ public class playerController : Entity
             SelectPower();
             SelectGun();
 
-            if (Input.GetKeyDown(settingsManager.sm.reload)) StartCoroutine(ReloadGun());
-            else if (Input.GetKeyDown(settingsManager.sm.shoot) && !isShooting)
+            if (Input.GetKeyDown(settingsManager.sm.settingsCurr.reload)) StartCoroutine(ReloadGun());
+            else if (Input.GetKeyDown(settingsManager.sm.settingsCurr.shoot) && !isShooting)
             StartCoroutine(Shoot());
             
 
@@ -146,7 +146,7 @@ public class playerController : Entity
         float moveSpeed;
 
         // Sprint code
-        if (Input.GetKey(settingsManager.sm.sprint) && currentStamina > 0.2f)
+        if (Input.GetKey(settingsManager.sm.settingsCurr.sprint) && currentStamina > 0.2f)
         {
             if (!isRunning)
                 StartCoroutine(Sprint());
@@ -158,7 +158,7 @@ public class playerController : Entity
             moveSpeed = playerArmor.speed;
         }
         // Crouch code
-        if (Input.GetKey(settingsManager.sm.crouch) && !isCrouching && jumpTimes == 0)
+        if (Input.GetKey(settingsManager.sm.settingsCurr.crouch) && !isCrouching && jumpTimes == 0)
         {
             if (!isCrouchingActive)
             {
@@ -172,7 +172,7 @@ public class playerController : Entity
             Camera.main.transform.localPosition = pos;
             isCrouching = Camera.main.transform.localPosition.y < (lastCameraYPos * .5f);// * 1.1f;
         }
-        else if ((isCrouching || isCrouchingActive) && !Input.GetKey(settingsManager.sm.crouch))
+        else if ((isCrouching || isCrouchingActive) && !Input.GetKey(settingsManager.sm.settingsCurr.crouch))
         {
             Vector3 pos = Camera.main.transform.localPosition;
             pos.y = Mathf.Lerp(Camera.main.transform.localPosition.y, lastCameraYPos, Time.deltaTime * 8);
@@ -193,20 +193,20 @@ public class playerController : Entity
 
         float moveX = 0;
         float moveZ = 0;
-        if (Input.GetKey(settingsManager.sm.left))
+        if (Input.GetKey(settingsManager.sm.settingsCurr.left))
         {
             moveX = -1;
         }
-        else if (Input.GetKey(settingsManager.sm.right))
+        else if (Input.GetKey(settingsManager.sm.settingsCurr.right))
         {
             moveX = 1;
         }
 
-        if (Input.GetKey(settingsManager.sm.backwards))
+        if (Input.GetKey(settingsManager.sm.settingsCurr.backwards))
         {
             moveZ = -1;
         }
-        else if (Input.GetKey(settingsManager.sm.forwards))
+        else if (Input.GetKey(settingsManager.sm.settingsCurr.forwards))
         {
             moveZ = 1;
         }
@@ -220,10 +220,10 @@ public class playerController : Entity
 
         if(!isPlayingSteps && controller.isGrounded && move.normalized.magnitude > 0.3f)
         {
-            StartCoroutine(PlaySteps(3, moveSpeed));
+            StartCoroutine(PlaySteps(3, moveSpeed, true));
         }
 
-        if (Input.GetKeyDown(settingsManager.sm.jump) && jumpTimes < jumpsMax && !isCrouchingActive)
+        if (Input.GetKeyDown(settingsManager.sm.settingsCurr.jump) && jumpTimes < jumpsMax && !isCrouchingActive)
         {
             aud.PlayOneShot(audJump[UnityEngine.Random.Range(0, audJump.Length)], audJumpVol * playerVol);
             playerVelocity.y = playerArmor.jumpHeight;
@@ -258,7 +258,7 @@ public class playerController : Entity
                 {
                     gameManager.instance.ShowPrompt(true, "[Locked]");
 
-                    if (Input.GetKeyDown(settingsManager.sm.interact))
+                    if (Input.GetKeyDown(settingsManager.sm.settingsCurr.interact))
                     {
                         aud.PlayOneShot(audLock, audLockVol * objectVol);
                     }
@@ -266,9 +266,9 @@ public class playerController : Entity
                     return;
                 }
 
-                gameManager.instance.ShowPrompt(true, "Press [" + settingsManager.sm.interact.ToString() + "] to interact");
+                gameManager.instance.ShowPrompt(true, "Press [" + settingsManager.sm.settingsCurr.interact.ToString() + "] to interact");
 
-                if (Input.GetKeyDown(settingsManager.sm.interact))
+                if (Input.GetKeyDown(settingsManager.sm.settingsCurr.interact))
                 {
                     interactable.Interact();
                 }
@@ -495,7 +495,7 @@ public class playerController : Entity
 			if (powerBuffer.Count > 0)
 			{
 			    int currentPowerID = powerBuffer.GetCurrentPower.ID;
-                int dir = Convert.ToByte(Input.GetKey(settingsManager.sm.powerBtnScrollUp)) - Convert.ToByte(Input.GetKey(settingsManager.sm.powerBtnScrollDown));
+                int dir = Convert.ToByte(Input.GetKey(settingsManager.sm.settingsCurr.powerBtnScrollUp)) - Convert.ToByte(Input.GetKey(settingsManager.sm.settingsCurr.powerBtnScrollDown));
                 
 
 				print("Power: " + powerBuffer.GetCurrentPower.name);

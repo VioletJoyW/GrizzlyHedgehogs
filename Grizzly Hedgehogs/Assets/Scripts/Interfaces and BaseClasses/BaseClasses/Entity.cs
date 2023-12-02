@@ -51,10 +51,15 @@ public abstract class Entity : MonoBehaviour, IDamage
 	/// Plays walking sound effects.
 	/// </summary>
 	/// <returns></returns>
-	protected IEnumerator PlaySteps(int _time_seconds, float _moveSpeed, float vol = 1) 
-	{
+	protected IEnumerator PlaySteps(int _time_seconds, float _moveSpeed, bool isEnemy)
+    {
 		isPlayingSteps = true;
-		if(audStep.Length > 0)aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol * vol);
+		float volMod = 1;
+		if(isEnemy)
+		{
+			volMod = settingsManager.sm.settingsCurr.enemyVol;
+		}
+		if(audStep.Length > 0)aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol * volMod);
 		yield return new WaitForSeconds(_time_seconds / _moveSpeed);
 		isPlayingSteps = false;
 	}

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.ComponentModel;
 using System.Globalization;
+using UnityEngine.SceneManagement;
 
 public class gameManager : MonoBehaviour
 {
@@ -87,30 +88,23 @@ public class gameManager : MonoBehaviour
     GameObject menuPrevious;
     int controlsPage;
 
-    bool userReady = false;
     int musicCurr = 1;
 
     void Awake()
     {
         instance = this;
 
-        DontDestroyOnLoad(this.gameObject);
-
         timescaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         playerSpawnPos = GameObject.FindWithTag("Respawn");
-
         statePause();
         menuActive = menuMain;
         subMenuActive = subMain;
         subMenuActive.SetActive(true);
         menuActive.SetActive(true);
-    }
 
-    private void Start()
-    {
-        userReady = true;
+        musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
     void Update()
@@ -159,10 +153,10 @@ public class gameManager : MonoBehaviour
         { menuActive.SetActive(false); }
         menuActive = null;
 
-        if (musicSource.clip == musicClips[0])
-        { 
+        //if (musicSource.clip == musicClips[0])
+        //{ 
             ChangeMusic(musicCurr); 
-        }
+        //}
     }
 
     //Show Menus
@@ -504,38 +498,36 @@ public class gameManager : MonoBehaviour
         }
 
         musicSource.clip = musicClips[clip];
+        musicSource.Play();
     }
 
     public void ChangeMusicVol()
     {
-        musicSource.volume = settingsManager.sm.musicVol;
+        musicSource.volume = settingsManager.sm.settingsCurr.musicVol * .2f;
     }
 
     public void PlaySound(AudioClip clip, float vol = 0.5f)
     {
-        if (userReady)
-        {
-            source.PlayOneShot(clip, vol);
-        }
+        source.PlayOneShot(clip, vol);
     }
 
     public void PlayButtonPress()
     {
-        if (userReady)
+        if (buttonPressed != null)
         {
-           if(buttonPressed != null) source.PlayOneShot(buttonPressed);
+            source.PlayOneShot(buttonPressed);
         }
     }
 
     public void ChangeTextSize()
     {
-        Vector3 changeScale = new Vector3(settingsManager.sm.textSize, settingsManager.sm.textSize, settingsManager.sm.textSize);
+        Vector3 changeScale = new Vector3(settingsManager.sm.settingsCurr.textSize, settingsManager.sm.settingsCurr.textSize, settingsManager.sm.settingsCurr.textSize);
         
         hud.transform.localScale = changeScale;
 
         promptDisplay.transform.localScale = changeScale;
 
-        dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize = 36 * settingsManager.sm.textSize;
+        dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize = 36 * settingsManager.sm.settingsCurr.textSize;
     }
 
 }
