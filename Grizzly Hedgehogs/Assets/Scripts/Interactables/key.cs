@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+[ExecuteInEditMode]
 
-public class key : MonoBehaviour, Iitem
+public class key : MonoBehaviour, Iitem, Iinteract
 {
     [SerializeField] AudioClip sound;
-
+    [SerializeField] int keyID;
 
     int inventoryID;
+
+    void Awake()
+    {
+        keyID = ID;
+    }
 
 	public bool CheckUnlocked()
     {
@@ -20,6 +26,5 @@ public class key : MonoBehaviour, Iitem
         gameManager.instance.PlaySound(sound, settingsManager.sm.objectVol);
         Destroy(gameObject);
     }
-
 	public int ID { get => inventoryID; set => inventoryID = value; }
 }

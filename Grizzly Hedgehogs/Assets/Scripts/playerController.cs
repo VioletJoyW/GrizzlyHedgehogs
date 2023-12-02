@@ -41,7 +41,7 @@ public class playerController : Entity
     [Range(0, 1)][SerializeField] float audLockVol;
 
 
-    private InventoryManager inventoryManager;
+    //private InventoryManager inventoryManager;
 
     private int selectedGun = 0;
     private int jumpTimes;
@@ -71,7 +71,6 @@ public class playerController : Entity
 		lastCameraYPos = Camera.main.transform.localPosition.y;
 		damColliderLastHeight = controller.height;
 		
-        inventoryManager = new InventoryManager();
         SpawnPlayer();
         ChangeGunModel();
 	}
@@ -242,18 +241,6 @@ public class playerController : Entity
             Iinteract interactable = hit.collider.GetComponent<Iinteract>();
             if (interactable != null)
             {
-                if (!interactable.CheckUnlocked())
-                {
-                    gameManager.instance.ShowPrompt(true, "[Locked]");
-
-                    if (Input.GetKeyDown(settingsManager.sm.interact))
-                    {
-                        aud.PlayOneShot(audLock, audLockVol * objectVol);
-                    }
-
-                    return;
-                }
-
                 gameManager.instance.ShowPrompt(true, "Press [" + settingsManager.sm.interact.ToString() + "] to interact");
 
                 if (Input.GetKeyDown(settingsManager.sm.interact))
@@ -483,15 +470,13 @@ public class playerController : Entity
 
     public void AddItemToInventory(Iitem item) 
     {
-		if (inventoryManager == null) return;
-		inventoryManager.AddItem(item);
+		InventoryManager.AddItem(item);
     }
 
     public void AddItemsToInventory(Iitem[] items) 
     {
-        if (inventoryManager == null) return;
         foreach (Iitem item in items)
-          inventoryManager.AddItem(item);
+          InventoryManager.AddItem(item);
     }
 
 
