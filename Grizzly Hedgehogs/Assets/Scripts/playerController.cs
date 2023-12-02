@@ -10,7 +10,7 @@ public class playerController : Entity
     [Header("_-_-_- Components -_-_-_")]
     [SerializeField] CharacterController controller;
     [SerializeField] AudioSource audioSource;
-
+    
     [Header("_-_-_- Player Stats -_-_-_")]
     [Range(1, 20)][SerializeField] int health;
     [Range(1, 20)][SerializeField] float currentStamina;
@@ -43,6 +43,8 @@ public class playerController : Entity
     [SerializeField] AudioClip audLock;
     [Range(0, 1)][SerializeField] float audLockVol;
 
+
+    //private InventoryManager inventoryManager;
 
     private int selectedGun = 0;
     private int jumpTimes;
@@ -84,7 +86,8 @@ public class playerController : Entity
 
 		lastCameraYPos = Camera.main.transform.localPosition.y;
 		damColliderLastHeight = controller.height;
-		SpawnPlayer();
+		
+        SpawnPlayer();
         ChangeGunModel();
 	}
 
@@ -535,6 +538,17 @@ public class playerController : Entity
     public void ChangeObjectVol(float volume)
     {
         objectVol = volume;
+    }
+
+    public void AddItemToInventory(Iitem item) 
+    {
+		InventoryManager.AddItem(item);
+    }
+
+    public void AddItemsToInventory(Iitem[] items) 
+    {
+        foreach (Iitem item in items)
+          InventoryManager.AddItem(item);
     }
 
     public PowerBuffer GetPowerBuffer()

@@ -2,20 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+[ExecuteInEditMode]
 
-public class key : MonoBehaviour, Iinteract
+public class key : MonoBehaviour, Iitem, Iinteract
 {
-    [SerializeField] int amount;
     [SerializeField] AudioClip sound;
-    public bool CheckUnlocked()
+    [SerializeField] int keyID;
+
+    int inventoryID;
+
+    void Awake()
+    {
+        keyID = ID;
+    }
+
+	public bool CheckUnlocked()
     {
         return true;
     }
     public void Interact()
     {
-        gameManager.instance.AddTempGold(amount);
+        gameManager.instance.playerScript.AddItemToInventory(this);
         gameManager.instance.PlaySound(sound, settingsManager.sm.settingsCurr.objectVol);
         Destroy(gameObject);
     }
-
+	public int ID { get => inventoryID; set => inventoryID = value; }
 }
