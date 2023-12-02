@@ -1,182 +1,107 @@
 using System.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.XR;
 
-public class chaseEnemyAI : Entity
+public class chaseEnemyAI : MonoBehaviour
 {
+    [SerializeField] float headStart;
+    [SerializeField] ParticleSystem waitEffect;
+
 	[Header("----- Audio -----")]
-    [Range(0, 1)][SerializeField] float enemyVol;
     [SerializeField] new AudioSource audio;
-	[SerializeField] AudioClip[] audioStep;
-	[Range(0, 1)][SerializeField] float audioStepVolume;
-	[SerializeField] AudioClip[] audioDamage;
-	[Range(0, 1)][SerializeField] float audioDamageVolume;
+    [SerializeField] AudioClip audSound;
+    [Range(0, 1)][SerializeField] float audSoundVol;
     [SerializeField] AudioClip audAttack;
     [Range(0, 1)][SerializeField] float audAttackVol;
-    
-    [Header("----- Components -----")]
-    [SerializeField] Renderer model;
-    [SerializeField] NavMeshAgent agent;
-    [SerializeField] Animator animator;
-    [SerializeField] Transform shootPos;
-    [SerializeField] Transform headPos;
-    [SerializeField] Collider damageCollider;
-    //[SerializeField] Renderer laser;
-    //[SerializeField] Collider[] _ragdollsCollider;
-    //[SerializeField] Rigidbody[] _ragdolls;
 
-    [Header("----- Config -----")]
-    [SerializeField] bool fromSpawner = false;
-    
-    [Header("----- Enemy Stats -----")]
-	[SerializeField] int hitPoints;
-    [SerializeField] int playerFaceSpeed;
-    //[SerializeField] int viewCone;
-    [SerializeField] int attackCone;
-    //[SerializeField] int roamDist;
-    //[SerializeField] int roamPauseTime;
+    [Header("----- Components -----")]
+    [SerializeField] NavMeshAgent agent;
 
     [Header("----- Attack Stats -----")]
-    [SerializeField] Collider attackCollider;
     [SerializeField] float attackRate;
     [SerializeField] int attackDamage;
+    [SerializeField] ParticleSystem attackEffect;
 
-    Vector3 playerDir;
-    //bool playerInRange;
-    float angleToPlayer;
-    float stoppingDistOrig;
-    //bool destinationChosen;
-    //private Rigidbody rb;
-    //Vector3 startingPos;
+    bool isPlayingSound;
+    bool isAttacking;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Setting Entity vars
-        HitPoints = hitPoints;
-        AudioSource = audio;
-        AudioSteps = audioStep;
-        AudioStepVolume = audioStepVolume * enemyVol;
-        AudioDamage = audioDamage;
-        AudioDamageVolume = audioDamageVolume * enemyVol;
-
-        //disableRag();
-		stoppingDistOrig = agent.stoppingDistance;
-        //startingPos = transform.position;
-
-        if (!fromSpawner) // If we're not in a spawner, add ourselves to the goal. 
-        {
-            gameManager.instance.updateEnemyCount(1);
-        }
+        agent.enabled = false;
+        waitEffect.gameObject.SetActive(true);
+        StartCoroutine(giveHeadStart());
 	}
+
+    IEnumerator giveHeadStart()
+    {
+        yield return new WaitForSeconds(headStart);
+        waitEffect.gameObject.SetActive(false);
+        agent.enabled = true;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isPlayingSound)
+        { StartCoroutine(playSounds()); }
+
         if (agent.isActiveAndEnabled)
         {
-            animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
-            
-            if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
-            {
-                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude, true));
-            }
-
-            CanSeePlayer();
+            agent.SetDestination(gameManager.instance.player.transform.position);
         }
     }
 
-
-    /// <summary>
-    /// Cheacks to see if the player can be seen
-    /// </summary>
-    /// <returns></returns>
-    bool CanSeePlayer()
+    IEnumerator playSounds()
     {
-        playerDir = gameManager.instance.player.transform.position - headPos.position;
-
-        agent.SetDestination(gameManager.instance.player.transform.position);
-
-        Debug.DrawRay(headPos.position, playerDir);
-        //Debug.Log(angleToPlayer);
-
-        if (agent.remainingDistance < agent.stoppingDistance)
-        {
-            FaceTarget();
-            if (angleToPlayer <= attackCone && !isShooting)
-            {
-                StartCoroutine(Shoot());
-            }
-        }
-        return true;
+        isPlayingSound = true;
+        audio.PlayOneShot(audSound, audSoundVol * settingsManager.sm.settingsCurr.enemyVol);
+        yield return new WaitForSeconds(1);
+        isPlayingSound = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    IEnumerator attackPause()
     {
-        if (other.isTrigger)
-        {
-            return;
-        }
-
-        IDamage damagable = other.GetComponent<IDamage>();
-        if (damagable != null)
-        {
-            damagable.TakeDamage(attackDamage);
-        }
-    }
-
-    protected override IEnumerator Shoot() 
-    {
-        isShooting = true;
-
-        animator.SetTrigger("Shoot");
-        aud.PlayOneShot(audAttack, audAttackVol * enemyVol);
-
+        isAttacking = true;
         yield return new WaitForSeconds(attackRate);
-        isShooting = false;
+        isAttacking = false;
+        attackEffect.gameObject.SetActive(false);
     }
 
-    public void SetFromSpawner(bool on)
+    IEnumerator attackParticles()
     {
-        fromSpawner = on;
+        attackEffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1);
+        attackEffect.gameObject.SetActive(false);
     }
 
-    public void activateAttackCollider(bool on) // Called in animation event
+    private void OnTriggerStay(Collider other)
     {
-        attackCollider.gameObject.SetActive(on);
-    }
+        if (!isAttacking)
+        {
+            if (other.isTrigger || other.CompareTag("Enemy"))
+            {
+                return;
+            }
 
-    public override void TakeDamage(int amount)
-    {
-        aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol * enemyVol);
+            IDamage damagable = other.GetComponent<IDamage>();
 
-        StartCoroutine(DamageReact());
-        agent.SetDestination(gameManager.instance.player.transform.position);
-    }
+            Vector3 playerDir = gameManager.instance.player.transform.position - transform.position;
 
-    IEnumerator DamageReact()
-    {
-        float speedOrig = agent.speed;
+            RaycastHit hit;
 
-        model.material.color = Color.red;
-        agent.speed = 0;
-
-        yield return new WaitForSeconds(0.2f);
-
-        model.material.color = Color.white;
-        agent.speed = speedOrig;
-    }
-
-    void FaceTarget()
-    {
-        Quaternion rot = Quaternion.LookRotation(playerDir);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
-    }
-
-    public void ChangeEnemyVol(float volume)
-    {
-        enemyVol = volume;
-        AudioStepVolume = audioStepVolume * enemyVol;
-        AudioDamageVolume = audioDamageVolume * enemyVol;
+            if (Physics.Raycast(transform.position, playerDir, out hit))
+            {
+                if (damagable != null && hit.collider.CompareTag("Player"))
+                {
+                    audio.PlayOneShot(audAttack, audAttackVol * settingsManager.sm.settingsCurr.enemyVol);
+                    damagable.TakeDamage(attackDamage);
+                    StartCoroutine(attackPause());
+                    StartCoroutine(attackParticles());
+                }
+            }
+        }
     }
 }

@@ -43,6 +43,7 @@ public class oracleOrb : MonoBehaviour, Iinteract
             break;
 
             case 2:
+            levelDone = true;
             break;
 
             case 3:
