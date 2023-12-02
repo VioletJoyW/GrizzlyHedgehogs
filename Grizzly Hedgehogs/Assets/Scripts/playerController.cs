@@ -321,10 +321,52 @@ public class playerController : Entity
                 {
 					//Here I’m adding the "Power Buffer" damage to the guns’ damage.
 					bool canUsePB = (powerBuffer.IsActive && !powerBuffer.GetCurrentPower.IsShield);
-
+                
 					damageable.TakeDamage(gunsList[selectedGun].shootDamage + ( canUsePB? powerBuffer.GetCurrentPower.Effect * powerBuffer.GetCurrentPower.EffectMultiplier : 0));
                     if (canUsePB) 
                     {
+                        //A simple implementation of the Power Dot Damage.
+                        switch (powerBuffer.GetCurrentPower.Power) 
+                        {
+                            case PowerBuffer.PowerType.FLAME:
+                                {
+                                    int id = -1;
+									Entity entity = (Entity)damageable;
+									DotDamage.DealDOTDamageManual(powerBuffer.GetCurrentPower.DotRate, powerBuffer.GetCurrentPower.DotDuration, entity.MaxHP, ref entity, out id);
+                                    yield return DotDamage.DealDamage(id);
+                                }
+                                break;
+
+							case PowerBuffer.PowerType.FROST:
+								{
+									int id = -1;
+									Entity entity = (Entity)damageable;
+									DotDamage.DealDOTDamageManual(powerBuffer.GetCurrentPower.DotRate, powerBuffer.GetCurrentPower.DotDuration, entity.MaxHP, ref entity, out id);
+									yield return DotDamage.DealDamage(id);
+								}
+								break;
+
+							case PowerBuffer.PowerType.ELECTRICITY:
+								{
+									int id = -1;
+									Entity entity = (Entity)damageable;
+									DotDamage.DealDOTDamageManual(powerBuffer.GetCurrentPower.DotRate, powerBuffer.GetCurrentPower.DotDuration, entity.MaxHP, ref entity, out id);
+									yield return DotDamage.DealDamage(id);
+								}
+								break;
+
+							case PowerBuffer.PowerType.ELECTRIC_FLAME:
+								{
+									int id = -1;
+									Entity entity = (Entity)damageable;
+									DotDamage.DealDOTDamageManual(powerBuffer.GetCurrentPower.DotRate, powerBuffer.GetCurrentPower.DotDuration, entity.MaxHP, ref entity, out id);
+									yield return DotDamage.DealDamage(id);
+								}
+								break;
+
+							default:
+                                break;
+						}
                         currentStamina -= powerBuffer.GetCurrentPower.StaminaCost;
                     }
                 }

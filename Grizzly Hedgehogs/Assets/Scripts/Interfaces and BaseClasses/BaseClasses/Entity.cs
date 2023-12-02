@@ -15,7 +15,7 @@ public abstract class Entity : MonoBehaviour, IDamage
 	protected float audStepVol;
 	protected AudioClip[] audDamage;
 	protected float audDamageVol;
-
+	protected int maxHP;
 
 	protected bool isShooting;
 	protected bool isPlayingSteps;
@@ -69,5 +69,5 @@ public abstract class Entity : MonoBehaviour, IDamage
 	/// Get the Entity's "Power Buffer" object.
 	/// </summary>
 	public PowerBuffer PowerBuffer { get => powerBuffer; }
-
+	public int MaxHP { get => maxHP; set => maxHP = value; }
 }

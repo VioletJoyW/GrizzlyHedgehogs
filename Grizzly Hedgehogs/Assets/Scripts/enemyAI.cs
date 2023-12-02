@@ -58,6 +58,7 @@ public class EnemyAI : Entity
     {
         //Setting Entity vars
         HitPoints = hitPoints;
+        maxHP = hitPoints;
         AudioSource = audio;
         AudioSteps = audioStep;
         AudioStepVolume = audioStepVolume;

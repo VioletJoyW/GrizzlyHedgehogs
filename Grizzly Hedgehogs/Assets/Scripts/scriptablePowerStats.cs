@@ -27,6 +27,13 @@ public class scriptablePowerStats : ScriptableObject
 	[Tooltip("Sets how much stamina does this power will cost.")]
 	[SerializeField] float staminaCost = 1;
 	
+	[Tooltip("Sets Dot Damage rate.")]
+	[SerializeField] float dotRate = 0f;	
+
+	[Tooltip("Sets Dot Damage time length in seconds.")]
+	[SerializeField] float dotDuration = 0f;
+	
+
 	[Tooltip("Only use this for a very powerful attack/shield!")]
 	[SerializeField] float coolDown = 0;
 
@@ -90,4 +97,6 @@ public class scriptablePowerStats : ScriptableObject
 	public float CoolDown { get => coolDown; }
 	public float StaminaCost { get => staminaCost; set => staminaCost = value; }
 	public bool IsInit { get => isInit; set => isInit = value; }
+	public float DotRate { get => dotRate; }
+	public float DotDuration { get => dotDuration; set => dotDuration = value; }
 }
