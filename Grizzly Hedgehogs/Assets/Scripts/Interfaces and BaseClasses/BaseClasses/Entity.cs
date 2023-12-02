@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IDamage
 {
 
-	public enum EntityType { NONE, ENEMIES, PLAYER }
+	//Not needed for now..
+	//public enum EntityType { NONE, ENEMIES, PLAYER }
 
 	protected int HP;
 
@@ -14,7 +15,7 @@ public abstract class Entity : MonoBehaviour, IDamage
 	protected float audStepVol;
 	protected AudioClip[] audDamage;
 	protected float audDamageVol;
-
+	protected int maxHP;
 
 	protected bool isShooting;
 	protected bool isPlayingSteps;
@@ -59,6 +60,9 @@ public abstract class Entity : MonoBehaviour, IDamage
 		isPlayingSteps = false;
 	}
 
+	/// <summary>
+	/// Get the Entity's "Power Buffer" object.
+	/// </summary>
 	public PowerBuffer PowerBuffer { get => powerBuffer; }
-
+	public int MaxHP { get => maxHP; set => maxHP = value; }
 }
