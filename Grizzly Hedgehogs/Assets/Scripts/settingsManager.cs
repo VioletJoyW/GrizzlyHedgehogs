@@ -73,9 +73,9 @@ public class settingsManager : MonoBehaviour
         }
         else
         {
-            gameManager.instance.ChangeTextSize();
-            AudioListener.volume = settingsCurr.globalVol;
-            gameManager.instance.ChangeMusicVol();
+            showVisualsChanges();
+            showAudioChanges();
+            showControlsChanges();
         }
 
         waitingForKey = false;
@@ -100,20 +100,26 @@ public class settingsManager : MonoBehaviour
         }
 
         settingsCurr.camSensitivity = camSensitivityDefault;
-        sensitivityValue.text = settingsCurr.camSensitivity.ToString();
-        camSliderValue.value = settingsCurr.camSensitivity;
 
         settingsCurr.invertY = invertYDefault;
-        invertYCheck.isOn = settingsCurr.invertY;
 
-        //settingsCurr.camBob = camBobDefault;
-        //camBobCheck.isOn = settingsCurr.camBob;
+        settingsCurr.camBob = camBobDefault;
 
         settingsCurr.textSize = textSizeDefault;
+
+        showVisualsChanges();
+    }
+
+    public void showVisualsChanges()
+    {
+        gameManager.instance.ChangeTextSize();
+
+        sensitivityValue.text = settingsCurr.camSensitivity.ToString();
+        camSliderValue.value = settingsCurr.camSensitivity;
+        invertYCheck.isOn = settingsCurr.invertY;
+        camBobCheck.isOn = settingsCurr.camBob;
         textSizeValue.GetComponentInChildren<TMP_Text>().text = settingsCurr.textSize.ToString();
         textSliderValue.value = settingsCurr.textSize;
-
-        gameManager.instance.ChangeTextSize();
     }
 
     public void resetAudio()
@@ -124,17 +130,23 @@ public class settingsManager : MonoBehaviour
         }
 
         settingsCurr.globalVol = globalVolDefault;
-        globalVolValue.text = settingsCurr.globalVol.ToString("F2");
         settingsCurr.playerVol = playerVolDefault;
-        playerVolValue.text = settingsCurr.playerVol.ToString("F2");
         settingsCurr.enemyVol = enemyVolDefault;
-        enemyVolValue.text = settingsCurr.enemyVol.ToString("F2");
         settingsCurr.objectVol = enviromentVolDefault;
-        enviromentVolValue.text = settingsCurr.objectVol.ToString("F2");
         settingsCurr.musicVol = musicVolDefault;
+
+        showAudioChanges();
+    }
+
+    public void showAudioChanges()
+    {
+        globalVolValue.text = settingsCurr.globalVol.ToString("F2");
+        playerVolValue.text = settingsCurr.playerVol.ToString("F2");
+        enemyVolValue.text = settingsCurr.enemyVol.ToString("F2");
+        enviromentVolValue.text = settingsCurr.objectVol.ToString("F2");
         musicVolValue.text = settingsCurr.musicVol.ToString("F2");
 
-        for(int i = 0; i < VolValues.Length; i++)
+        for (int i = 0; i < VolValues.Length; i++)
         {
             VolValues[i].value = 0.5f;
         }
@@ -164,6 +176,11 @@ public class settingsManager : MonoBehaviour
         settingsCurr.shoot = shootDefault;
         settingsCurr.reload = reloadDefault;
         
+        showControlsChanges();
+    }
+
+    public void showControlsChanges()
+    {
         Keys[0].GetComponentInChildren<TMP_Text>().text = settingsCurr.forwards.ToString();
         Keys[1].GetComponentInChildren<TMP_Text>().text = settingsCurr.backwards.ToString();
         Keys[2].GetComponentInChildren<TMP_Text>().text = settingsCurr.left.ToString();
@@ -172,7 +189,7 @@ public class settingsManager : MonoBehaviour
         Keys[5].GetComponentInChildren<TMP_Text>().text = settingsCurr.sprint.ToString();
         Keys[6].GetComponentInChildren<TMP_Text>().text = settingsCurr.crouch.ToString();
         Keys[7].GetComponentInChildren<TMP_Text>().text = settingsCurr.interact.ToString();
-        Keys[8].GetComponentInChildren <TMP_Text>().text = settingsCurr.shoot.ToString();
+        Keys[8].GetComponentInChildren<TMP_Text>().text = settingsCurr.shoot.ToString();
         Keys[9].GetComponentInChildren<TMP_Text>().text = settingsCurr.reload.ToString();
         Keys[10].GetComponentInChildren<TMP_Text>().text = settingsCurr.powerBtnToggle.ToString();
         Keys[11].GetComponentInChildren<TMP_Text>().text = settingsCurr.powerBtnScrollUp.ToString();

@@ -30,8 +30,8 @@ MonoBehaviour:
   sprint: 304
   crouch: 306
   powerBtnToggle: 9
-  powerBtnScrollUp: 49
-  powerBtnScrollDown: 51
+  powerBtnScrollUp: 257
+  powerBtnScrollDown: 258
   interact: 101
   shoot: 323
   reload: 114

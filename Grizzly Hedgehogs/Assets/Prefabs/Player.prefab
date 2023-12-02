@@ -144,10 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a71f4e34ebc6c4ea3e59af0ae33edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camSensitivity: 400
   camMin: -90
   camMax: 90
-  invertY: 0
 --- !u!20 &5760850350595514473
 Camera:
   m_ObjectHideFlags: 0
@@ -362,15 +360,19 @@ MonoBehaviour:
   audioSource: {fileID: -6445986916612953487}
   health: 10
   currentStamina: 3
+  crouchSpeed: 5
   gravityFloat: -20
   jumpsMax: 2
   visionDistance: 5
   restoreStaminaRate: 0.5
   drainStaminaRate: 0.8
+  powerStats: []
   playerArmor: {fileID: 11400000, guid: 17b44187e9dc4114ba3e67f70f35e8c9, type: 2}
   gunsList:
   - {fileID: 11400000, guid: 5833120011322bc4a8bc0ec76f94fa7d, type: 2}
   gunModel: {fileID: 7969017625691290941}
+  playerVol: 0
+  objectVol: 0
   audioDamage:
   - {fileID: 8300000, guid: d1208ab82936e01469038e25c7a1b2bd, type: 3}
   - {fileID: 8300000, guid: 8358b96c781074840a12b8bc3a2a9e4d, type: 3}
