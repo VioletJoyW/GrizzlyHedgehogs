@@ -491,6 +491,7 @@ public class playerController : Entity
         if (powerBuffer.IsActive) 
         {
             //print("Selected Power: "+ powerBuffer.GetCurrentPower.name);
+            gameManager.instance.UpdatePowerText();
 
 			if (powerBuffer.Count > 0)
 			{
@@ -507,6 +508,10 @@ public class playerController : Entity
                 Utillities.ResetGlobalTimer(pBFButtonCoolDownTimerID);
 			}
 		}
+        else
+        {
+            gameManager.instance.UpdatePowerText();
+        }
 
 	}
 
@@ -530,6 +535,11 @@ public class playerController : Entity
     public void ChangeObjectVol(float volume)
     {
         objectVol = volume;
+    }
+
+    public PowerBuffer GetPowerBuffer()
+    {
+        return powerBuffer;
     }
 
 }

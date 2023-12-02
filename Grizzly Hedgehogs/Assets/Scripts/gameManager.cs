@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class gameManager : MonoBehaviour
 {
     public static gameManager instance;
+    public int curScene = 0;
 
     [Header("_-_-_- Menus -_-_-_")]
     [SerializeField] GameObject menuActive;
@@ -37,6 +38,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject hud;
 
     [SerializeField] GameObject playerDamageScreen;
+    [SerializeField] TMP_Text objectiveText;
+    [SerializeField] TMP_Text powerText;
     [SerializeField] TMP_Text enemyCountText;
     [SerializeField] TMP_Text tempGoldCountText;
     [SerializeField] TMP_Text totalGoldCountText;
@@ -530,4 +533,26 @@ public class gameManager : MonoBehaviour
         dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize = 36 * settingsManager.sm.settingsCurr.textSize;
     }
 
+    public void UpdateGameObjective(string objective)
+    {
+        objectiveText.text = objective;
+    }
+
+    public void UpdatePowerText()
+    {
+        if (playerScript.GetPowerBuffer().IsActive && playerScript.GetPowerBuffer().Count > 0)
+        {
+            powerText.text = playerScript.GetPowerBuffer().GetCurrentPower.name;
+        }
+        else
+        {
+            powerText.text = "None";
+        }
+    }
+
+    public void NextLevel()
+    {
+        curScene++;
+        SceneManager.LoadScene(curScene);
+    }
 }
