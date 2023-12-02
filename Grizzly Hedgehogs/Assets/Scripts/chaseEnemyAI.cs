@@ -66,7 +66,7 @@ public class chaseEnemyAI : Entity
 
         if (!fromSpawner) // If we're not in a spawner, add ourselves to the goal. 
         {
-            gameManager.instance.updateGameGoal(1);
+            gameManager.instance.updateEnemyCount(1);
         }
 	}
 
@@ -79,7 +79,7 @@ public class chaseEnemyAI : Entity
             
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
             {
-                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude));
+                StartCoroutine(PlaySteps(1, agent.velocity.normalized.magnitude, true));
             }
 
             CanSeePlayer();

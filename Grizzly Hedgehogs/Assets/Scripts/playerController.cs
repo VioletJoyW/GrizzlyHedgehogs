@@ -223,7 +223,7 @@ public class playerController : Entity
 
         if(!isPlayingSteps && controller.isGrounded && move.normalized.magnitude > 0.3f)
         {
-            StartCoroutine(PlaySteps(3, moveSpeed, true));
+            StartCoroutine(PlaySteps(3, moveSpeed, false));
         }
 
         if (Input.GetKeyDown(settingsManager.sm.settingsCurr.jump) && jumpTimes < jumpsMax && !isCrouchingActive)
