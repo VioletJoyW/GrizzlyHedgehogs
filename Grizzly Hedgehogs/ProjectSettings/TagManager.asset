@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Enemy Sniper
+  - Key
   layers:
   - Default
   - TransparentFX

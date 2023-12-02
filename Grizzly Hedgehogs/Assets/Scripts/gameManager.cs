@@ -263,12 +263,7 @@ public class gameManager : MonoBehaviour
     {
         infiniteAmmo = !infiniteAmmo;
     }
-
-    public void LETITRIP()
-    {
-        beybladebeybladeLETITRIP = !beybladebeybladeLETITRIP;
-    }
-
+    
     /// <summary>
     /// Displays win screen.
     /// </summary>
