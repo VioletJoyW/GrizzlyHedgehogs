@@ -74,6 +74,12 @@ public static class DotDamage
 
 	}
 
+
+	static public IEnumerator DealDamage(int id) 
+	{
+		yield return dotDamages[id].dealDamage();
+	}
+
 	/// <summary>
 	/// <para>Tells you if dot damge is done being applied.</para>
 	/// </summary>
@@ -110,11 +116,10 @@ public static class DotDamage
 			this.entity = entity;
 			this.autoDel = autoDel;
 			timer = new Timer(duration);
-			StartCoroutine(dealDamage());
 		}
 
 
-		IEnumerator dealDamage()
+		public IEnumerator dealDamage()
 		{
 			while (!timer.IsDone)
 			{
@@ -129,6 +134,7 @@ public static class DotDamage
 				yield return null; // pause this funtion call for a sec.
 			}
 			if(autoDel) RemoveDOTDamage(id); // Remove this object from the damage list.
+			yield break;
 		}
 
 

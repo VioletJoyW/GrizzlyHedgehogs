@@ -60,12 +60,12 @@ public class EnemyAI : Entity
     {
         //Setting Entity vars
         HitPoints = hitPoints;
+        maxHP = hitPoints;
         AudioSource = audio;
         AudioSteps = audioStep;
         AudioStepVolume = audioStepVolume * enemyVol;
         AudioDamage = audioDamage;
         AudioDamageVolume = audioDamageVolume * enemyVol;
-
         disableRag();
 		stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
