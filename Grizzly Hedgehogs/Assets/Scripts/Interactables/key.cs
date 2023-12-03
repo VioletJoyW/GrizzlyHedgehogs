@@ -4,17 +4,33 @@ using UnityEngine;
 using UnityEngine.UIElements;
 [ExecuteInEditMode]
 
+
+
 public class key : MonoBehaviour, Iitem, Iinteract
 {
+    static int keyCount;
+
+    //static List<key> keys = new List<key>();
+
     [SerializeField] AudioClip sound;
     [SerializeField] int keyID;
 
     int inventoryID;
-
+    
     void Start()
     {
-        keyID = ID;
-    }
+        keyID = ID = keyCount++;
+		print("Start Called");
+	}
+
+
+    void Awake()
+    {
+        keyCount = 0;
+		print("Awake Called");
+	}
+
+
 
 	public bool CheckUnlocked()
     {
@@ -26,5 +42,6 @@ public class key : MonoBehaviour, Iitem, Iinteract
         gameManager.instance.PlaySound(sound, settingsManager.sm.settingsCurr.objectVol);
         Destroy(gameObject);
     }
-	public int ID { get => inventoryID; set => inventoryID = value; }
+	public int ID { get => keyID; set => keyID = value; }
+	public int Inventory_ID { get => inventoryID; set => inventoryID = value; }
 }

@@ -5,4 +5,5 @@ using UnityEngine;
 public interface Iitem : Iinteract
 {
 	int ID { get; set; }
+	int Inventory_ID { get; set; }
 }

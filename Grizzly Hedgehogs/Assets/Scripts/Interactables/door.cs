@@ -21,23 +21,19 @@ public class door : MonoBehaviour, Iinteract
         anim.SetBool("isOpen", open);
         aud.volume = settingsManager.sm.settingsCurr.objectVol;
         aud.Play();
-        for (int i = 0; i < InventoryManager.Inventory.Count && !isUnlocked; i++)
+        for (int i = 0; !isUnlocked && i < InventoryManager.Inventory.Count; i++)
         {
             // if null then continue
-            if (InventoryManager.Inventory[i] == null)
-            {
-                continue;
-            }
+            if (InventoryManager.Inventory[i] == null) continue;
+            
             // compares keyid
             if (InventoryManager.Inventory[i].ID == keyID)
             {
                 isUnlocked = true;
-                InventoryManager.RemoveItem(InventoryManager.Inventory[i].ID);
+                InventoryManager.RemoveItem(InventoryManager.Inventory[i].Inventory_ID);
             }
         }
-        if (isUnlocked)
-        {
-            open = !open;
-        }
+        if (isUnlocked) open = !open;
+        
     }
 }

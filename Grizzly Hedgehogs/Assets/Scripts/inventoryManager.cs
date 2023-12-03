@@ -16,7 +16,7 @@ public class InventoryManager : MonoBehaviour
         }
         if (inventory.Count < 1 || inventoryCount == inventory.Count)
         {
-            item.ID = inventoryCount;
+            item.Inventory_ID = inventoryCount;
             inventory.Add(item);
         }
         else
@@ -26,7 +26,7 @@ public class InventoryManager : MonoBehaviour
                 if (inventory[i] == null)
                 {
                     inventory[i] = item;
-                    item.ID = i;
+                    item.Inventory_ID = i;
                     break;
                 }
             }
