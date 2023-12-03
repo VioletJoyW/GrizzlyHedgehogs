@@ -334,7 +334,8 @@ public class playerController : Entity
 									Entity entity = (Entity)damageable;
 									DotDamage.DealDOTDamageManual(powerBuffer.GetCurrentPower.DotRate, powerBuffer.GetCurrentPower.DotDuration, entity.MaxHP, ref entity, out id);
                                     yield return DotDamage.DealDamage(id);
-                                }
+									DotDamage.RemoveDOTDamage(id);
+								}
                                 break;
 
 							case PowerBuffer.PowerType.FROST:
@@ -343,6 +344,7 @@ public class playerController : Entity
 									Entity entity = (Entity)damageable;
 									DotDamage.DealDOTDamageManual(powerBuffer.GetCurrentPower.DotRate, powerBuffer.GetCurrentPower.DotDuration, entity.MaxHP, ref entity, out id);
 									yield return DotDamage.DealDamage(id);
+                                    DotDamage.RemoveDOTDamage(id);
 								}
 								break;
 
@@ -352,6 +354,7 @@ public class playerController : Entity
 									Entity entity = (Entity)damageable;
 									DotDamage.DealDOTDamageManual(powerBuffer.GetCurrentPower.DotRate, powerBuffer.GetCurrentPower.DotDuration, entity.MaxHP, ref entity, out id);
 									yield return DotDamage.DealDamage(id);
+									DotDamage.RemoveDOTDamage(id);
 								}
 								break;
 
@@ -361,6 +364,7 @@ public class playerController : Entity
 									Entity entity = (Entity)damageable;
 									DotDamage.DealDOTDamageManual(powerBuffer.GetCurrentPower.DotRate, powerBuffer.GetCurrentPower.DotDuration, entity.MaxHP, ref entity, out id);
 									yield return DotDamage.DealDamage(id);
+									DotDamage.RemoveDOTDamage(id);
 								}
 								break;
 

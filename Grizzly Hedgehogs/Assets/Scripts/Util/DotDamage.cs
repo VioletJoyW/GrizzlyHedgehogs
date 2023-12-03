@@ -121,7 +121,7 @@ public static class DotDamage
 
 		public IEnumerator dealDamage()
 		{
-			while (!timer.IsDone)
+			while (!timer.IsDone && entity.IsAlive) // While we still have damage to give and the enemy isn't dead.
 			{
 				if((int) damage > 0) // truncate the float and check the int.
 				{

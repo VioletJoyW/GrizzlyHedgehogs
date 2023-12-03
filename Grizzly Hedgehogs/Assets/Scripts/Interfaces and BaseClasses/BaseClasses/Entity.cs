@@ -17,6 +17,7 @@ public abstract class Entity : MonoBehaviour, IDamage
 	protected float audDamageVol;
 	protected int maxHP;
 
+	protected bool isAlive;
 	protected bool isShooting;
 	protected bool isPlayingSteps;
 
@@ -70,4 +71,5 @@ public abstract class Entity : MonoBehaviour, IDamage
 	/// </summary>
 	public PowerBuffer PowerBuffer { get => powerBuffer; }
 	public int MaxHP { get => maxHP; set => maxHP = value; }
+	public bool IsAlive { get => isAlive; set => isAlive = value; }
 }

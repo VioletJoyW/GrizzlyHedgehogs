@@ -20,14 +20,12 @@ public class key : MonoBehaviour, Iitem, Iinteract
     void Start()
     {
         keyID = ID = keyCount++;
-		print("Start Called");
 	}
 
 
     void Awake()
     {
         keyCount = 0;
-		print("Awake Called");
 	}
 
 

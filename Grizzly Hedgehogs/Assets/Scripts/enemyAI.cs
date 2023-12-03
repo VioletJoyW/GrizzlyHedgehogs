@@ -68,8 +68,8 @@ public class EnemyAI : Entity
         disableRag();
 		stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
-
-        if (!fromSpawner) // If we're not in a spawner, add ourselves to the goal. 
+		IsAlive = true;
+		if (!fromSpawner) // If we're not in a spawner, add ourselves to the goal. 
         {
             gameManager.instance.updateEnemyCount(1);
         }
@@ -233,6 +233,7 @@ public class EnemyAI : Entity
 
         if (HP <= 0)
         {
+            IsAlive = false;
             enableRag();
             damageCollider.enabled = false;
 

@@ -18,7 +18,7 @@ MonoBehaviour:
   effectMultiplier: 1
   staminaCost: 2
   dotRate: 0.05
-  dotDuration: 3
+  dotDuration: 0.3
   coolDown: 0
   visualEffect: {fileID: 0}
   soundEffect: {fileID: 0}
