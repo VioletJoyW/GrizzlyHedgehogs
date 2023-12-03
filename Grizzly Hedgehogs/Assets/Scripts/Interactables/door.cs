@@ -14,7 +14,7 @@ public class door : MonoBehaviour, Iinteract
 
     public bool CheckUnlocked()
     {
-        return gameManager.instance.unlockedDoors;
+        return isUnlocked;
     }
     public void Interact()
     {

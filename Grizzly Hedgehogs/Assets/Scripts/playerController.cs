@@ -265,11 +265,11 @@ public class playerController : Entity
                     {
                         aud.PlayOneShot(audLock, audLockVol * objectVol);
                     }
-
-                    return;
                 }
-
-                gameManager.instance.ShowPrompt(true, "Press [" + settingsManager.sm.settingsCurr.interact.ToString() + "] to interact");
+                else
+                {
+                    gameManager.instance.ShowPrompt(true, "Press [" + settingsManager.sm.settingsCurr.interact.ToString() + "] to interact");
+                }
 
                 if (Input.GetKeyDown(settingsManager.sm.settingsCurr.interact))
                 {
