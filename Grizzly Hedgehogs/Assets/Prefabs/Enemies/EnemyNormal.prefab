@@ -2603,7 +2603,7 @@ MonoBehaviour:
   - {fileID: 674637702948145917}
   - {fileID: 6846033796591258855}
   fromSpawner: 0
-  hitPoints: 3
+  hitPoints: 5
   playerFaceSpeed: 6
   viewCone: 90
   shootCone: 5

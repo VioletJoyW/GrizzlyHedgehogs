@@ -52,6 +52,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] Image playerStaminaBar;
     [SerializeField] TMP_Text playerStaminaText;
     [SerializeField] Image playerAmmoBar;
+    [SerializeField] TMP_Text gunNameText;
     [SerializeField] TMP_Text playerAmmoText;
     [SerializeField] Image playerAmmoBackground;
 
@@ -379,14 +380,15 @@ public class gameManager : MonoBehaviour
 
     //
 
-    public void UpdatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, int ammoCurrent, int ammoMax)
+    public void UpdatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, ScriptableGunStats gun)
     {
         playerHealthBar.fillAmount = (float)healthCurrent / healthMax;
         playerHealthText.text = healthCurrent.ToString("0") + " / " + healthMax.ToString("0");
         playerStaminaBar.fillAmount = staminaCurrent / staminaMax;
         playerStaminaText.text = staminaCurrent.ToString("0") + " / " + staminaMax.ToString("0");
-        playerAmmoBar.fillAmount = (float)ammoCurrent / ammoMax;
-        playerAmmoText.text = ammoCurrent.ToString("0") + " / " + ammoMax.ToString("0");
+        playerAmmoBar.fillAmount = (float)gun.ammoCurrent / gun.ammoMax;
+        playerAmmoText.text = gun.ammoCurrent.ToString("0") + " / " + gun.ammoTotal.ToString("0");
+        gunNameText.text = gun.name;
     }
 
     public void ShowPrompt(bool on, string prompt = "")

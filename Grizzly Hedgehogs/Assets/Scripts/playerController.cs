@@ -103,7 +103,7 @@ public class playerController : Entity
         {
             gunsList[i].ammoCurrent = gunsList[i].ammoMax;
         }
-        gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
+        gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun]);
         transform.position = gameManager.instance.playerSpawnPos.transform.localPosition;
         controller.enabled = true;
     }
@@ -130,7 +130,7 @@ public class playerController : Entity
             StartCoroutine(Shoot());
             
 
-            gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun].ammoCurrent, gunsList[selectedGun].ammoMax);
+            gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun]);
         }
     }
 

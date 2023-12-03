@@ -66,8 +66,8 @@ public class PointLightRing : MonoBehaviour
 	private void Update()
 	{
 		Vector3 playerPos = gameManager.instance.player.transform.position;
-		Vector3 distance = transform.position - playerPos; // the distance from the player
-		UnityEngine.Debug.DrawRay(playerPos, transform.position, Color.magenta);
+		Vector3 distance =  playerPos - transform.position; // the distance from the player
+		UnityEngine.Debug.DrawRay(transform.position, distance, Color.magenta);
 		childrenOn = (distance.magnitude < activationDistance);
 		if (!childrenOn) // Truns off the lights if the player is not near by.
 		{

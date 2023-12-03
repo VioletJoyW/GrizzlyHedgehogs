@@ -15,7 +15,7 @@ MonoBehaviour:
   shootDamage: 1
   shootDistance: 20
   shootRate: 0.75
-  ammoCurrent: 9
+  ammoCurrent: 10
   ammoMax: 10
   ammoTotal: 30
   ammoTotalMax: 30

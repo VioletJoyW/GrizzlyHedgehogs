@@ -47,8 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   light: {fileID: 6420683796507711613, guid: 4be3b8cecd350c0428176f13a875a873, type: 3}
   count: 2
+  angleCount: 0
   radious: 4.5
+  activationDistance: 100
   update: 0
+  intensity: 0
   refresh: 0
 --- !u!108 &8092213341846022199
 Light:
