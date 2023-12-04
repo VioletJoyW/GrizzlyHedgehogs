@@ -94,10 +94,13 @@ public class gameManager : MonoBehaviour
 
     int musicCurr = 1;
 
-    void Awake()
+    int dialogTimer = -1;
+
+
+	void Awake()
     {
         instance = this;
-
+        Utillities.CreateGlobalTimer(5.0f, ref dialogTimer);
         timescaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
@@ -111,16 +114,23 @@ public class gameManager : MonoBehaviour
         musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
+    bool confirm = false;
     void Update()
     {
-        if(inDialog && Input.anyKeyDown)
+        confirm = Input.GetKeyUp(KeyCode.E);
+
+
+		if (inDialog && confirm)
         {
             ShowDialog(dialogCurrent);
+            Utillities.ResetGlobalTimer(dialogTimer);
+            confirm = false;
         }
         else if(Input.GetButtonDown("Cancel") && !isPaused)
         {
             showPauseMenu();
         }
+        Utillities.UpdateGlobalTimer(dialogTimer);
     }
 
     //
@@ -330,14 +340,7 @@ public class gameManager : MonoBehaviour
     {
         enemiesRemaining += amount;
         enemyCountText.GetComponent<TMP_Text>().text = enemiesRemaining.ToString("0");
-        if (enemiesRemaining <= 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+		return (enemiesRemaining <= 0);
     }
 
     /// <summary>

@@ -41339,18 +41339,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Movement - WASD / Arrow keys
-
-    Sprint - Shift
-
-    Jump - Space bar
-
-    Shoot
-    - Mouse click
-
-    Switch Guns - Mouse scroll
-
-    Interact - E'
+  m_text: "Movement - WASD / Arrow keys\nSprint - Shift\nJump - Space bar\nShoot
+    - Mouse click\nSwitch Guns - Mouse scroll\nInteract - E\nPower Activation - TAB\nPower
+    Scroll  - 1 & 3 or \nKeyPad 1 & 3\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -11,7 +11,7 @@ public class oracleOrb : MonoBehaviour, Iinteract
     [Range(0, 1)] public float iSoundVol;
 
     bool levelDone = false;
-    int curScene = 0;
+    [SerializeField] int curScene;
 
     // Start is called before the first frame update
     void Start()
