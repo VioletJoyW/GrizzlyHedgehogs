@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class door : MonoBehaviour, Iinteract
 {
@@ -35,5 +36,15 @@ public class door : MonoBehaviour, Iinteract
         }
         if (isUnlocked) open = !open;
         
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.TryGetComponent<NavMeshAgent>(out NavMeshAgent agent))
+        {
+            if (!open)
+            {
+                open = true;
+            }
+        }
     }
 }
