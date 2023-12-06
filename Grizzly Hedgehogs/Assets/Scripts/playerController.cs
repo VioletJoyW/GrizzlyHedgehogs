@@ -250,7 +250,7 @@ public class playerController : Entity
     /// </summary>
     void Interactions()
     {
-        Debug.DrawRay(Camera.main.transform.localPosition, Camera.main.transform.forward * visionDistance, Color.red);
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * visionDistance, Color.red);
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, visionDistance))
         {

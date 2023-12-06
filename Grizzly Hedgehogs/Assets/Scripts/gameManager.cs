@@ -169,7 +169,7 @@ public class gameManager : MonoBehaviour
 
         //if (musicSource.clip == musicClips[0])
         //{ 
-            ChangeMusic(musicCurr); 
+//            ChangeMusic(musicCurr); 
         //}
     }
 
@@ -182,7 +182,7 @@ public class gameManager : MonoBehaviour
         subMenuActive = subMain;
         subMenuActive.SetActive(true);
         menuActive.SetActive(true);
-        ChangeMusic(0);
+        //ChangeMusic(0);
     }
     public void showMain()
     {
