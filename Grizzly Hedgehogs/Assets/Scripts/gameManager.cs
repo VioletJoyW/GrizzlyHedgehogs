@@ -30,7 +30,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuConfirmExit;
-    [SerializeField] GameObject menuTESTING; //
+    [SerializeField] GameObject menuTESTING; 
     [SerializeField] GameObject menuInventory;
 
     [Header("_-_-_- HUD -_-_-_")]

@@ -32,4 +32,5 @@ public class ScriptableSettings : ScriptableObject
     public KeyCode interact;
     public KeyCode shoot;
     public KeyCode reload;
+    public KeyCode aim;
 }

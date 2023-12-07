@@ -5,6 +5,7 @@ using UnityEngine;
 public class cameraController : MonoBehaviour
 {
     //[SerializeField] int camSensitivity;
+    [SerializeField] Camera adsCamera;
     [SerializeField] int camMin;
     [SerializeField] int camMax;
 
@@ -30,4 +31,6 @@ public class cameraController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
         transform.parent.Rotate(Vector3.up * mouseX);
     }
+
+    
 }

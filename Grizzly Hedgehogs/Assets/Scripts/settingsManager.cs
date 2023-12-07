@@ -53,6 +53,7 @@ public class settingsManager : MonoBehaviour
     [SerializeField] KeyCode interactDefault;
     [SerializeField] KeyCode shootDefault;
     [SerializeField] KeyCode reloadDefault;
+    [SerializeField] KeyCode aimDefault;
 
     Event keyEvent;
     bool waitingForKey;
@@ -351,6 +352,9 @@ public class settingsManager : MonoBehaviour
                 break;
             case "Power Down":
                 settingsCurr.powerBtnScrollDown = newKey;
+                break;
+            case "Aim":
+                settingsCurr.aim = newKey;
                 break;
         }
 
