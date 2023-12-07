@@ -21463,6 +21463,7 @@ MonoBehaviour:
   interactDefault: 101
   shootDefault: 323
   reloadDefault: 114
+  aimDefault: 0
 --- !u!1 &4716942633853064268
 GameObject:
   m_ObjectHideFlags: 0
