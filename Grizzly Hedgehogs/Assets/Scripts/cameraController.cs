@@ -24,13 +24,14 @@ public class cameraController : MonoBehaviour
         Utillities.UpdateGlobalTimer(TimerID);
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * settingsManager.sm.settingsCurr.camSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * settingsManager.sm.settingsCurr.camSensitivity;
+        _camera.fieldOfView = settingsManager.sm.settingsCurr.camFOV;
         adscamFOV = (int)settingsManager.sm.settingsCurr.camFOV % 30;
 
         if(_camera != null)
         {
             if (Input.GetKeyDown(settingsManager.sm.settingsCurr.aim) && Utillities.IsGlobalTimerDone(TimerID))
             {
-
+                _camera.fieldOfView = adscamFOV;
                 Utillities.ResetGlobalTimer(TimerID);
             }
         }
