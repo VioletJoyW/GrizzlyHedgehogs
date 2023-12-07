@@ -5,18 +5,35 @@ using UnityEngine;
 public class cameraController : MonoBehaviour
 {
     //[SerializeField] int camSensitivity;
-    [SerializeField] Camera adsCamera;
+    [SerializeField] Camera _camera;
     [SerializeField] int camMin;
     [SerializeField] int camMax;
+    [SerializeField] int adscamFOV;
 
     float rotationX;
     //[SerializeField] bool invertY;
-
+    int TimerID;
     // Update is called once per frame
+    private void Awake()
+    {
+        Utillities.CreateGlobalTimer(.5f, ref TimerID);
+    }
+
     void Update()
     {
+        Utillities.UpdateGlobalTimer(TimerID);
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * settingsManager.sm.settingsCurr.camSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * settingsManager.sm.settingsCurr.camSensitivity;
+        adscamFOV = (int)settingsManager.sm.settingsCurr.camFOV % 30;
+
+        if(_camera != null)
+        {
+            if (Input.GetKeyDown(settingsManager.sm.settingsCurr.aim) && Utillities.IsGlobalTimerDone(TimerID))
+            {
+
+                Utillities.ResetGlobalTimer(TimerID);
+            }
+        }
 
         if (settingsManager.sm.settingsCurr.invertY)
         {

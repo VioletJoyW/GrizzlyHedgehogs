@@ -250,6 +250,10 @@ public class playerController : Entity
     /// </summary>
     void Interactions()
     {
+        if (Camera.main == null)
+        {
+            return;
+        }
         Debug.DrawRay(Camera.main.transform.localPosition, Camera.main.transform.forward * visionDistance, Color.red);
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, visionDistance))
@@ -310,6 +314,10 @@ public class playerController : Entity
             if (!gameManager.instance.infiniteAmmo) //Part of testing codes
             {
                 gunsList[selectedGun].ammoCurrent -= 1;
+            }
+            if(Camera.main == null)
+            {
+                yield return null;
             }
             if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f)), out hit, gunsList[selectedGun].shootDistance))
             {

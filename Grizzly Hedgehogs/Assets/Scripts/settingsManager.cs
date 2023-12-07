@@ -13,6 +13,7 @@ public class settingsManager : MonoBehaviour
     [Header("_-_-_- Components -_-_-_")]
     [SerializeField] TMP_Text sensitivityValue;
     [SerializeField] GameObject textSizeValue;
+    [SerializeField] TMP_Text camFOV;
     [SerializeField] TMP_Text globalVolValue;
     [SerializeField] TMP_Text playerVolValue;
     [SerializeField] TMP_Text enemyVolValue;
@@ -21,6 +22,7 @@ public class settingsManager : MonoBehaviour
 
     [SerializeField] Slider camSliderValue;
     [SerializeField] Slider textSliderValue;
+    [SerializeField] Slider fovSlider;
     [SerializeField] Toggle invertYCheck;
     [SerializeField] Toggle camBobCheck;
     [SerializeField] Button[] Keys;
@@ -117,6 +119,8 @@ public class settingsManager : MonoBehaviour
 
         sensitivityValue.text = settingsCurr.camSensitivity.ToString();
         camSliderValue.value = settingsCurr.camSensitivity;
+        camFOV.text = settingsCurr.camFOV.ToString();
+        fovSlider.value = settingsCurr.camFOV;
         invertYCheck.isOn = settingsCurr.invertY;
         camBobCheck.isOn = settingsCurr.camBob;
         textSizeValue.GetComponentInChildren<TMP_Text>().text = settingsCurr.textSize.ToString();
@@ -201,6 +205,12 @@ public class settingsManager : MonoBehaviour
     {
         settingsCurr.camSensitivity = sensitivity.value;
         sensitivityValue.text = sensitivity.value.ToString();
+    }
+
+    public void changeCamFOV(Slider fov)
+    {
+        settingsCurr.camFOV = fov.value;
+        camFOV.text = fov.value.ToString();
     }
 
     public void changeTextSize(Slider size)

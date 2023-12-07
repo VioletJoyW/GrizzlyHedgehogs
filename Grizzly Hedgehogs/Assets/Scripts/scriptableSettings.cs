@@ -9,6 +9,7 @@ public class ScriptableSettings : ScriptableObject
     public bool varsSet = false;
 
     public float camSensitivity;
+    public float camFOV;
     public bool invertY;
     public bool camBob;
     public float textSize;
