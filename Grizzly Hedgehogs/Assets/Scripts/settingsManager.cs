@@ -32,6 +32,7 @@ public class settingsManager : MonoBehaviour
 
     [Header("_-_-_- Defaults -_-_-_")]
     [SerializeField] float camSensitivityDefault;
+    [SerializeField] float camFOVDefault;
     [SerializeField] bool invertYDefault;
     [SerializeField] bool camBobDefault;
     [SerializeField] float textSizeDefault;
@@ -103,6 +104,8 @@ public class settingsManager : MonoBehaviour
         }
 
         settingsCurr.camSensitivity = camSensitivityDefault;
+
+        settingsCurr.camFOV = camFOVDefault;
 
         settingsCurr.invertY = invertYDefault;
 

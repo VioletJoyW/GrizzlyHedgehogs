@@ -25,7 +25,6 @@ public class cameraController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * settingsManager.sm.settingsCurr.camSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * settingsManager.sm.settingsCurr.camSensitivity;
         _camera.fieldOfView = settingsManager.sm.settingsCurr.camFOV;
-        adscamFOV = (int)settingsManager.sm.settingsCurr.camFOV % 30;
 
         if(_camera != null)
         {
