@@ -514,11 +514,11 @@ public class playerController : Entity
     {
         aud.PlayOneShot(audReload, audReloadVol * objectVol);
 
-        gunsList[selectedGun].ammoCurrent += amount;
+        ammoTrack[selectedGun].TotalAmmo += amount;
 
         if(gunsList[selectedGun].ammoCurrent > gunsList[selectedGun].ammoMax)
         {
-            gunsList[selectedGun].ammoCurrent = gunsList[selectedGun].ammoMax;
+            ammoTrack[selectedGun].CurrentAmmo = gunsList[selectedGun].ammoMax;
         }
     }
 
