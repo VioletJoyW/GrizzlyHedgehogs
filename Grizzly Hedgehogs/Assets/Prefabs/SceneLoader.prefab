@@ -55,6 +55,7 @@ MonoBehaviour:
   scenes:
   - Assets/Scenes/TourelBritton.unity
   - Assets/Scenes/MainScene.unity
+  - Assets/Scenes/ChristopherRobbins.unity
 --- !u!222 &6268985985126767953
 CanvasRenderer:
   m_ObjectHideFlags: 0
