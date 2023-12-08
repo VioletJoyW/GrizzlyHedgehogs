@@ -76,6 +76,7 @@ public class gameManager : MonoBehaviour
     public bool playerUnkillable = false;
     public bool infiniteAmmo = false;
     public bool beybladebeybladeLETITRIP = false;
+    public bool bHead = false;
 
     bool inDialog;
     string dialogCurrent;
@@ -288,6 +289,11 @@ public class gameManager : MonoBehaviour
         beybladebeybladeLETITRIP = !beybladebeybladeLETITRIP;
     }
 
+    public void bigHead()
+    {
+        bHead = !bHead;
+    }
+
     /// <summary>
     /// Displays win screen.
     /// </summary>
@@ -383,14 +389,14 @@ public class gameManager : MonoBehaviour
 
     //
 
-    public void UpdatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, ScriptableGunStats gun)
+    public void UpdatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, ScriptableGunStats gun, int ammoTotal)
     {
         playerHealthBar.fillAmount = (float)healthCurrent / healthMax;
         playerHealthText.text = healthCurrent.ToString("0") + " / " + healthMax.ToString("0");
         playerStaminaBar.fillAmount = staminaCurrent / staminaMax;
         playerStaminaText.text = staminaCurrent.ToString("0") + " / " + staminaMax.ToString("0");
         playerAmmoBar.fillAmount = (float)gun.ammoCurrent / gun.ammoMax;
-        playerAmmoText.text = gun.ammoCurrent.ToString("0") + " / " + gun.ammoTotal.ToString("0");
+        playerAmmoText.text = gun.ammoCurrent.ToString("0") + " / " + ammoTotal.ToString("0");
         gunNameText.text = gun.name;
     }
 

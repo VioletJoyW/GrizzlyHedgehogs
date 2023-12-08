@@ -43,7 +43,7 @@ public class playerController : Entity
     [SerializeField] AudioClip audLock;
     [Range(0, 1)][SerializeField] float audLockVol;
 
-
+    private List<gunAmmo> ammoTrack;
     //private InventoryManager inventoryManager;
 
     private int selectedGun = 0;
@@ -62,7 +62,22 @@ public class playerController : Entity
     private Vector3 playerVelocity;
 
 
+    private class gunAmmo
+    {
+        int currentAmmo;
+        int totalAmmo;
+        string gunName;
+        public gunAmmo(string name, int currammo, int totAmmo)
+        {
+            gunName = name;
+            currentAmmo = currammo;
+            totalAmmo = totAmmo;
+        }
 
+        public int CurrentAmmo { get => currentAmmo; set => currentAmmo = value; }
+        public int TotalAmmo { get => totalAmmo; set => totalAmmo = value; }
+        public string Name { get => Name; }
+    }
 
 	void Start()
     {
@@ -80,7 +95,7 @@ public class playerController : Entity
             powerBuffer.AddPower(power);
         }
         //--------------------------------------------------
-
+        ammoTrack = new List<gunAmmo>();
         //Create a timer for the button press and set the cool down for half a second.
         Utillities.CreateGlobalTimer(.3f, ref pBFButtonCoolDownTimerID);
 
@@ -102,8 +117,9 @@ public class playerController : Entity
         for(int i = 0; i < gunsList.Count; i++)
         {
             gunsList[i].ammoCurrent = gunsList[i].ammoMax;
+            ammoTrack.Add(new gunAmmo(gunsList[i].name, gunsList[i].ammoCurrent, gunsList[i].ammoTotal));
         }
-        gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun]);
+        gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun], ammoTrack[selectedGun].TotalAmmo);
         transform.position = gameManager.instance.playerSpawnPos.transform.localPosition;
         controller.enabled = true;
     }
@@ -130,7 +146,7 @@ public class playerController : Entity
             StartCoroutine(Shoot());
             
 
-            gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun]);
+            gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun], ammoTrack[selectedGun].TotalAmmo);
         }
     }
 
@@ -308,12 +324,12 @@ public class playerController : Entity
     {
         isShooting = true;
 
-        if (gunsList[selectedGun].ammoCurrent > 0)
+        if (ammoTrack[selectedGun].CurrentAmmo > 0)
         {
             RaycastHit hit;
             if (!gameManager.instance.infiniteAmmo) //Part of testing codes
             {
-                gunsList[selectedGun].ammoCurrent -= 1;
+                ammoTrack[selectedGun].CurrentAmmo -= 1;
             }
             if(Camera.main == null)
             {
@@ -394,6 +410,7 @@ public class playerController : Entity
             yield return new WaitForSeconds(.5f);
             isShooting = false;
         }
+        gunsList[selectedGun].ammoCurrent = ammoTrack[selectedGun].CurrentAmmo;
     }
 
 	/// <summary>
@@ -401,29 +418,29 @@ public class playerController : Entity
 	/// </summary>
 	IEnumerator ReloadGun() 
     {
-        int currentAmmo = gunsList[selectedGun].ammoCurrent;
+        int currentAmmo = ammoTrack[selectedGun].CurrentAmmo;
         int maxAmmo = gunsList[selectedGun].ammoMax;
-        int totalAmmo = gunsList[selectedGun].ammoTotal;
+        int totalAmmo = ammoTrack[selectedGun].TotalAmmo;
 		if (!isShooting && currentAmmo < maxAmmo && totalAmmo > 0) 
         {
             int reloadAmount = maxAmmo - currentAmmo;
 
             if (reloadAmount <= totalAmmo) 
             {
-                gunsList[selectedGun].ammoTotal -= reloadAmount;
-                gunsList[selectedGun].ammoCurrent += reloadAmount;
+                ammoTrack[selectedGun].TotalAmmo -= reloadAmount;
+                ammoTrack[selectedGun].CurrentAmmo += reloadAmount;
             }
             else // We use this branch if the total amount is less than the reload amount. 
             {
-				gunsList[selectedGun].ammoTotal = 0;
-				gunsList[selectedGun].ammoCurrent += totalAmmo;
+                ammoTrack[selectedGun].TotalAmmo = 0;
+                ammoTrack[selectedGun].CurrentAmmo += totalAmmo;
 			}
             float oldPitch = aud.pitch;
             aud.pitch = .08f;
             aud.PlayOneShot(gunsList[selectedGun].emptySound, gunsList[selectedGun].emptySoundVol * objectVol);
             aud.pitch = oldPitch;
-            
         }
+        gunsList[selectedGun].ammoCurrent = ammoTrack[selectedGun].CurrentAmmo;
         yield return new WaitForSeconds(.5f); // Stops spam.
     }
 

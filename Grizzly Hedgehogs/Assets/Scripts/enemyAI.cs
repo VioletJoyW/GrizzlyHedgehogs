@@ -22,6 +22,7 @@ public class EnemyAI : Entity
     [SerializeField] Animator animator;
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPos;
+    [SerializeField] Transform _head;
     [SerializeField] Collider damageCollider;
     [SerializeField] Renderer laser;
     [SerializeField] Collider[] _ragdollsCollider;
@@ -64,7 +65,6 @@ public class EnemyAI : Entity
         AudioStepVolume = audioStepVolume;
         AudioDamage = audioDamage;
         AudioDamageVolume = audioDamageVolume;
-
         disableRag();
 		stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
@@ -80,6 +80,14 @@ public class EnemyAI : Entity
     {
         if (agent.isActiveAndEnabled)
         {
+            if (gameManager.instance.bHead)
+            {
+                bigHead();
+            }
+            else
+            {
+                normalHead();
+            }
             animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
             
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
@@ -214,7 +222,7 @@ public class EnemyAI : Entity
 			if (i < _ragdollsCollider.Length) _ragdollsCollider[i].enabled = true;
 			_ragdolls[i].isKinematic = false;
 
-            if(gameManager.instance.beybladebeybladeLETITRIP)
+            if (gameManager.instance.beybladebeybladeLETITRIP)
             {
                 Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
                 if (physicsForce != null)
@@ -253,6 +261,21 @@ public class EnemyAI : Entity
         }
     }
 
+    public void bigHead()
+    {
+        _head.localScale = new Vector3(5, 5, 5);
+    }
+
+    public void normalHead()
+    {
+        _head.localScale = new Vector3(1, 1, 1);
+    }
+
+    public void applyForce() // will do it in spare time
+    {
+
+    }
+
     IEnumerator FlashRed()
     {
         model.material.color = Color.red;
@@ -265,5 +288,4 @@ public class EnemyAI : Entity
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
     }
-
 }

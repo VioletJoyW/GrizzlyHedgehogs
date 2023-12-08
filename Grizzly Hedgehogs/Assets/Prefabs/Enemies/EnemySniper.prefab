@@ -375,6 +375,7 @@ MonoBehaviour:
   animator: {fileID: 8405720368205760944}
   shootPos: {fileID: 1324027030349323232}
   headPos: {fileID: 3650523404236047864}
+  _head: {fileID: 620787062739476757}
   damageCollider: {fileID: 5750574720173148972}
   laser: {fileID: 527832834221424215}
   _ragdollsCollider:
