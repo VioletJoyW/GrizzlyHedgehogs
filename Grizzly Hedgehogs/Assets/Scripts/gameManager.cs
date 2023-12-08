@@ -112,7 +112,7 @@ public class gameManager : MonoBehaviour
         subMenuActive.SetActive(true);
         menuActive.SetActive(true);
 
-        musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
+        //musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
     bool confirm = false;

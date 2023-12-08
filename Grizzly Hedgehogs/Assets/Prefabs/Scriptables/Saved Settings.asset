@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   varsSet: 1
   camSensitivity: 400
+  camFOV: 50
   invertY: 0
   camBob: 0
   textSize: 1
@@ -30,8 +31,9 @@ MonoBehaviour:
   sprint: 304
   crouch: 306
   powerBtnToggle: 9
-  powerBtnScrollUp: 257
-  powerBtnScrollDown: 258
+  powerBtnScrollUp: 49
+  powerBtnScrollDown: 51
   interact: 101
   shoot: 323
   reload: 114
+  aim: 324
