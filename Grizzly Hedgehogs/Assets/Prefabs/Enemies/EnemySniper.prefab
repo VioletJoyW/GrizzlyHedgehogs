@@ -417,6 +417,7 @@ MonoBehaviour:
   shootCone: 5
   roamDist: 10
   roamPauseTime: 2
+  ragdollLifeTime: 2
   bullet: {fileID: 7308311796046934712, guid: 7c1101e6556221e4b93d4c96f03633ba, type: 3}
   shootRate: 5
 --- !u!195 &2682954246789474167

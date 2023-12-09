@@ -38,6 +38,7 @@ public class EnemyAI : Entity
     [SerializeField] int shootCone;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
+    [SerializeField] int ragdollLifeTime;
 
     [Header("----- Gun Stats -----")]
     [SerializeField] GameObject bullet;
@@ -219,8 +220,18 @@ public class EnemyAI : Entity
 		*/
 		for (int i = 0; i < _ragdolls.Length; i++)
 		{
-			if (i < _ragdollsCollider.Length) _ragdollsCollider[i].enabled = true;
-			_ragdolls[i].isKinematic = false;
+            if (i < _ragdollsCollider.Length)
+            {
+                _ragdollsCollider[i].enabled = true;
+            }
+            else if (_ragdollsCollider[i].CompareTag("Player"))
+            {
+                _ragdollsCollider[i].enabled = !_ragdollsCollider[i].enabled;
+            }
+            _ragdolls[i].isKinematic = false;
+            {
+
+            }
 
             if (gameManager.instance.beybladebeybladeLETITRIP)
             {
