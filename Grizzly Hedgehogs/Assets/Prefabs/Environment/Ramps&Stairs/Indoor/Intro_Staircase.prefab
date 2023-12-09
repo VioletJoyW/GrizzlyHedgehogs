@@ -732,6 +732,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2542159797180768879}
+  - component: {fileID: 5974164940628516218}
   m_Layer: 0
   m_Name: Intro_Staircase
   m_TagString: Untagged
@@ -769,6 +770,27 @@ Transform:
   - {fileID: 3625924791607514973}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5974164940628516218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3986536588551496882}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5359306, y: 8.175979, z: 8.287024}
+  m_Center: {x: 0.006485939, y: 3.910929, z: -3.6435118}
 --- !u!1 &4300655739450477625
 GameObject:
   m_ObjectHideFlags: 0

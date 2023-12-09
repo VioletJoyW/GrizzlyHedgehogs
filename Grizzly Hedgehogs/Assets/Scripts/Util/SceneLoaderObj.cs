@@ -1,13 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+
+
+
+public interface ISceneScript 
+{
+	void Init();
+	void Run();
+	void Close();
+}
+
+public class SceneScriptExecuter 
+{
+	static List<ISceneScript> sceneScripts = null;
+	static SceneScriptExecuter instance = null;
+
+	public static List<ISceneScript> SceneScripts { get => sceneScripts;}
+	public static SceneScriptExecuter Instance { get => instance; }
+
+	public static void LoadScripts(ISceneScript[] scripts) 
+	{
+		if(instance == null)
+			instance = new SceneScriptExecuter();
+		foreach(ISceneScript scr in scripts)
+			sceneScripts.Add(scr);
+	}
+
+
+	public static void RunScripts() 
+	{
+		if (instance == null || sceneScripts.Count < 1) return;
+		bool hasInit = false;
+		for (int ndx = 0; ndx < sceneScripts.Count; ++ndx) 
+		{
+			if (!hasInit) sceneScripts[ndx].Init();
+			else sceneScripts[ndx].Run();
+			
+			if(ndx + 1 >= sceneScripts.Count && !hasInit)
+			{
+				hasInit = true;
+				ndx = 0;
+			}
+		}
+	}
+
+	public static void RunClosing() 
+	{
+		if (instance == null || sceneScripts.Count < 1) return;
+
+		foreach(ISceneScript scr in sceneScripts)
+			scr.Close();
+
+
+	}
+
+
+	private SceneScriptExecuter() 
+	{
+		if(sceneScripts == null)
+			sceneScripts = new List<ISceneScript>();
+	}
+
+
+
+
+
+}
+
 
 public class SceneLoaderObj : MonoBehaviour
 {
 	[SerializeField] int currentSceneIndex;
     [SerializeField] string[] scenes;
+	[SerializeField] GameObject[] scripts;
 
 	bool isFading = false;
 	float alphaState = 0f;
@@ -23,6 +92,13 @@ public class SceneLoaderObj : MonoBehaviour
 		
 		SceneLoader.SetScenes(scenes);
 		currentInstance = this;
+
+		ISceneScript[] ss = new ISceneScript[scripts.Length];
+		for (int i = 0; i < ss.Length; ++i) 
+		{
+			ss[i] = scripts[i].GetComponent<ISceneScript>();
+		}
+		SceneScriptExecuter.LoadScripts(ss);
 	}
 
 
@@ -34,6 +110,7 @@ public class SceneLoaderObj : MonoBehaviour
 
 	private void Start()
 	{
+		SceneScriptExecuter.RunScripts();
 		callFade(0f);
 	}
 
@@ -72,6 +149,7 @@ public class SceneLoaderObj : MonoBehaviour
 		isFading = false;
 		if(change)
 		{
+			SceneScriptExecuter.RunClosing();
 			if(isDown)SceneLoader.PlayScene(loopValue(++currentSceneIndex, SceneLoader.Size));
 			else SceneLoader.PlayScene(loopValue(--currentSceneIndex, SceneLoader.Size));
 		}

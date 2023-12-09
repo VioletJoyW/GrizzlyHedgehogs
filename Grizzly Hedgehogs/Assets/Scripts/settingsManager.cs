@@ -32,7 +32,6 @@ public class settingsManager : MonoBehaviour
 
     [Header("_-_-_- Defaults -_-_-_")]
     [SerializeField] float camSensitivityDefault;
-    [SerializeField] float camFOVDefault;
     [SerializeField] bool invertYDefault;
     [SerializeField] bool camBobDefault;
     [SerializeField] float textSizeDefault;
@@ -42,6 +41,8 @@ public class settingsManager : MonoBehaviour
     [SerializeField] float enemyVolDefault;
     [SerializeField] float enviromentVolDefault;
     [SerializeField] float musicVolDefault;
+    [SerializeField] float aimFOVDefault;
+
 
     [SerializeField] KeyCode forwardsDefault;
     [SerializeField] KeyCode backwardsDefault;
@@ -104,8 +105,6 @@ public class settingsManager : MonoBehaviour
         }
 
         settingsCurr.camSensitivity = camSensitivityDefault;
-
-        settingsCurr.camFOV = camFOVDefault;
 
         settingsCurr.invertY = invertYDefault;
 
@@ -183,7 +182,9 @@ public class settingsManager : MonoBehaviour
         settingsCurr.interact = interactDefault;
         settingsCurr.shoot = shootDefault;
         settingsCurr.reload = reloadDefault;
-        settingsCurr.aim = aimDefault;
+
+        settingsCurr.camFOV = aimFOVDefault;
+        
         showControlsChanges();
     }
 
@@ -202,7 +203,6 @@ public class settingsManager : MonoBehaviour
         Keys[10].GetComponentInChildren<TMP_Text>().text = settingsCurr.powerBtnToggle.ToString();
         Keys[11].GetComponentInChildren<TMP_Text>().text = settingsCurr.powerBtnScrollUp.ToString();
         Keys[12].GetComponentInChildren<TMP_Text>().text = settingsCurr.powerBtnScrollDown.ToString();
-        Keys[13].GetComponentInChildren<TMP_Text>().text = settingsCurr.aim.ToString();
     }
 
     public void changeCamSensitivity(Slider sensitivity)
