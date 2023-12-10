@@ -22,6 +22,9 @@ public class gameManager : MonoBehaviour
 
     [Header("_-_-_- Settings -_-_-_")]
     [SerializeField] MenuType menu = MenuType.None;
+    [Header("_-_-_- Cinema Settings -_-_-_")]
+    [SerializeField] GameObject cinemaCamera;
+
     [Header("_-_-_- Menus -_-_-_")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject subMenuActive;
@@ -45,8 +48,6 @@ public class gameManager : MonoBehaviour
 
     [Header("_-_-_- HUD -_-_-_")]
 
-    [SerializeField] GameObject hud;
-
     [SerializeField] GameObject playerDamageScreen;
     [SerializeField] TMP_Text objectiveText;
     [SerializeField] TMP_Text powerText;
@@ -65,6 +66,16 @@ public class gameManager : MonoBehaviour
     [SerializeField] TMP_Text gunNameText;
     [SerializeField] TMP_Text playerAmmoText;
     [SerializeField] Image playerAmmoBackground;
+	[Header("_-_-_- HUD Objects -_-_-_")]
+    [SerializeField] GameObject hud;
+    [SerializeField] GameObject hudMap;
+	[SerializeField] GameObject gunAmmoHUDObject;
+    [SerializeField] GameObject staminaHUDObject;
+    [SerializeField] GameObject healthHUDObject;
+    [SerializeField] GameObject keysHUDObject;
+    [SerializeField] GameObject enemyCountHUDObject;
+    [SerializeField] GameObject objectiveHUDObject;
+    [SerializeField] GameObject powerHUDObject;
 
     [Header("_-_-_- Player Info -_-_-_")]
     public GameObject playerSpawnPos;
@@ -115,13 +126,15 @@ public class gameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         playerSpawnPos = GameObject.FindWithTag("Respawn");
-
+        hud.SetActive(false);
+        hudMap.SetActive(false);
         switch (menu) // Menu Controls 
         {
             case MenuType.NORMAL_MENU:
                 ShowMainMenu(); break;
 
             case MenuType.INTRO_MENU:
+                ShowIntroMenu();
                 break;
 
             default: break;
@@ -130,9 +143,15 @@ public class gameManager : MonoBehaviour
         //musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
+    public void ShowIntroMenu() 
+    {
+
+    }
+
     public void ShowMainMenu() 
     {
         wasMainMenuTriggered = true;
+
 		statePause();
 		menuActive = menuMain;
 		subMenuActive = subMain;
@@ -149,6 +168,17 @@ public class gameManager : MonoBehaviour
     {
         confirm = Input.GetKeyUp(KeyCode.E);
 
+        if (!wasMainMenuTriggered) 
+        {
+            switch(menu)
+            {
+                case MenuType.INTRO_MENU:
+                    { 
+                        //if()
+                    }
+                    break;
+            }
+        }
 
 		if (inDialog && confirm)
         {
@@ -171,9 +201,10 @@ public class gameManager : MonoBehaviour
         AddTempGold(-tempGold);
         enemiesRemaining = 0;
 
+		hud.SetActive(true);
+		hudMap.SetActive(true);
         playerScript.SpawnPlayer();
-
-        for(int i = 0; i < spawnersList.Count; i++)
+		for (int i = 0; i < spawnersList.Count; i++)
         {
             spawnersList[i].resetSpawn();
         }

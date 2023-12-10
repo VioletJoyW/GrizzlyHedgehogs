@@ -77,6 +77,7 @@ public class SceneLoaderObj : MonoBehaviour
 	[SerializeField] int currentSceneIndex;
     [SerializeField] string[] scenes;
 	[SerializeField] GameObject[] scripts;
+	[SerializeField][Range(1.0f, 10.0f)] float fadeSpeed = 1.5f;
 
 	bool isFading = false;
 	float alphaState = 0f;
@@ -84,8 +85,9 @@ public class SceneLoaderObj : MonoBehaviour
 	static SceneLoaderObj currentInstance = null;
 
     public static bool IsDown { get => isDown; set => isDown = value; }
+	public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
 
-    private void Awake()
+	private void Awake()
 	{
 		RawImage img = gameObject.GetComponent<RawImage>();
 		
@@ -140,10 +142,11 @@ public class SceneLoaderObj : MonoBehaviour
 	IEnumerator fade(float alpha, bool change = true) 
 	{
 		isFading = true;
-		Color c = GetComponent<RawImage>().color * new Color(1f, 1f, 1f, alpha);
+		Color c = GetComponent<RawImage>().color * new Color(1f, 1f, 1f, 0f);
+		c.a = alpha;
 		while (GetComponent<RawImage>().color != c) 
 		{
-			GetComponent<RawImage>().color = Color.Lerp(GetComponent<RawImage>().color, c,  Time.fixedDeltaTime);
+			GetComponent<RawImage>().color = Color.Lerp(GetComponent<RawImage>().color, c,  Time.fixedDeltaTime * fadeSpeed);
 			yield return new WaitForEndOfFrame();
 		}
 		

@@ -22056,7 +22056,6 @@ MonoBehaviour:
   - {fileID: 3873093705498090413}
   testAudio: {fileID: 8300000, guid: b050aea26f01d14438660632e38f2bd6, type: 3}
   camSensitivityDefault: 400
-  camFOVDefault: 50
   invertYDefault: 0
   camBobDefault: 0
   textSizeDefault: 1
@@ -22065,6 +22064,7 @@ MonoBehaviour:
   enemyVolDefault: 0.5
   enviromentVolDefault: 0.5
   musicVolDefault: 0.5
+  aimFOVDefault: 0
   forwardsDefault: 119
   backwardsDefault: 115
   leftDefault: 97
@@ -35964,6 +35964,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curScene: 0
+  menu: 1
+  cinemaCamera: {fileID: 0}
   menuActive: {fileID: 0}
   subMenuActive: {fileID: 0}
   menuMain: {fileID: 6205402480641685799}
@@ -35995,7 +35997,6 @@ MonoBehaviour:
   menuConfirmExit: {fileID: 1524017371753627511}
   menuTESTING: {fileID: 470064286841413810}
   menuInventory: {fileID: 4366755156524816879}
-  hud: {fileID: 8021106296699065765}
   playerDamageScreen: {fileID: 2053335815181512705}
   objectiveText: {fileID: 4572452187966840368}
   powerText: {fileID: 1935540719755862124}
@@ -36012,6 +36013,15 @@ MonoBehaviour:
   gunNameText: {fileID: 2887219464582019511}
   playerAmmoText: {fileID: 8989485807961037180}
   playerAmmoBackground: {fileID: 2113266102582991883}
+  hud: {fileID: 8021106296699065765}
+  hudMap: {fileID: 7071578154197843587}
+  gunAmmoHUDObject: {fileID: 5040726817217061219}
+  staminaHUDObject: {fileID: 4070696124091029315}
+  healthHUDObject: {fileID: 3047636018271787331}
+  keysHUDObject: {fileID: 4343980270526473836}
+  enemyCountHUDObject: {fileID: 708595794862682387}
+  objectiveHUDObject: {fileID: 3578100225706320270}
+  powerHUDObject: {fileID: 5185052244550726349}
   playerSpawnPos: {fileID: 0}
   player: {fileID: 0}
   playerScript: {fileID: 0}
