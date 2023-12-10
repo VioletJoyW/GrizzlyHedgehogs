@@ -51,11 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b1618cd4532dd4295dc8530a746cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSceneIndex: 0
+  currentSceneIndex: 1
   scenes:
-  - Assets/Scenes/TourelBritton.unity
+  - Assets/Scenes/Intro.unity
   - Assets/Scenes/MainScene.unity
-  - Assets/Scenes/ChristopherRobbins.unity
+  - Assets/Scenes/Malfunctioning Space Station.unity
+  - Assets/Scenes/Maze Level.unity
+  scripts: []
 --- !u!222 &6268985985126767953
 CanvasRenderer:
   m_ObjectHideFlags: 0

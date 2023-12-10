@@ -80,10 +80,12 @@ public class SceneLoaderObj : MonoBehaviour
 
 	bool isFading = false;
 	float alphaState = 0f;
-	bool isDown = false;
+	static bool isDown = false;
 	static SceneLoaderObj currentInstance = null;
 
-	private void Awake()
+    public static bool IsDown { get => isDown; set => isDown = value; }
+
+    private void Awake()
 	{
 		RawImage img = gameObject.GetComponent<RawImage>();
 		
@@ -102,16 +104,16 @@ public class SceneLoaderObj : MonoBehaviour
 	}
 
 
-	public static void Fade(float fadeAlpha) 
+	public static void Fade(float fadeAlpha, bool change) 
 	{
 		if (currentInstance == null) return;
-		currentInstance.callFade(fadeAlpha);
+		currentInstance.callFade(fadeAlpha, change);
 	}
 
 	private void Start()
 	{
 		SceneScriptExecuter.RunScripts();
-		callFade(0f);
+		callFade(0f, false);
 	}
 
 	// Update is called once per frame
@@ -130,9 +132,9 @@ public class SceneLoaderObj : MonoBehaviour
 		}
     }
 
-	void callFade(float fadeAlpha) 
+	void callFade(float fadeAlpha, bool change) 
 	{
-		StartCoroutine(fade(fadeAlpha, false));
+		StartCoroutine(fade(fadeAlpha, change));
 	}
 
 	IEnumerator fade(float alpha, bool change = true) 
