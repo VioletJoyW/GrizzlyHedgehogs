@@ -7409,6 +7409,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Oracle
       objectReference: {fileID: 0}
+    - target: {fileID: 4436397302943167520, guid: 7d2d9559bbf902c448897477bb3bcaeb, type: 3}
+      propertyPath: curScene
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4797825938713102536, guid: 7d2d9559bbf902c448897477bb3bcaeb, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

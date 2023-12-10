@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: d5e2b227366732c4d90946bc5a9ab44d
+  - enabled: 1
+    path: Assets/Scenes/Malfunctioning Space Station.unity
+    guid: c5c858caebce1ca4bb5f5f29c2e66c6f
+  - enabled: 1
+    path: Assets/Scenes/Maze Level.unity
+    guid: b23f835dad35d3646a9dce38af4d67f7
   m_configObjects: {}
