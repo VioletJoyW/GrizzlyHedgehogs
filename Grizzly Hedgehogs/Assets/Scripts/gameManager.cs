@@ -12,6 +12,16 @@ public class gameManager : MonoBehaviour
     public static gameManager instance;
     public int curScene = 0;
 
+
+    public enum MenuType
+    {
+        None = 0x0,
+        NORMAL_MENU,
+        INTRO_MENU
+    }
+
+    [Header("_-_-_- Settings -_-_-_")]
+    [SerializeField] MenuType menu = MenuType.None;
     [Header("_-_-_- Menus -_-_-_")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject subMenuActive;
@@ -87,16 +97,15 @@ public class gameManager : MonoBehaviour
 
     List<spawner> spawnersList = new List<spawner>();
 
+    GameObject menuPrevious;
     int totalGold;
     int tempGold;
-
-    GameObject menuPrevious;
     int controlsPage;
-
     int musicCurr = 1;
-
     int dialogTimer = -1;
 
+    bool wasMainMenuTriggered = false;
+    
 
 	void Awake()
     {
@@ -106,17 +115,37 @@ public class gameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         playerSpawnPos = GameObject.FindWithTag("Respawn");
-        statePause();
-        menuActive = menuMain;
-        subMenuActive = subMain;
-        subMenuActive.SetActive(true);
-        menuActive.SetActive(true);
+
+        switch (menu) // Menu Controls 
+        {
+            case MenuType.NORMAL_MENU:
+                ShowMainMenu(); break;
+
+            case MenuType.INTRO_MENU:
+                break;
+
+            default: break;
+        }
 
         //musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
+    public void ShowMainMenu() 
+    {
+        wasMainMenuTriggered = true;
+		statePause();
+		menuActive = menuMain;
+		subMenuActive = subMain;
+		subMenuActive.SetActive(true);
+		menuActive.SetActive(true);
+	}
+
+
     bool confirm = false;
-    void Update()
+
+	public bool WasMainMenuTriggered { get => wasMainMenuTriggered; }
+
+	void Update()
     {
         confirm = Input.GetKeyUp(KeyCode.E);
 
