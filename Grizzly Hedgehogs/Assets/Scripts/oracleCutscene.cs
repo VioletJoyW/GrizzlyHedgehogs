@@ -30,6 +30,8 @@ public class oracleCutscene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SceneLoaderObj.IsDown = true;
+
         newColor = mat1.color;
         newSize = particle2.transform.localScale;
 
@@ -82,6 +84,13 @@ public class oracleCutscene : MonoBehaviour
         {
             anim.SetBool("Rotate", true);
             filter.mesh = mesh;
+
+            transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+
+            if (!waiting)
+            {
+                StartCoroutine(Waiting());
+            }
         }
     }
 
@@ -103,6 +112,12 @@ public class oracleCutscene : MonoBehaviour
             changing = false;
             particle1.SetActive(false);
             cubeMode = true;
+        }
+
+        if (cubeMode)
+        {
+            yield return new WaitForSeconds(2);
+            SceneLoaderObj.Fade(1, true);
         }
 
         waiting = false;
