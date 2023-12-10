@@ -209,7 +209,7 @@ public class flyingEnemyAI : EnemyAI
     protected override IEnumerator Shoot()
     {
         isShooting = true;;
-       // aud.PlayOneShot(audShoot, audShootVol);
+        CreateBullet();
         yield return new WaitForSeconds(shootRate);
 
         isShooting = false;
@@ -235,6 +235,7 @@ public class flyingEnemyAI : EnemyAI
             damageCollider.enabled = false;
             gameManager.instance.updateEnemyCount(-1);
             agent.enabled = false;
+            Destroy(gameObject);
             Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
             if (physicsForce != null)
             {
@@ -247,11 +248,6 @@ public class flyingEnemyAI : EnemyAI
             StartCoroutine(FlashRed());
             agent.SetDestination(gameManager.instance.player.transform.position);
         }
-    }
-
-    private void Ragdoll()
-    {
-
     }
 
     protected override IEnumerator FlashRed()
