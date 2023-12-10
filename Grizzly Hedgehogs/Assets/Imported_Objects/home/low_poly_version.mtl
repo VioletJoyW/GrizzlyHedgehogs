@@ -1,0 +1,58 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 20.04.2014 10:00:43
+
+newmtl Material__125
+	Ns 10.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.588000 0.588000 0.588000
+	Kd 0.588000 0.588000 0.588000
+	Ks 0.000000 0.000000 0.000000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka C:\Users\Smoke Fumus\extracted_data\Bitmap2Material2_Diffuse.png
+	map_Kd C:\Users\Smoke Fumus\extracted_data\Bitmap2Material2_Diffuse.png
+	map_bump C:\Users\Smoke Fumus\extracted_data\Bitmap2Material2_Normal.png
+	bump C:\Users\Smoke Fumus\extracted_data\Bitmap2Material2_Normal.png
+
+newmtl Material__127
+	Ns 10.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.588000 0.588000 0.588000
+	Kd 0.588000 0.588000 0.588000
+	Ks 0.000000 0.000000 0.000000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka C:\Users\Smoke Fumus\extracted_data\wood.PNG
+	map_Kd C:\Users\Smoke Fumus\extracted_data\wood.PNG
+	map_bump C:\Users\Smoke Fumus\extracted_data\2_Bitmap2Material2_Normal.png
+	bump C:\Users\Smoke Fumus\extracted_data\2_Bitmap2Material2_Normal.png
+
+newmtl Material__139
+	Ns 10.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 1.000000 0.682353 0.000000
+	Kd 1.000000 0.682353 0.000000
+	Ks 0.594000 0.594000 0.594000
+	Ke 1.000000 0.682353 0.000000
+
+newmtl Material__240
+	Ns 10.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.564706 0.356863 0.000000
+	Kd 0.564706 0.356863 0.000000
+	Ks 0.000000 0.000000 0.000000
+	Ke 0.000000 0.000000 0.000000
