@@ -82,12 +82,13 @@ public class SceneLoaderObj : MonoBehaviour
 	bool isFading = false;
 	float alphaState = 0f;
 	static bool isDown = false;
-	static SceneLoaderObj currentInstance = null;
+	public static SceneLoaderObj currentInstance = null;
 
     public static bool IsDown { get => isDown; set => isDown = value; }
 	public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
+    public int CurrentSceneIndex { get => currentSceneIndex; set => currentSceneIndex = value; }
 
-	private void Awake()
+    private void Awake()
 	{
 		RawImage img = gameObject.GetComponent<RawImage>();
 		
