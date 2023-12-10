@@ -180,6 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3469159082091364342}
   - component: {fileID: 4373946623679280810}
+  - component: {fileID: 7359676211687366225}
   - component: {fileID: 2680195537573700475}
   - component: {fileID: 483019101644400714}
   - component: {fileID: 9158203564082850877}
@@ -216,7 +217,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5048531512171844090}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2680195537573700475
+--- !u!114 &7359676211687366225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,6 +225,43 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5048531512171844090}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4002df029f63c0d4bb0682f0675a049c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audio: {fileID: 0}
+  audioStep: []
+  audioStepVolume: 0
+  audioDamage: []
+  audioDamageVolume: 0
+  audShoot: {fileID: 0}
+  audShootVol: 0
+  model: {fileID: 0}
+  agent: {fileID: 0}
+  animator: {fileID: 0}
+  shootPos: {fileID: 0}
+  headPos: {fileID: 0}
+  damageCollider: {fileID: 0}
+  laser: {fileID: 0}
+  _ragdollsCollider: []
+  _ragdolls: []
+  fromSpawner: 0
+  hitPoints: 0
+  playerFaceSpeed: 0
+  viewCone: 0
+  shootCone: 0
+  roamDist: 0
+  roamPauseTime: 0
+  bullet: {fileID: 0}
+  shootRate: 0
+--- !u!114 &2680195537573700475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5048531512171844090}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7774d3673223c5e469a1a4bccab45ed2, type: 3}
   m_Name: 

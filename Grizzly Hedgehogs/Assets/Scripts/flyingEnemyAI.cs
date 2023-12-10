@@ -47,14 +47,11 @@ public class flyingEnemyAI : EnemyAI
     [SerializeField] GameObject model_obj;
     [SerializeField] GameObject foot;
 
-    AudioSource source;
     Vector3 playerDir;
-    Vector3 coverPos;
     bool playerInRange;
     float angleToPlayer;
     float stoppingDistOrig;
     bool destinationChosen;
-    private Rigidbody rb;
     Vector3 startingPos;
 
     // Start is called before the first frame update
@@ -230,10 +227,10 @@ public class flyingEnemyAI : EnemyAI
         HP -= amount;
         if (HP <= 0)
         {
+            Destroy(gameObject);
             damageCollider.enabled = false;
             gameManager.instance.updateEnemyCount(-1);
             agent.enabled = false;
-            Destroy(gameObject);
 /*            Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
             if (physicsForce != null)
             {
