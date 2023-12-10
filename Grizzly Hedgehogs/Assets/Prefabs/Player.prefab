@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1563505640738884147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8306068046750062971}
+  m_Layer: 0
+  m_Name: GunAimPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8306068046750062971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563505640738884147}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.004363368, y: 0, z: 0, w: 0.9999905}
+  m_LocalPosition: {x: 0, y: -0.248, z: 0.531}
+  m_LocalScale: {x: 0.4166667, y: 0.42138642, z: 0.75}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 5649613836455779083}
+  m_LocalEulerAnglesHint: {x: -0.5, y: 0, z: 0}
+--- !u!1 &2483868626026822330
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6642219006709313879}
+  m_Layer: 0
+  m_Name: Gun Origin
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6642219006709313879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2483868626026822330}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.24166666, y: -0.2834526, z: 0.53099996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5649613836455779083}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2661970900248582563
 GameObject:
   m_ObjectHideFlags: 0
@@ -67,8 +129,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 100
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 16
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -130,6 +192,8 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9023091301741065672}
+  - {fileID: 8306068046750062971}
+  - {fileID: 6642219006709313879}
   m_Father: {fileID: 1291393891379441930}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3803170286494205410
@@ -144,8 +208,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a71f4e34ebc6c4ea3e59af0ae33edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 0}
   camMin: -90
   camMax: 90
+  aimZoomSpeed: 5
+  aimFOV: 22
+  gun: {fileID: 7969017625691290941}
+  gunAimOrigin: {fileID: 2483868626026822330}
+  gunAimDestination: {fileID: 1563505640738884147}
 --- !u!20 &5760850350595514473
 Camera:
   m_ObjectHideFlags: 0
@@ -155,8 +225,8 @@ Camera:
   m_GameObject: {fileID: 3521402806311282436}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -178,8 +248,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.03
-  far clip plane: 100
-  field of view: 60
+  far clip plane: 50
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -360,13 +430,15 @@ MonoBehaviour:
   audioSource: {fileID: -6445986916612953487}
   health: 10
   currentStamina: 3
-  crouchSpeed: 5
+  crouchSpeed: 8
   gravityFloat: -20
   jumpsMax: 2
   visionDistance: 5
   restoreStaminaRate: 0.5
   drainStaminaRate: 0.8
-  powerStats: []
+  powerStats:
+  - {fileID: 11400000, guid: 7e7a7b9c141bc21459c88573478e15b2, type: 2}
+  - {fileID: 11400000, guid: 8560674345ab0194b8c7ff9a74375d7e, type: 2}
   playerArmor: {fileID: 11400000, guid: 17b44187e9dc4114ba3e67f70f35e8c9, type: 2}
   gunsList:
   - {fileID: 11400000, guid: 5833120011322bc4a8bc0ec76f94fa7d, type: 2}

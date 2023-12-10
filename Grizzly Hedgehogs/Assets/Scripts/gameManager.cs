@@ -12,6 +12,19 @@ public class gameManager : MonoBehaviour
     public static gameManager instance;
     public int curScene = 0;
 
+
+    public enum MenuType
+    {
+        None = 0x0,
+        NORMAL_MENU,
+        INTRO_MENU
+    }
+
+    [Header("_-_-_- Settings -_-_-_")]
+    [SerializeField] MenuType menu = MenuType.None;
+    [Header("_-_-_- Cinema Settings -_-_-_")]
+    [SerializeField] GameObject cinemaCamera;
+
     [Header("_-_-_- Menus -_-_-_")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject subMenuActive;
@@ -30,12 +43,10 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuConfirmExit;
-    [SerializeField] GameObject menuTESTING; //
+    [SerializeField] GameObject menuTESTING; 
     [SerializeField] GameObject menuInventory;
 
     [Header("_-_-_- HUD -_-_-_")]
-
-    [SerializeField] GameObject hud;
 
     [SerializeField] GameObject playerDamageScreen;
     [SerializeField] TMP_Text objectiveText;
@@ -55,6 +66,16 @@ public class gameManager : MonoBehaviour
     [SerializeField] TMP_Text gunNameText;
     [SerializeField] TMP_Text playerAmmoText;
     [SerializeField] Image playerAmmoBackground;
+	[Header("_-_-_- HUD Objects -_-_-_")]
+    [SerializeField] GameObject hud;
+    [SerializeField] GameObject hudMap;
+	[SerializeField] GameObject gunAmmoHUDObject;
+    [SerializeField] GameObject staminaHUDObject;
+    [SerializeField] GameObject healthHUDObject;
+    [SerializeField] GameObject keysHUDObject;
+    [SerializeField] GameObject enemyCountHUDObject;
+    [SerializeField] GameObject objectiveHUDObject;
+    [SerializeField] GameObject powerHUDObject;
 
     [Header("_-_-_- Player Info -_-_-_")]
     public GameObject playerSpawnPos;
@@ -76,6 +97,7 @@ public class gameManager : MonoBehaviour
     public bool playerUnkillable = false;
     public bool infiniteAmmo = false;
     public bool beybladebeybladeLETITRIP = false;
+    public bool bHead = false;
 
     bool inDialog;
     string dialogCurrent;
@@ -86,16 +108,15 @@ public class gameManager : MonoBehaviour
 
     List<spawner> spawnersList = new List<spawner>();
 
+    GameObject menuPrevious;
     int totalGold;
     int tempGold;
-
-    GameObject menuPrevious;
     int controlsPage;
-
     int musicCurr = 1;
-
     int dialogTimer = -1;
 
+    bool wasMainMenuTriggered = false;
+    
 
 	void Awake()
     {
@@ -105,20 +126,59 @@ public class gameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         playerSpawnPos = GameObject.FindWithTag("Respawn");
-        statePause();
-        menuActive = menuMain;
-        subMenuActive = subMain;
-        subMenuActive.SetActive(true);
-        menuActive.SetActive(true);
+        hud.SetActive(false);
+        hudMap.SetActive(false);
+        switch (menu) // Menu Controls 
+        {
+            case MenuType.NORMAL_MENU:
+                ShowMainMenu(); break;
 
-        musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
+            case MenuType.INTRO_MENU:
+                ShowIntroMenu();
+                break;
+
+            default: break;
+        }
+
+        //musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
+    public void ShowIntroMenu() 
+    {
+
+    }
+
+    public void ShowMainMenu() 
+    {
+        wasMainMenuTriggered = true;
+
+		statePause();
+		menuActive = menuMain;
+		subMenuActive = subMain;
+		subMenuActive.SetActive(true);
+		menuActive.SetActive(true);
+	}
+
+
     bool confirm = false;
-    void Update()
+
+	public bool WasMainMenuTriggered { get => wasMainMenuTriggered; }
+
+	void Update()
     {
         confirm = Input.GetKeyUp(KeyCode.E);
 
+        if (!wasMainMenuTriggered) 
+        {
+            switch(menu)
+            {
+                case MenuType.INTRO_MENU:
+                    { 
+                        //if()
+                    }
+                    break;
+            }
+        }
 
 		if (inDialog && confirm)
         {
@@ -141,9 +201,10 @@ public class gameManager : MonoBehaviour
         AddTempGold(-tempGold);
         enemiesRemaining = 0;
 
+		hud.SetActive(true);
+		hudMap.SetActive(true);
         playerScript.SpawnPlayer();
-
-        for(int i = 0; i < spawnersList.Count; i++)
+		for (int i = 0; i < spawnersList.Count; i++)
         {
             spawnersList[i].resetSpawn();
         }
@@ -288,6 +349,11 @@ public class gameManager : MonoBehaviour
         beybladebeybladeLETITRIP = !beybladebeybladeLETITRIP;
     }
 
+    public void bigHead()
+    {
+        bHead = !bHead;
+    }
+
     /// <summary>
     /// Displays win screen.
     /// </summary>
@@ -383,14 +449,14 @@ public class gameManager : MonoBehaviour
 
     //
 
-    public void UpdatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, ScriptableGunStats gun)
+    public void UpdatePlayerUI(int healthCurrent, int healthMax, float staminaCurrent, float staminaMax, ScriptableGunStats gun, int ammoTotal)
     {
         playerHealthBar.fillAmount = (float)healthCurrent / healthMax;
         playerHealthText.text = healthCurrent.ToString("0") + " / " + healthMax.ToString("0");
         playerStaminaBar.fillAmount = staminaCurrent / staminaMax;
         playerStaminaText.text = staminaCurrent.ToString("0") + " / " + staminaMax.ToString("0");
         playerAmmoBar.fillAmount = (float)gun.ammoCurrent / gun.ammoMax;
-        playerAmmoText.text = gun.ammoCurrent.ToString("0") + " / " + gun.ammoTotal.ToString("0");
+        playerAmmoText.text = gun.ammoCurrent.ToString("0") + " / " + ammoTotal.ToString("0");
         gunNameText.text = gun.name;
     }
 

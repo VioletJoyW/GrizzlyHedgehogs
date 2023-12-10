@@ -2274,6 +2274,7 @@ MonoBehaviour:
   animator: {fileID: 6710458340508357532}
   shootPos: {fileID: 7970560818005315368}
   headPos: {fileID: 4204577292056676334}
+  _head: {fileID: 8734533013860613742}
   damageCollider: {fileID: 5359801309873651943}
   laser: {fileID: 0}
   _ragdollsCollider:
@@ -2315,6 +2316,7 @@ MonoBehaviour:
   shootCone: 10
   roamDist: 15
   roamPauseTime: 2
+  ragdollLifeTime: 2
   bullet: {fileID: 7308311796046934712, guid: 1684f0149662f084cb134bb3e559a730, type: 3}
   shootRate: 2
 --- !u!195 &1058138217811852109

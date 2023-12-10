@@ -13,6 +13,7 @@ public class settingsManager : MonoBehaviour
     [Header("_-_-_- Components -_-_-_")]
     [SerializeField] TMP_Text sensitivityValue;
     [SerializeField] GameObject textSizeValue;
+    [SerializeField] TMP_Text camFOV;
     [SerializeField] TMP_Text globalVolValue;
     [SerializeField] TMP_Text playerVolValue;
     [SerializeField] TMP_Text enemyVolValue;
@@ -21,6 +22,7 @@ public class settingsManager : MonoBehaviour
 
     [SerializeField] Slider camSliderValue;
     [SerializeField] Slider textSliderValue;
+    [SerializeField] Slider fovSlider;
     [SerializeField] Toggle invertYCheck;
     [SerializeField] Toggle camBobCheck;
     [SerializeField] Button[] Keys;
@@ -39,6 +41,8 @@ public class settingsManager : MonoBehaviour
     [SerializeField] float enemyVolDefault;
     [SerializeField] float enviromentVolDefault;
     [SerializeField] float musicVolDefault;
+    [SerializeField] float aimFOVDefault;
+
 
     [SerializeField] KeyCode forwardsDefault;
     [SerializeField] KeyCode backwardsDefault;
@@ -53,6 +57,7 @@ public class settingsManager : MonoBehaviour
     [SerializeField] KeyCode interactDefault;
     [SerializeField] KeyCode shootDefault;
     [SerializeField] KeyCode reloadDefault;
+    [SerializeField] KeyCode aimDefault;
 
     Event keyEvent;
     bool waitingForKey;
@@ -116,6 +121,8 @@ public class settingsManager : MonoBehaviour
 
         sensitivityValue.text = settingsCurr.camSensitivity.ToString();
         camSliderValue.value = settingsCurr.camSensitivity;
+        camFOV.text = settingsCurr.camFOV.ToString();
+        fovSlider.value = settingsCurr.camFOV;
         invertYCheck.isOn = settingsCurr.invertY;
         camBobCheck.isOn = settingsCurr.camBob;
         textSizeValue.GetComponentInChildren<TMP_Text>().text = settingsCurr.textSize.ToString();
@@ -175,6 +182,8 @@ public class settingsManager : MonoBehaviour
         settingsCurr.interact = interactDefault;
         settingsCurr.shoot = shootDefault;
         settingsCurr.reload = reloadDefault;
+
+        settingsCurr.camFOV = aimFOVDefault;
         
         showControlsChanges();
     }
@@ -200,6 +209,12 @@ public class settingsManager : MonoBehaviour
     {
         settingsCurr.camSensitivity = sensitivity.value;
         sensitivityValue.text = sensitivity.value.ToString();
+    }
+
+    public void changeCamFOV(Slider fov)
+    {
+        settingsCurr.camFOV = fov.value;
+        camFOV.text = fov.value.ToString();
     }
 
     public void changeTextSize(Slider size)
@@ -351,6 +366,9 @@ public class settingsManager : MonoBehaviour
                 break;
             case "Power Down":
                 settingsCurr.powerBtnScrollDown = newKey;
+                break;
+            case "Aim":
+                settingsCurr.aim = newKey;
                 break;
         }
 

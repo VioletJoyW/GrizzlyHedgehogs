@@ -9,6 +9,7 @@ public class ScriptableSettings : ScriptableObject
     public bool varsSet = false;
 
     public float camSensitivity;
+    public float camFOV;
     public bool invertY;
     public bool camBob;
     public float textSize;
@@ -32,4 +33,5 @@ public class ScriptableSettings : ScriptableObject
     public KeyCode interact;
     public KeyCode shoot;
     public KeyCode reload;
+    public KeyCode aim;
 }

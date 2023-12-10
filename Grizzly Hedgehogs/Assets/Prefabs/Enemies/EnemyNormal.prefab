@@ -1169,7 +1169,7 @@ Transform:
   m_LocalRotation: {x: -3.10704e-13, y: -0.00000037819703, z: 0.13635667, w: 0.99065983}
   m_LocalPosition: {x: -0.12508887, y: -0.000000048446655, z: 9.240466e-14}
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1938116860828340062}
   m_Father: {fileID: 1686434311907613350}
@@ -2568,6 +2568,7 @@ MonoBehaviour:
   animator: {fileID: 6272642561798397690}
   shootPos: {fileID: 669144028102062855}
   headPos: {fileID: 1938116860828340062}
+  _head: {fileID: 5298025893469188166}
   damageCollider: {fileID: 2429704336510159902}
   laser: {fileID: 0}
   _ragdollsCollider:
@@ -2603,12 +2604,13 @@ MonoBehaviour:
   - {fileID: 674637702948145917}
   - {fileID: 6846033796591258855}
   fromSpawner: 0
-  hitPoints: 5
+  hitPoints: 4
   playerFaceSpeed: 6
   viewCone: 90
   shootCone: 5
   roamDist: 10
   roamPauseTime: 2
+  ragdollLifeTime: 2
   bullet: {fileID: 7308311796046934712, guid: c1689cc660a277e4eb32792daa00c77a, type: 3}
   shootRate: 0.5
 --- !u!195 &5445775699872022186
