@@ -228,19 +228,17 @@ public class flyingEnemyAI : EnemyAI
     public override void TakeDamage(int amount)
     {
         HP -= amount;
-        //aud.PlayOneShot(audDamage[Random.Range(0, audDamage.Length)], audDamageVol);
-
         if (HP <= 0)
         {
             damageCollider.enabled = false;
             gameManager.instance.updateEnemyCount(-1);
             agent.enabled = false;
             Destroy(gameObject);
-            Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
+/*            Vector3 physicsForce = transform.position - gameManager.instance.player.transform.position;
             if (physicsForce != null)
             {
                 return;
-            }
+            }*/
             //rb.AddForce(physicsForce.normalized * physicsForce.magnitude, ForceMode.Impulse);
         }
         else
