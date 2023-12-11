@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 
 public interface ISceneScript 
 {
+	public bool IsDone();
 	void Init();
 	void Run();
 	void Close();
@@ -77,13 +78,16 @@ public class SceneLoaderObj : MonoBehaviour
 	[SerializeField] int currentSceneIndex;
     [SerializeField] string[] scenes;
 	[SerializeField] GameObject[] scripts;
+	[SerializeField][Range(1.0f, 10.0f)] float fadeSpeed = 1.5f;
 
 	bool isFading = false;
 	float alphaState = 0f;
 	static bool isDown = false;
-	static SceneLoaderObj currentInstance = null;
+	public static SceneLoaderObj currentInstance = null;
 
     public static bool IsDown { get => isDown; set => isDown = value; }
+	public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
+    public int CurrentSceneIndex { get => currentSceneIndex; set => currentSceneIndex = value; }
 
     private void Awake()
 	{
@@ -110,9 +114,13 @@ public class SceneLoaderObj : MonoBehaviour
 		currentInstance.callFade(fadeAlpha, change);
 	}
 
-	private void Start()
+	public static void RunScripts() 
 	{
 		SceneScriptExecuter.RunScripts();
+	}
+
+	private void Start()
+	{
 		callFade(0f, false);
 	}
 
@@ -140,10 +148,11 @@ public class SceneLoaderObj : MonoBehaviour
 	IEnumerator fade(float alpha, bool change = true) 
 	{
 		isFading = true;
-		Color c = GetComponent<RawImage>().color * new Color(1f, 1f, 1f, alpha);
+		Color c = GetComponent<RawImage>().color * new Color(1f, 1f, 1f, 0f);
+		c.a = alpha;
 		while (GetComponent<RawImage>().color != c) 
 		{
-			GetComponent<RawImage>().color = Color.Lerp(GetComponent<RawImage>().color, c,  Time.fixedDeltaTime);
+			GetComponent<RawImage>().color = Color.Lerp(GetComponent<RawImage>().color, c,  Time.fixedDeltaTime * fadeSpeed);
 			yield return new WaitForEndOfFrame();
 		}
 		

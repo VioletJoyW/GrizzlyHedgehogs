@@ -11,12 +11,13 @@ public class oracleOrb : MonoBehaviour, Iinteract
     [Range(0, 1)] public float iSoundVol;
 
     bool levelDone = false;
-    [SerializeField] int curScene;
+    int curScene;
 
     // Start is called before the first frame update
     void Start()
     {
         levelDone = false;
+        curScene = SceneLoaderObj.currentInstance.CurrentSceneIndex;
     }
 
     public bool CheckUnlocked()
@@ -36,10 +37,11 @@ public class oracleOrb : MonoBehaviour, Iinteract
         switch (curScene)
         {
             case 0:
-            levelDone = gameManager.instance.updateEnemyCount(0);
+            levelDone = true;
             break;
 
             case 1:
+            levelDone = gameManager.instance.updateEnemyCount(0);
             break;
 
             case 2:
@@ -47,6 +49,7 @@ public class oracleOrb : MonoBehaviour, Iinteract
             break;
 
             case 3:
+            levelDone = true;
             break;
         }
         
@@ -57,8 +60,18 @@ public class oracleOrb : MonoBehaviour, Iinteract
             gameManager.instance.ShowDialog("Nice work, onto the next one!");
 
             //TODO: Make Sure level change works
-            SceneLoaderObj.IsDown = true;
-            SceneLoaderObj.Fade(1, true);
+            if (curScene != 3)
+            {
+                SceneLoaderObj.IsDown = true;
+                SceneLoaderObj.Fade(1, true);
+            }
+            else
+            {
+                //SceneLoaderObj.Fade(1, false);
+                gameManager.instance.playerWon = true;
+                //gameManager.instance.youWin();
+                //SceneLoaderObj.Fade(0, false);
+            }
         }
         else
         {
