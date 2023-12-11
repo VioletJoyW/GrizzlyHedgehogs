@@ -116,6 +116,7 @@ public class gameManager : MonoBehaviour
     int dialogTimer = -1;
 
     bool wasMainMenuTriggered = false;
+    public bool playerWon = false;
     
 
 	void Awake()

@@ -93,4 +93,11 @@ public class buttonFunctions : MonoBehaviour
         gameManager.instance.PlayButtonPress();
     }
 
+    public void FullReset()
+    {
+        SceneLoaderObj.currentInstance.CurrentSceneIndex = -1;
+        SceneLoaderObj.IsDown = true;
+        SceneLoaderObj.Fade(1, true);
+    }
+
 }
