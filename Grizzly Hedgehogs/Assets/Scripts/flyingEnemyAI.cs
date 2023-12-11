@@ -39,6 +39,7 @@ public class flyingEnemyAI : EnemyAI
     //[SerializeField] GameObject bullet;
     //[SerializeField] float shootRate;
 
+    [SerializeField] protected Transform[] shootPos1;
 
     float flightHeight;
     [SerializeField] float triggerDistance = 1;
@@ -219,7 +220,10 @@ public class flyingEnemyAI : EnemyAI
 
     public override void CreateBullet() // Called in animation
     {
-        Instantiate(bullet, shootPos.position, transform.rotation);
+        for (int i = 0; i < shootPos1.Length; i++)
+        {
+            Instantiate(bullet, shootPos1[i].position, transform.rotation);
+        }
     }
 
     public override void TakeDamage(int amount)
