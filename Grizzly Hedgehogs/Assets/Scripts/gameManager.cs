@@ -150,7 +150,7 @@ public class gameManager : MonoBehaviour
                 break;
 
             case MenuType.TEST:
-                Test();
+                
                 break;
 
 
