@@ -8,9 +8,10 @@ public class healthKit : MonoBehaviour, Iinteract
     [SerializeField] Animator animator;
     [SerializeField] AudioSource aud;
 
+
     public bool CheckUnlocked()
     {
-        return gameManager.instance.unlockedHealthKits;
+        return true;
     }
     public void Interact()
     {

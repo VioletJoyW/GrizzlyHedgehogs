@@ -61,6 +61,7 @@ public class playerController : Entity
     private Vector3 move;
     private Vector3 playerVelocity;
 
+    public static bool Intro = false;
 
     private class gunAmmo
     {
@@ -79,6 +80,11 @@ public class playerController : Entity
         public string Name { get => Name; }
     }
 
+	private void Awake()
+	{
+		ammoTrack = new List<gunAmmo>();
+	}
+
 	void Start()
     {
 		//Setting Entity vars
@@ -95,7 +101,7 @@ public class playerController : Entity
             powerBuffer.AddPower(power);
         }
         //--------------------------------------------------
-        ammoTrack = new List<gunAmmo>();
+        
         //Create a timer for the button press and set the cool down for half a second.
         Utillities.CreateGlobalTimer(.3f, ref pBFButtonCoolDownTimerID);
 
@@ -121,6 +127,7 @@ public class playerController : Entity
         }
         gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun], ammoTrack[selectedGun].TotalAmmo);
         transform.position = gameManager.instance.playerSpawnPos.transform.localPosition;
+        transform.rotation = gameManager.instance.playerSpawnPos.transform.localRotation;
         controller.enabled = true;
     }
 
@@ -143,7 +150,7 @@ public class playerController : Entity
 
             if (Input.GetKeyDown(settingsManager.sm.settingsCurr.reload)) StartCoroutine(ReloadGun());
             else if (Input.GetKeyDown(settingsManager.sm.settingsCurr.shoot) && !isShooting)
-            StartCoroutine(Shoot());
+				if (!Intro) StartCoroutine(Shoot());
             
 
             gameManager.instance.UpdatePlayerUI(HP, playerArmor.healthMax, currentStamina, playerArmor.staminaMax, gunsList[selectedGun], ammoTrack[selectedGun].TotalAmmo);
@@ -167,7 +174,7 @@ public class playerController : Entity
         // Sprint code
         if (Input.GetKey(settingsManager.sm.settingsCurr.sprint) && currentStamina > 0.2f)
         {
-            if (!isRunning)
+            if (!isRunning && !Intro)
                 StartCoroutine(Sprint());
 
             moveSpeed = playerArmor.sprintSpeed;
@@ -255,7 +262,8 @@ public class playerController : Entity
 
         if (!isRestoringStamina && !isRunning && currentStamina < playerArmor.staminaMax)
         {
-            StartCoroutine(RestoreStamina());
+			if (Intro) return;
+			StartCoroutine(RestoreStamina());
         }
     }
 
@@ -307,6 +315,7 @@ public class playerController : Entity
     /// <returns></returns>
     IEnumerator Sprint()
     {
+        
         isRunning = true;
 
         currentStamina -= 1;
@@ -512,7 +521,8 @@ public class playerController : Entity
     /// <param name="amount"></param>
     public void AddAmmo(int amount)
     {
-        aud.PlayOneShot(audReload, audReloadVol * objectVol);
+		if (Intro) return;
+		aud.PlayOneShot(audReload, audReloadVol * objectVol);
 
         ammoTrack[selectedGun].TotalAmmo += amount;
 
@@ -547,8 +557,9 @@ public class playerController : Entity
 	/// </summary>
 	void SelectGun()
     {
-        //TODO-DejaKill: Make the gun scrolling loop?
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < gunsList.Count - 1)
+		if (Intro) return;
+		//TODO-DejaKill: Make the gun scrolling loop?
+		if (Input.GetAxis("Mouse ScrollWheel") > 0 && selectedGun < gunsList.Count - 1)
         {
             selectedGun++;
             ChangeGunModel();
@@ -562,6 +573,7 @@ public class playerController : Entity
 
     void SelectPower() 
     {
+        if (Intro) return;
         if (powerBuffer.IsActive) 
         {
             //print("Selected Power: "+ powerBuffer.GetCurrentPower.name);

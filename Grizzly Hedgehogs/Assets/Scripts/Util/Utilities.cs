@@ -37,7 +37,7 @@ public static class Utillities
 	/// </summary>
 	static public void UpdateGlobalTimer(int id) 
 	{
-		if(timers == null) return;
+		if(timers == null || timers.Count < id) return;
 		timers[id].Update(Time.deltaTime);
 	}
 

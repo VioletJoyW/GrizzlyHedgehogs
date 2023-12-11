@@ -65,6 +65,7 @@ public class PointLightRing : MonoBehaviour
 
 	private void Update()
 	{
+		if(gameManager.instance.player == null) return;
 		Vector3 playerPos = gameManager.instance.player.transform.position;
 		Vector3 distance =  playerPos - transform.position; // the distance from the player
 		UnityEngine.Debug.DrawRay(transform.position, distance, Color.magenta);

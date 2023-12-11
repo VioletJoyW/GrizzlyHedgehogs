@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 
 public interface ISceneScript 
 {
+	public bool IsDone();
 	void Init();
 	void Run();
 	void Close();
@@ -113,9 +114,13 @@ public class SceneLoaderObj : MonoBehaviour
 		currentInstance.callFade(fadeAlpha, change);
 	}
 
-	private void Start()
+	public static void RunScripts() 
 	{
 		SceneScriptExecuter.RunScripts();
+	}
+
+	private void Start()
+	{
 		callFade(0f, false);
 	}
 

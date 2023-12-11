@@ -17,11 +17,13 @@ public class gameManager : MonoBehaviour
     {
         None = 0x0,
         NORMAL_MENU,
-        INTRO_MENU
+        INTRO_MENU,
+        TEST
     }
 
     [Header("_-_-_- Settings -_-_-_")]
     [SerializeField] MenuType menu = MenuType.None;
+    [SerializeField] bool activatePlayerAtStart = true;
     [Header("_-_-_- Cinema Settings -_-_-_")]
     [SerializeField] GameObject cinemaCamera;
 
@@ -43,7 +45,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject menuConfirmExit;
-    [SerializeField] GameObject menuTESTING; 
+    [SerializeField] GameObject menuTESTING;
     [SerializeField] GameObject menuInventory;
 
     [Header("_-_-_- HUD -_-_-_")]
@@ -93,7 +95,7 @@ public class gameManager : MonoBehaviour
     public bool unlockedDoors;
     public bool unlockedHealthKits;
     public bool unlockedAmmoKits;
-    
+
     public bool playerUnkillable = false;
     public bool infiniteAmmo = false;
     public bool beybladebeybladeLETITRIP = false;
@@ -117,19 +119,28 @@ public class gameManager : MonoBehaviour
 
     bool wasMainMenuTriggered = false;
     public bool playerWon = false;
-    
 
+    bool cCamWasActive;
 	void Awake()
     {
+        if(cinemaCamera != null)
+        {
+            cCamWasActive = cinemaCamera.activeSelf;
+            cinemaCamera.SetActive(false);
+        }
         instance = this;
         Utillities.CreateGlobalTimer(5.0f, ref dialogTimer);
         timescaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         playerSpawnPos = GameObject.FindWithTag("Respawn");
+        SceneLoaderObj.RunScripts();
+        player.SetActive(activatePlayerAtStart);
         hud.SetActive(false);
         hudMap.SetActive(false);
-        switch (menu) // Menu Controls 
+		if (cinemaCamera != null)
+			cinemaCamera.SetActive(cCamWasActive);
+        switch (menu) // Menu Controls
         {
             case MenuType.NORMAL_MENU:
                 ShowMainMenu(); break;
@@ -137,6 +148,11 @@ public class gameManager : MonoBehaviour
             case MenuType.INTRO_MENU:
                 ShowIntroMenu();
                 break;
+
+            case MenuType.TEST:
+                Test();
+                break;
+
 
             default: break;
         }
@@ -153,12 +169,12 @@ public class gameManager : MonoBehaviour
         }
     }
 
-    public void ShowIntroMenu() 
+    public void ShowIntroMenu()
     {
-
+        menuMain.SetActive(false);
     }
 
-    public void ShowMainMenu() 
+    public void ShowMainMenu()
     {
         wasMainMenuTriggered = true;
 
@@ -173,18 +189,19 @@ public class gameManager : MonoBehaviour
     bool confirm = false;
 
 	public bool WasMainMenuTriggered { get => wasMainMenuTriggered; }
+	public bool ActivatePlayerAtStart { get => activatePlayerAtStart; set => activatePlayerAtStart = value; }
 
 	void Update()
     {
         confirm = Input.GetKeyUp(KeyCode.E);
 
-        if (!wasMainMenuTriggered) 
+        if (!wasMainMenuTriggered)
         {
             switch(menu)
             {
                 case MenuType.INTRO_MENU:
-                    { 
-                        //if()
+                    {
+
                     }
                     break;
             }
@@ -239,8 +256,8 @@ public class gameManager : MonoBehaviour
         menuActive = null;
 
         //if (musicSource.clip == musicClips[0])
-        //{ 
-            ChangeMusic(musicCurr); 
+        //{
+            ChangeMusic(musicCurr);
         //}
     }
 
@@ -606,7 +623,7 @@ public class gameManager : MonoBehaviour
     public void ChangeTextSize()
     {
         Vector3 changeScale = new Vector3(settingsManager.sm.settingsCurr.textSize, settingsManager.sm.settingsCurr.textSize, settingsManager.sm.settingsCurr.textSize);
-        
+
         hud.transform.localScale = changeScale;
 
         promptDisplay.transform.localScale = changeScale;

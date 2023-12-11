@@ -9,7 +9,7 @@ public class ammoKit : MonoBehaviour, Iinteract
     [SerializeField] AudioSource aud;
     public bool CheckUnlocked()
     {
-        return gameManager.instance.unlockedAmmoKits;
+        return true;
     }
     public void Interact()
     {
