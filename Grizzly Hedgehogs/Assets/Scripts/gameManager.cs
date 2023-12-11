@@ -17,11 +17,13 @@ public class gameManager : MonoBehaviour
     {
         None = 0x0,
         NORMAL_MENU,
-        INTRO_MENU
+        INTRO_MENU, 
+        TEST
     }
 
     [Header("_-_-_- Settings -_-_-_")]
     [SerializeField] MenuType menu = MenuType.None;
+    [SerializeField] bool activatePlayerAtStart = true;
     [Header("_-_-_- Cinema Settings -_-_-_")]
     [SerializeField] GameObject cinemaCamera;
 
@@ -116,18 +118,27 @@ public class gameManager : MonoBehaviour
     int dialogTimer = -1;
 
     bool wasMainMenuTriggered = false;
-    
 
+    bool cCamWasActive;
 	void Awake()
     {
+        if(cinemaCamera != null)
+        {
+            cCamWasActive = cinemaCamera.activeSelf;
+            cinemaCamera.SetActive(false);
+        }
         instance = this;
         Utillities.CreateGlobalTimer(5.0f, ref dialogTimer);
         timescaleOrig = Time.timeScale;
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<playerController>();
         playerSpawnPos = GameObject.FindWithTag("Respawn");
+        SceneLoaderObj.RunScripts();
+        player.SetActive(activatePlayerAtStart);
         hud.SetActive(false);
         hudMap.SetActive(false);
+		if (cinemaCamera != null)
+			cinemaCamera.SetActive(cCamWasActive);
         switch (menu) // Menu Controls 
         {
             case MenuType.NORMAL_MENU:
@@ -137,15 +148,25 @@ public class gameManager : MonoBehaviour
                 ShowIntroMenu();
                 break;
 
+            case MenuType.TEST:
+                Test();
+                break;
+
+
             default: break;
         }
 
         //musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
+    public void Test() 
+    {
+        //
+    }
+
     public void ShowIntroMenu() 
     {
-
+        menuMain.SetActive(false);
     }
 
     public void ShowMainMenu() 
@@ -163,6 +184,7 @@ public class gameManager : MonoBehaviour
     bool confirm = false;
 
 	public bool WasMainMenuTriggered { get => wasMainMenuTriggered; }
+	public bool ActivatePlayerAtStart { get => activatePlayerAtStart; set => activatePlayerAtStart = value; }
 
 	void Update()
     {
@@ -174,7 +196,7 @@ public class gameManager : MonoBehaviour
             {
                 case MenuType.INTRO_MENU:
                     { 
-                        //if()
+                       
                     }
                     break;
             }
