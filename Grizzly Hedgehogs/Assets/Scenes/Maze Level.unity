@@ -16124,6 +16124,8 @@ MonoBehaviour:
   button: {fileID: 131620233}
   scrollSpeed: 200
   maxHeight: 3600
+  timerID: 96
+  waitTime: 10
 --- !u!1 &1650266491
 GameObject:
   m_ObjectHideFlags: 0
@@ -19076,7 +19078,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7088103976468029879, guid: 0130e6ac0fd714a46bccf26df8bc31c0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 7088103976468029879, guid: 0130e6ac0fd714a46bccf26df8bc31c0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -19084,7 +19086,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088103976468029879, guid: 0130e6ac0fd714a46bccf26df8bc31c0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 7088103976468029879, guid: 0130e6ac0fd714a46bccf26df8bc31c0, type: 3}
       propertyPath: m_LocalRotation.w

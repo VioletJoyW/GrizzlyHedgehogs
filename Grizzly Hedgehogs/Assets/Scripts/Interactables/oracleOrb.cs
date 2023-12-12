@@ -51,25 +51,28 @@ public class oracleOrb : MonoBehaviour, Iinteract
             case 3:
             levelDone = true;
             break;
+
+            case 4:
+            levelDone = true;
+            break;
         }
         
 
         if (levelDone)
         {
-            //Win dialog & take player to the next level
-            gameManager.instance.ShowDialog("Nice work, onto the next one!");
-
-            //TODO: Make Sure level change works
-            if (curScene != 3)
+            
+            if (curScene != 4)
             {
+                //Win dialog & take player to the next level
+                gameManager.instance.ShowDialog("Nice work, onto the next one!");
+
                 SceneLoaderObj.IsDown = true;
                 SceneLoaderObj.Fade(1, true);
             }
             else
             {
                 //SceneLoaderObj.Fade(1, false);
-                gameManager.instance.playerWon = true;
-                //gameManager.instance.youWin();
+                gameManager.instance.youWin();
                 //SceneLoaderObj.Fade(0, false);
             }
         }

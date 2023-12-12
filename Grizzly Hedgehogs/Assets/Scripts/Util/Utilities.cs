@@ -42,11 +42,20 @@ public static class Utillities
 	}
 
 	/// <summary>
-	/// Resets a global timer
+	/// Updates the global timer
 	/// </summary>
-	/// <param name="id"></param>
-	/// <param name="newStartTime"></param>
-	static public void ResetGlobalTimer(int id, float newStartTime = 0) 
+    static public void UpdateGlobalFixedTimer(int id)
+    {
+        if (timers == null || timers.Count < id) return;
+        timers[id].Update(Time.fixedDeltaTime);
+    }
+
+    /// <summary>
+    /// Resets a global timer
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="newStartTime"></param>
+    static public void ResetGlobalTimer(int id, float newStartTime = 0) 
 	{
 		if(newStartTime > 0) timers[id].StartTime = newStartTime;
 		timers[id].Reset();
