@@ -68,7 +68,10 @@ public class SceneScriptExecuter
 
 
 
-
+	public static void ClearScripts() 
+	{
+		sceneScripts.Clear();
+	}
 
 }
 
@@ -160,6 +163,7 @@ public class SceneLoaderObj : MonoBehaviour
 		if(change)
 		{
 			SceneScriptExecuter.RunClosing();
+			SceneScriptExecuter.ClearScripts();
 			if(isDown)SceneLoader.PlayScene(loopValue(++currentSceneIndex, SceneLoader.Size));
 			else SceneLoader.PlayScene(loopValue(--currentSceneIndex, SceneLoader.Size));
 		}

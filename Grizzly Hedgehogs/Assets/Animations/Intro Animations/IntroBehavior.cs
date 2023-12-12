@@ -6,19 +6,26 @@ public class IntroBehavior : MonoBehaviour
 {
 
     [SerializeField] IntroScript intro;
+    [SerializeField] TV tv;
     [SerializeField] GameObject oracle;
     [SerializeField] Oracle_Intro_start oracleIntroScript;
     [SerializeField] Animator animator;
+    [SerializeField][Range(1f, 100f)] float lookSpeed = 2f;
+    [SerializeField][Range(1f, 100f)] float waitTime;
+    [SerializeField][Range(1f, 100f)] float transitionTime;
+
+    public GameObject OBJ;
 
     bool isFinished = false;
     bool isWaitng = false;
     bool triggerIntroEvent1 = false;
     bool triggerIntroEvent2 = false;
-    int timerID = -1;
+    int fadeTimerID = -1;
+    int waitTimerID = -1;
 	public IEnumerator WaitForAnimation()
 	{
         isFinished = false;
-		while (Mathf.Round(animator.GetCurrentAnimatorStateInfo(0).normalizedTime) < 1.0f)
+		while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.99f)
 		{
 			yield return null;
 		}
@@ -38,51 +45,75 @@ public class IntroBehavior : MonoBehaviour
 
 	private void Awake()
 	{
-        Utillities.CreateGlobalTimer(6, ref timerID);
+        Utillities.CreateGlobalTimer(transitionTime, ref fadeTimerID);
+        Utillities.CreateGlobalTimer(waitTime, ref waitTimerID);
 	}
 
 	// Start is called before the first frame update
 	void Start()
     {
-        animator = GetComponent<Animator>();
-        StartCoroutine(WaitForAnimation());
-    }
+		animator = GetComponent<Animator>();
+		StartCoroutine(WaitForAnimation());
+		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
+	}
 
 
-    
 
-    // Update is called once per frame
+    bool triggerOracle = false;
+    bool fadeStarted = false;
+    bool switchedToPlayer = false;
     void Update()
     {
-        Utillities.UpdateGlobalTimer(timerID);
-        if (!triggerIntroEvent1) 
+
+        if(OBJ != null)
         {
-            if (isFinished && !isWaitng)
+            animator = oracle.GetComponent<Animator>();
+            GetComponent<Animator>().enabled = false;
+            Quaternion rot = Quaternion.LookRotation((OBJ.transform.position - transform.position));
+            transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * lookSpeed);
+            if (!triggerOracle)
             {
-                animator = oracle.GetComponent<Animator>();
-                animator.Play("Run");
-                animator = GetComponentInChildren<Animator>();
-                animator.Play("Wait_And_look_around");
-                isWaitng = true;
-                StartCoroutine(WaitForAnimation());
+                animator.SetTrigger("StartRun");
+                triggerOracle = true;
+                GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 30f, Time.deltaTime * lookSpeed);
             }
-            else if (isWaitng && isFinished) 
+            else if (animator.GetCurrentAnimatorStateInfo(0).IsName("OracleHold")) 
             {
-                isWaitng = false;
-                triggerIntroEvent1 = true;
-            };
-        }else
-        {
-            if (!triggerIntroEvent2 && Utillities.IsGlobalTimerDone(timerID)) 
-            {
-                GetComponent<Animator>().StopPlayback();
-                animator.StopPlayback();
-                StartCoroutine(RunMiniScript());
+                animator.SetTrigger("HoldDone");
+                lookSpeed *= 2;
+				GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 50f, Time.deltaTime * lookSpeed);
+			
             }
+			else if (animator.GetCurrentAnimatorStateInfo(0).IsName("DoorHold"))
+            {
+                Utillities.UpdateGlobalTimer(waitTimerID);
+                if(!fadeStarted && Utillities.IsGlobalTimerDone(waitTimerID))
+                {
+                    SceneLoaderObj.Fade(1f, false); // Fade out to end the cutscene.
+                    fadeStarted = true;
+                }
+                else Utillities.UpdateGlobalTimer(fadeTimerID);
+				GetComponent<Camera>().fieldOfView = Mathf.Lerp(GetComponent<Camera>().fieldOfView, 25f, Time.deltaTime * (lookSpeed * .5f));
+			}
+
+			if (Utillities.IsGlobalTimerDone(fadeTimerID))
+            {
+                if(!switchedToPlayer)
+                {
+					gameObject.SetActive(false);
+					gameManager.instance.player.SetActive(true);
+					gameManager.instance.playerScript.SpawnPlayer();
+					gameManager.instance.ActivatePlayerAtStart = true;
+					Cursor.visible = false;
+					Cursor.lockState = CursorLockMode.Locked;
+					SceneLoaderObj.Fade(0f, false); // Fide in to the player.
+                    switchedToPlayer = true;
+				}
+            }
+            
+        
         }
-
-
-
 
     }
 }
