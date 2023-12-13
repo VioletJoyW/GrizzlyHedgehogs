@@ -5139,8 +5139,9 @@ MonoBehaviour:
   laser: {fileID: 0}
   _ragdollsCollider: []
   _ragdolls: []
+  _head: {fileID: 0}
   fromSpawner: 0
-  hitPoints: 1
+  hitPoints: 3
   playerFaceSpeed: 3
   viewCone: 180
   shootCone: 30
@@ -5175,7 +5176,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 1
+  m_BaseOffset: 1.5
   m_WalkableMask: 8
   m_ObstacleAvoidanceType: 3
 --- !u!23 &7202036464434482094

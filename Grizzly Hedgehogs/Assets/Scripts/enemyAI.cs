@@ -26,6 +26,7 @@ public class EnemyAI : Entity
     [SerializeField] protected Renderer laser;
     [SerializeField] protected Collider[] _ragdollsCollider;
     [SerializeField] protected Rigidbody[] _ragdolls;
+    [SerializeField] protected Transform _head;
 
     [Header("----- Config -----")]
     [SerializeField] protected bool fromSpawner = false;
