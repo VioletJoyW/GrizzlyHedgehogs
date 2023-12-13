@@ -40,6 +40,15 @@ public static class Utillities
 		if(timers == null || timers.Count < id) return;
 		timers[id].Update(Time.deltaTime);
 	}
+	
+	/// <summary>
+	/// Updates the global timer.
+	/// </summary>
+	static public void UpdateGlobalFixedTimer(int id) 
+	{
+		if(timers == null || timers.Count < id) return;
+		timers[id].Update(Time.fixedDeltaTime);
+	}
 
 	/// <summary>
 	/// Updates the global timer

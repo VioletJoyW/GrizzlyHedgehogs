@@ -12,7 +12,7 @@ public class gameManager : MonoBehaviour
     public static gameManager instance;
     public int curScene = 0;
 
-
+    public static bool IsIntro = false;
     public enum MenuType
     {
         None = 0x0,
@@ -122,6 +122,7 @@ public class gameManager : MonoBehaviour
     bool cCamWasActive;
 	void Awake()
     {
+        
         if(cinemaCamera != null)
         {
             cCamWasActive = cinemaCamera.activeSelf;
@@ -141,16 +142,34 @@ public class gameManager : MonoBehaviour
 			cinemaCamera.SetActive(cCamWasActive);
         switch (menu) // Menu Controls
         {
+
+            case MenuType.None:
+                {
+                    startRun();
+                    if (menuMain != null) menuMain.SetActive(false);
+                    menuActive = null;
+
+                    if (!IsIntro) 
+                    {
+                        hud.SetActive(true);
+                        hudMap.SetActive(true);
+                        playerController.Intro = false;
+                    }
+
+                }
+                break;
+
             case MenuType.NORMAL_MENU:
-                ShowMainMenu(); break;
+                {
+                    ShowMainMenu();
+                }
+                break;
 
             case MenuType.INTRO_MENU:
                 ShowIntroMenu();
                 break;
 
-            case MenuType.TEST:
-                
-                break;
+
 
 
             default: break;
@@ -159,19 +178,18 @@ public class gameManager : MonoBehaviour
         //musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
-    private void Start()
-    {
-        if (menu == MenuType.None)
-        {
-            stateUnPause();
-            menuMain.SetActive(false);
-        }
-    }
+
 
     public void ShowIntroMenu()
     {
-        menuMain.SetActive(false);
-    }
+        statePause();
+        hud.SetActive(false);
+        hudMap.SetActive(false);
+		menuActive = menuMain;
+		subMenuActive = subMain;
+		subMenuActive.SetActive(true);
+		menuActive.SetActive(true);
+	}
 
     public void ShowMainMenu()
     {
@@ -194,17 +212,7 @@ public class gameManager : MonoBehaviour
     {
         confirm = Input.GetKeyUp(KeyCode.E);
 
-        if (!wasMainMenuTriggered)
-        {
-            switch(menu)
-            {
-                case MenuType.INTRO_MENU:
-                    {
 
-                    }
-                    break;
-            }
-        }
 
 		if (inDialog && confirm)
         {
@@ -224,12 +232,12 @@ public class gameManager : MonoBehaviour
     public void startRun()
     {
         stateUnPause();
-        AddTempGold(-tempGold);
+        //AddTempGold(-tempGold);
         enemiesRemaining = 0;
 
-		hud.SetActive(true);
-		hudMap.SetActive(true);
-        playerScript.SpawnPlayer();
+		hud.SetActive(!IsIntro);
+		hudMap.SetActive(!IsIntro);
+        if(!IsIntro) playerScript.SpawnPlayer();
 		for (int i = 0; i < spawnersList.Count; i++)
         {
             spawnersList[i].resetSpawn();
@@ -250,14 +258,10 @@ public class gameManager : MonoBehaviour
         Time.timeScale = timescaleOrig;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        if (menuActive != null)
-        { menuActive.SetActive(false); }
+        if (menuActive != null) menuActive.SetActive(false);
         menuActive = null;
-
-        //if (musicSource.clip == musicClips[0])
-        //{
+        if (musicSource.clip == musicClips[0])
             ChangeMusic(musicCurr);
-        //}
     }
 
     //Show Menus
@@ -269,7 +273,7 @@ public class gameManager : MonoBehaviour
         subMenuActive = subMain;
         subMenuActive.SetActive(true);
         menuActive.SetActive(true);
-        ChangeMusic(0);
+        //ChangeMusic(0);
     }
     public void showMain()
     {
@@ -315,10 +319,8 @@ public class gameManager : MonoBehaviour
     }
     public void switchSettingsPage(int page)
     {
-        if (page >= settingsPages.Length || page < 0)
-        {
-            return;
-        }
+        if (page >= settingsPages.Length || page < 0) return;
+
 
         settingsPageActive.SetActive(false);
         settingsPageActive = settingsPages[page];
@@ -498,7 +500,7 @@ public class gameManager : MonoBehaviour
 
     public void ShowDialog(string dialog)
     {
-        int charMax = (int)(5170/ dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize);
+        int charMax = (int)(5170 / dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize);
 
         int cutIndex = 0;
 

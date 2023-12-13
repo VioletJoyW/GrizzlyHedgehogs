@@ -13,14 +13,17 @@ public class PointLightRing : MonoBehaviour
 {
     [Header("========= Objects =========")]
     [SerializeField] new GameObject light;
+	[SerializeField] Transform newTrans;
     [Header("========= Settings =========")]
     [SerializeField] [Range(0, 100)] int count;
+	[SerializeField] [Range(0, 359)] int rotation;
     [SerializeField] [Range(0, 50)] int angleCount;
     [SerializeField] [Range(0, 50)] double radious;
     [SerializeField] [Range(0, 500)] float activationDistance = 200.0f;
     [SerializeField] bool update;
     [SerializeField] bool intensity;
     [SerializeField] bool refresh;
+	
 
 	List<double> positionX;
 	List<double> positionZ;
@@ -29,6 +32,8 @@ public class PointLightRing : MonoBehaviour
 	bool calculated = false;
 	bool childrenOn = false;
 	bool childrenWasOn = false;
+	
+
 	void Start() 
     {
 		centerLight = GetComponent<Light>();
@@ -124,6 +129,13 @@ public class PointLightRing : MonoBehaviour
 				lights[ndx].transform.position = new Vector3(x + center.x, center.y, z + center.z);
 			}
 			transform.rotation = _oldRot;
+		}
+
+		if (rotation != 0)
+		{
+			//newTrans.Rotate(0, rotation, 0, Space.Self);
+			transform.Rotate(0, rotation, 0, Space.Self);
+            //transform.rotation = Quaternion.Lerp(transform.localRotation, newTrans.rotation, Time.deltaTime);
 		}
 	}
 

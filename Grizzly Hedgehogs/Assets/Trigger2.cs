@@ -10,7 +10,7 @@ public class Trigger2 : MonoBehaviour
 
 
 	int tiemrID = -1;
-
+	bool didChange = false;
 	private void Awake()
 	{
 		Utillities.CreateGlobalTimer(triggerTime, ref tiemrID);
@@ -22,10 +22,11 @@ public class Trigger2 : MonoBehaviour
     {
 		Utillities.UpdateGlobalTimer(tiemrID);
 
-		if(Utillities.IsGlobalTimerDone(tiemrID))
+		if(Utillities.IsGlobalTimerDone(tiemrID) && !didChange)
 		{
 			SceneLoaderObj.IsDown = true;
 			SceneLoaderObj.Fade(1f, true);
+			didChange = true;
 		}
     }
 }
