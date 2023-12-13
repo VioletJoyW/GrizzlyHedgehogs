@@ -92,6 +92,9 @@ public class SceneLoaderObj : MonoBehaviour
 	[SerializeField] GameObject[] scripts;
 	[SerializeField][Range(1.0f, 10.0f)] float fadeSpeed = 1.5f;
 
+	[Header("_-_- Settings _-_")]
+	[SerializeField] bool IsIntro = false;
+
 	bool isFading = false;
 	float alphaState = 0f;
 	static bool isDown = false;
@@ -103,6 +106,7 @@ public class SceneLoaderObj : MonoBehaviour
 
     private void Awake()
 	{
+		gameManager.IsIntro = IsIntro;
 		RawImage img = gameObject.GetComponent<RawImage>();
 		
 		Color c = new Color(1f, 1f, 1f, 1f);
@@ -181,7 +185,7 @@ public class SceneLoaderObj : MonoBehaviour
 
 	int loopValue(int value, int max)
 	{
-		return ((value) + max) % max;
+		return (value + max) % max;
 	}
 
 }

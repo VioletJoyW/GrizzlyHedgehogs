@@ -123,6 +123,7 @@ public class gameManager : MonoBehaviour
     bool cCamWasActive;
 	void Awake()
     {
+        
         if(cinemaCamera != null)
         {
             cCamWasActive = cinemaCamera.activeSelf;
@@ -148,6 +149,14 @@ public class gameManager : MonoBehaviour
                     startRun();
                     if (menuMain != null) menuMain.SetActive(false);
                     menuActive = null;
+
+                    if (!IsIntro) 
+                    {
+                        hud.SetActive(true);
+                        hudMap.SetActive(true);
+                        playerController.Intro = false;
+                    }
+
                 }
                 break;
 
@@ -492,7 +501,7 @@ public class gameManager : MonoBehaviour
 
     public void ShowDialog(string dialog)
     {
-        int charMax = (int)(5170/ dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize);
+        int charMax = (int)(5170 / dialogDisplay.GetComponentInChildren<TMP_Text>().fontSize);
 
         int cutIndex = 0;
 

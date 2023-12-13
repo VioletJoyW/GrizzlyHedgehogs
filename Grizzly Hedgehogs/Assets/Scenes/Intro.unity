@@ -4736,6 +4736,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5421883573294489312, guid: a14ace0bf0697e54fb7e49e3e3e6d7af, type: 3}
+      propertyPath: IsIntro
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5421883573294489312, guid: a14ace0bf0697e54fb7e49e3e3e6d7af, type: 3}
       propertyPath: fadeSpeed
       value: 1.5
       objectReference: {fileID: 0}
@@ -4757,7 +4761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6963701652889883952, guid: a14ace0bf0697e54fb7e49e3e3e6d7af, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
