@@ -6,7 +6,6 @@ public class IntroBehavior : MonoBehaviour
 {
 
     [SerializeField] IntroScript intro;
-    [SerializeField] TV tv;
     [SerializeField] GameObject oracle;
     [SerializeField] Oracle_Intro_start oracleIntroScript;
     [SerializeField] Animator animator;
@@ -16,20 +15,14 @@ public class IntroBehavior : MonoBehaviour
 
     public GameObject OBJ;
 
-    bool isFinished = false;
-    bool isWaitng = false;
-    bool triggerIntroEvent1 = false;
-    bool triggerIntroEvent2 = false;
     int fadeTimerID = -1;
     int waitTimerID = -1;
 	public IEnumerator WaitForAnimation()
 	{
-        isFinished = false;
 		while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.99f)
 		{
 			yield return null;
 		}
-        isFinished = true;
 	}
 
 
@@ -45,6 +38,7 @@ public class IntroBehavior : MonoBehaviour
 
 	private void Awake()
 	{
+        gameManager.IsIntro = true;
         Utillities.CreateGlobalTimer(transitionTime, ref fadeTimerID);
         Utillities.CreateGlobalTimer(waitTime, ref waitTimerID);
 	}
@@ -54,10 +48,16 @@ public class IntroBehavior : MonoBehaviour
     {
 		animator = GetComponent<Animator>();
 		StartCoroutine(WaitForAnimation());
-		Cursor.visible = false;
-		Cursor.lockState = CursorLockMode.Locked;
+		//Cursor.visible = false;
+		//Cursor.lockState = CursorLockMode.Locked;
 	}
 
+
+
+    public void SetObj() 
+    {
+        OBJ = oracle.gameObject;
+    }
 
 
     bool triggerOracle = false;
@@ -68,8 +68,8 @@ public class IntroBehavior : MonoBehaviour
 
         if(OBJ != null)
         {
-            animator = oracle.GetComponent<Animator>();
             GetComponent<Animator>().enabled = false;
+            animator = oracle.GetComponent<Animator>();
             Quaternion rot = Quaternion.LookRotation((OBJ.transform.position - transform.position));
             transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * lookSpeed);
             if (!triggerOracle)
@@ -105,15 +105,17 @@ public class IntroBehavior : MonoBehaviour
 					gameManager.instance.player.SetActive(true);
 					gameManager.instance.playerScript.SpawnPlayer();
 					gameManager.instance.ActivatePlayerAtStart = true;
-					Cursor.visible = false;
-					Cursor.lockState = CursorLockMode.Locked;
+					//Cursor.visible = false;
+					//Cursor.lockState = CursorLockMode.Locked;
 					SceneLoaderObj.Fade(0f, false); // Fide in to the player.
                     switchedToPlayer = true;
+					playerController.Intro = true;
+					Camera.main.clearFlags = CameraClearFlags.Skybox;
+					gameManager.instance.player.transform.localScale = new Vector3(gameManager.instance.player.transform.localScale.x, 2.0f, gameManager.instance.player.transform.localScale.y);
+					Camera.main.farClipPlane = 150.0f;
 				}
             }
-            
         
         }
-
     }
 }
