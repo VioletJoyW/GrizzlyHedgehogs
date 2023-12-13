@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class flyingEnemyAI : EnemyAI
+public class flyingEnemyAI : EnemyAI, IDamage
 {
 
     //[Header("----- Audio -----")]
@@ -66,6 +66,7 @@ public class flyingEnemyAI : EnemyAI
         AudioDamage = audioDamage;
         AudioDamageVolume = audioDamageVolume;
 
+        
         model = model_obj.GetComponent<MeshRenderer>();
         flightHeight = model_obj.transform.localPosition.y;
 		//headPos.transform.localPosition = new Vector3(model_obj.transform.localPosition.x, flightHeight ,model_obj.transform.localPosition.y);
@@ -80,6 +81,7 @@ public class flyingEnemyAI : EnemyAI
     {
         if (agent.isActiveAndEnabled)
         {
+            damageCollider.transform.position = model_obj.transform.position;
             //animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
 
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
@@ -160,7 +162,6 @@ public class flyingEnemyAI : EnemyAI
         angleToPlayer = Vector3.Angle(playerDir, transform.forward);
 
         Debug.DrawRay(transform.position, playerDir);
-        //Debug.Log(angleToPlayer);
 
         RaycastHit hit;
 
@@ -261,14 +262,5 @@ public class flyingEnemyAI : EnemyAI
         Vector3 direction = gameManager.instance.player.transform.position - transform.position; // For enemy position
         Quaternion rot = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
-    }
-
-    void GetToCover()
-    {
-        // Takes cover if health is half then original
-        if (HP == (HP / 2))
-        {
-
-        }
     }
 }
