@@ -15,7 +15,9 @@ public class IntroScript : MonoBehaviour, ISceneScript
 	[SerializeField] Material lifeWorldSky;
 
 	bool isDone = false;
+	bool isInit = false;
 	bool isFinished = false;
+	
 	Animator animator;
 
 	public IEnumerator WaitForAnimation()
@@ -30,17 +32,19 @@ public class IntroScript : MonoBehaviour, ISceneScript
 
 	public void Init()
 	{
+		if (isInit) return;
 		if (gameManager.instance.player == null) return;
-		animator = oracle.GetComponent<Animator>();
+		if(oracle != null) animator = oracle.GetComponent<Animator>();
 		playerController.Intro = true;
 		Camera.main.clearFlags = CameraClearFlags.Skybox;
 		gameManager.instance.player.transform.localScale = new Vector3(gameManager.instance.player.transform.localScale.x, 2.0f, gameManager.instance.player.transform.localScale.y);
 		Camera.main.farClipPlane = 150.0f;
-
+		isInit = true;
 	}
 
 	public void Run()
 	{
+		if (cinemaCamera == null) return;
 		if (cinemaCamera.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Hold"))
 		{
 			StartCoroutine(WaitForAnimation());

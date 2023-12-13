@@ -29,8 +29,17 @@ public class SceneScriptExecuter
 			instance = new SceneScriptExecuter();
 		foreach(ISceneScript scr in scripts)
 			sceneScripts.Add(scr);
+		
 	}
 
+
+	public static void OnlyInitScripts() 
+	{
+		if (sceneScripts == null) return;
+		foreach(ISceneScript scr in sceneScripts)
+			scr.Init();
+		
+	}
 
 	public static void RunScripts() 
 	{
