@@ -8,41 +8,39 @@ using UnityEngine.AI;
 public class EnemyAI : Entity
 {
 	[Header("----- Audio -----")]
-    [SerializeField] new AudioSource audio;
-	[SerializeField] AudioClip[] audioStep;
-	[Range(0, 1)][SerializeField] float audioStepVolume;
-	[SerializeField] AudioClip[] audioDamage;
-	[Range(0, 1)][SerializeField] float audioDamageVolume;
-    [SerializeField] AudioClip audShoot;
-    [Range(0, 1)][SerializeField] float audShootVol;
+    [SerializeField] protected new AudioSource audio;
+	[SerializeField] protected AudioClip[] audioStep;
+	[Range(0, 1)][SerializeField] protected float audioStepVolume;
+	[SerializeField] protected AudioClip[] audioDamage;
+	[Range(0, 1)][SerializeField]  protected float audioDamageVolume;
+    [SerializeField] protected AudioClip audShoot;
+    [Range(0, 1)][SerializeField] protected float audShootVol;
     
     [Header("----- Components -----")]
-    [SerializeField] Renderer model;
-    [SerializeField] NavMeshAgent agent;
-    [SerializeField] Animator animator;
-    [SerializeField] Transform shootPos;
-    [SerializeField] Transform headPos;
-    [SerializeField] Transform _head;
-    [SerializeField] Collider damageCollider;
-    [SerializeField] Renderer laser;
-    [SerializeField] Collider[] _ragdollsCollider;
-    [SerializeField] Rigidbody[] _ragdolls;
+    [SerializeField] protected Renderer model;
+    [SerializeField] protected NavMeshAgent agent;
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected Transform shootPos;
+    [SerializeField] protected Transform headPos;
+    [SerializeField] protected Collider damageCollider;
+    [SerializeField] protected Renderer laser;
+    [SerializeField] protected Collider[] _ragdollsCollider;
+    [SerializeField] protected Rigidbody[] _ragdolls;
 
     [Header("----- Config -----")]
-    [SerializeField] bool fromSpawner = false;
+    [SerializeField] protected bool fromSpawner = false;
     
     [Header("----- Enemy Stats -----")]
-	[SerializeField] int hitPoints;
-    [SerializeField] int playerFaceSpeed;
-    [SerializeField] int viewCone;
-    [SerializeField] int shootCone;
-    [SerializeField] int roamDist;
-    [SerializeField] int roamPauseTime;
-    [SerializeField] int ragdollLifeTime;
+	[SerializeField]protected int hitPoints;
+    [SerializeField] protected int playerFaceSpeed;
+    [SerializeField] protected int viewCone;
+    [SerializeField] protected int shootCone;
+    [SerializeField] protected int roamDist;
+    [SerializeField] protected int roamPauseTime;
 
     [Header("----- Gun Stats -----")]
-    [SerializeField] GameObject bullet;
-    [SerializeField] float shootRate;
+    [SerializeField] protected GameObject bullet;
+    [SerializeField] protected float shootRate;
 
 
 
@@ -130,7 +128,7 @@ public class EnemyAI : Entity
     /// Cheacks to see if the player can be seen
     /// </summary>
     /// <returns></returns>
-    bool CanSeePlayer()
+    virtual protected bool CanSeePlayer()
     {
         playerDir = gameManager.instance.player.transform.position - headPos.position;
         angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
@@ -164,7 +162,7 @@ public class EnemyAI : Entity
         return false;
     }
 
-    public void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -172,7 +170,7 @@ public class EnemyAI : Entity
         }
     }
 
-    public void OnTriggerExit(Collider other)
+    public virtual void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -195,7 +193,7 @@ public class EnemyAI : Entity
         fromSpawner = on;
     }
 
-    public void CreateBullet() // Called in animation event
+    virtual public void CreateBullet() // Called in animation event
     {
         Instantiate(bullet, shootPos.position, transform.rotation);
     }
@@ -287,14 +285,14 @@ public class EnemyAI : Entity
 
     }
 
-    IEnumerator FlashRed()
+    protected virtual IEnumerator FlashRed()
     {
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = Color.white;
     }
 
-    void FaceTarget()
+   protected virtual void FaceTarget()
     {
         Quaternion rot = Quaternion.LookRotation(playerDir);
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * playerFaceSpeed);
