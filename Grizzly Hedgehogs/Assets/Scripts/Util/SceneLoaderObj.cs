@@ -29,8 +29,17 @@ public class SceneScriptExecuter
 			instance = new SceneScriptExecuter();
 		foreach(ISceneScript scr in scripts)
 			sceneScripts.Add(scr);
+		
 	}
 
+
+	public static void OnlyInitScripts() 
+	{
+		if (sceneScripts == null) return;
+		foreach(ISceneScript scr in sceneScripts)
+			scr.Init();
+		
+	}
 
 	public static void RunScripts() 
 	{
@@ -68,7 +77,10 @@ public class SceneScriptExecuter
 
 
 
-
+	public static void ClearScripts() 
+	{
+		sceneScripts.Clear();
+	}
 
 }
 
@@ -79,6 +91,9 @@ public class SceneLoaderObj : MonoBehaviour
     [SerializeField] string[] scenes;
 	[SerializeField] GameObject[] scripts;
 	[SerializeField][Range(1.0f, 10.0f)] float fadeSpeed = 1.5f;
+
+	[Header("_-_- Settings _-_")]
+	[SerializeField] bool IsIntro = false;
 
 	bool isFading = false;
 	float alphaState = 0f;
@@ -91,6 +106,7 @@ public class SceneLoaderObj : MonoBehaviour
 
     private void Awake()
 	{
+		gameManager.IsIntro = IsIntro;
 		RawImage img = gameObject.GetComponent<RawImage>();
 		
 		Color c = new Color(1f, 1f, 1f, 1f);
@@ -161,6 +177,7 @@ public class SceneLoaderObj : MonoBehaviour
 		if(change)
 		{
 			SceneScriptExecuter.RunClosing();
+			SceneScriptExecuter.ClearScripts();
 			if(isDown)SceneLoader.PlayScene(loopValue(++currentSceneIndex, SceneLoader.Size));
 			else SceneLoader.PlayScene(loopValue(--currentSceneIndex, SceneLoader.Size));
 		}
@@ -168,7 +185,7 @@ public class SceneLoaderObj : MonoBehaviour
 
 	int loopValue(int value, int max)
 	{
-		return ((value) + max) % max;
+		return (value + max) % max;
 	}
 
 }

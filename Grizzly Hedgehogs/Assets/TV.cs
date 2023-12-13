@@ -6,6 +6,7 @@ using UnityEngine.Video;
 public class TV : MonoBehaviour, Iinteract
 {
 
+    [SerializeField] GameObject tvScreenOverlay;
     [SerializeField] GameObject tvScreen;
     [SerializeField] VideoClip video;
     [SerializeField] bool on = true;
@@ -15,7 +16,9 @@ public class TV : MonoBehaviour, Iinteract
 	private void Awake()
 	{
         lastState = on;
+		tvScreen.GetComponent<VideoPlayer>().playOnAwake = false;
 	}
+
 
 	// Start is called before the first frame update
 	void Start()
@@ -23,7 +26,9 @@ public class TV : MonoBehaviour, Iinteract
         if (tvScreen == null) return;
         if (video != null) tvScreen.GetComponent<VideoPlayer>().clip = video;
         tvScreen.SetActive(on);
-    }
+        tvScreenOverlay.SetActive(!on);
+		if(on) tvScreen.GetComponent<VideoPlayer>().Play();
+	}
 
     // Update is called once per frame
     void Update()
@@ -31,7 +36,8 @@ public class TV : MonoBehaviour, Iinteract
 		if (tvScreen == null) return;
 		if (stateChanged)
         {
-            tvScreen.SetActive(on);
+			tvScreen.SetActive(on);
+            tvScreenOverlay.SetActive(!on);
             stateChanged = false;
             lastState = on;
         }
@@ -41,8 +47,9 @@ public class TV : MonoBehaviour, Iinteract
     public void Toggle()
     {
         if (tvScreen == null) return;
+		VideoPlayer player = tvScreen.GetComponent<VideoPlayer>();
         on = !on;
-    }
+	}
 
 	public bool CheckUnlocked()
 	{
