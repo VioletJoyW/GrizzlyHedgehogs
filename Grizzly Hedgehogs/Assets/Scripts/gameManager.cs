@@ -89,6 +89,9 @@ public class gameManager : MonoBehaviour
     [SerializeField] AudioClip buttonPressed;
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioClip[] musicClips;
+    [Header("_-_-_- Objects -_-_-_")]
+    [SerializeField] GameObject startButton;
+
 
     public bool isPaused;
 
@@ -145,16 +148,14 @@ public class gameManager : MonoBehaviour
 
             case MenuType.None:
                 {
-                    startRun();
-                    if (menuMain != null) menuMain.SetActive(false);
-                    menuActive = null;
-
-                    if (!IsIntro) 
-                    {
-                        hud.SetActive(true);
-                        hudMap.SetActive(true);
-                        playerController.Intro = false;
-                    }
+                    if (SceneLoaderObj.currentInstance.CurrentSceneIndex == 1)
+                        print("breakpoint");
+                    NoneMenu();
+                    hud.SetActive(true);
+                    hudMap.SetActive(true);
+                    playerController.Intro = false;
+                    startButton.SetActive(false);
+                    
 
                 }
                 break;
@@ -179,7 +180,15 @@ public class gameManager : MonoBehaviour
     }
 
 
-
+    public void NoneMenu() 
+    {
+		menuActive = menuMain;
+		subMenuActive = subMain;
+		subMenuActive.SetActive(false);
+		menuActive.SetActive(false);
+        menuActive = null;
+		startRun();
+	}
     public void ShowIntroMenu()
     {
         statePause();
@@ -189,7 +198,10 @@ public class gameManager : MonoBehaviour
 		subMenuActive = subMain;
 		subMenuActive.SetActive(true);
 		menuActive.SetActive(true);
+		playerController.Intro = IsIntro = true;
 	}
+
+
 
     public void ShowMainMenu()
     {
@@ -237,7 +249,7 @@ public class gameManager : MonoBehaviour
 
 		hud.SetActive(!IsIntro);
 		hudMap.SetActive(!IsIntro);
-        if(!IsIntro) playerScript.SpawnPlayer();
+       // if(!IsIntro) playerScript.SpawnPlayer();
 		for (int i = 0; i < spawnersList.Count; i++)
         {
             spawnersList[i].resetSpawn();
@@ -273,7 +285,7 @@ public class gameManager : MonoBehaviour
         subMenuActive = subMain;
         subMenuActive.SetActive(true);
         menuActive.SetActive(true);
-        //ChangeMusic(0);
+        ChangeMusic(0);
     }
     public void showMain()
     {

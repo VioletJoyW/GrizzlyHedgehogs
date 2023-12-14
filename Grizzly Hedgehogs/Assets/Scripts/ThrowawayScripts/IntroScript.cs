@@ -44,30 +44,30 @@ public class IntroScript : MonoBehaviour, ISceneScript
 
 	public void Run()
 	{
-		if (cinemaCamera == null) return;
-		if (cinemaCamera.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Hold"))
-		{
-			StartCoroutine(WaitForAnimation());
+		//if (cinemaCamera == null) return;
+		//if (cinemaCamera.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Hold"))
+		//{
+		//	StartCoroutine(WaitForAnimation());
 
-		}
-		else if (animator.GetCurrentAnimatorStateInfo(0).IsName("OracleHold") && isFinished) 
-		{
-			animator.Play("GoToDoor");
-			StartCoroutine(WaitForAnimation());
+		//}
+		//else if (animator.GetCurrentAnimatorStateInfo(0).IsName("OracleHold") && isFinished) 
+		//{
+		//	animator.Play("GoToDoor");
+		//	StartCoroutine(WaitForAnimation());
 
-		}else if(isFinished)
-		{
-			animator.Play("WaitAtDoor");
-			cinemaCamera.GetComponent<Animator>().StopPlayback();
-			cinemaCamera.SetActive(false);
-			gameManager.instance.player.SetActive(true);
-			gameManager.instance.playerScript.SpawnPlayer();
-			gameManager.instance.ActivatePlayerAtStart = true;
-			Cursor.visible = false;
-			Cursor.lockState = CursorLockMode.Locked;
-			animator.StopPlayback();
-			isDone = true;
-		}
+		//}else if(isFinished)
+		//{
+		//	animator.Play("WaitAtDoor");
+		//	cinemaCamera.GetComponent<Animator>().StopPlayback();
+		//	cinemaCamera.SetActive(false);
+		//	gameManager.instance.player.SetActive(true);
+		//	gameManager.instance.playerScript.SpawnPlayer();
+		//	gameManager.instance.ActivatePlayerAtStart = true;
+		//	Cursor.visible = false;
+		//	Cursor.lockState = CursorLockMode.Locked;
+		//	animator.StopPlayback();
+		//	isDone = true;
+		//}
 
 
 
@@ -80,6 +80,7 @@ public class IntroScript : MonoBehaviour, ISceneScript
 		Camera.main.farClipPlane = 50.0f;
 		Camera.main.clearFlags = CameraClearFlags.SolidColor;
 		gameManager.instance.player.transform.localScale = new Vector3(gameManager.instance.player.transform.localScale.x, 1.5f, gameManager.instance.player.transform.localScale.y);
+		playerController.Intro = false;
 		//Cursor.visible = true;
 		//Cursor.lockState = CursorLockMode.Confined;
 

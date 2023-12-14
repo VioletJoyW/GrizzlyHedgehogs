@@ -95,8 +95,6 @@ public class SceneLoaderObj : MonoBehaviour
 	[Header("_-_- Settings _-_")]
 	[SerializeField] bool IsIntro = false;
 
-	bool isFading = false;
-	float alphaState = 0f;
 	static bool isDown = false;
 	public static SceneLoaderObj currentInstance = null;
 
@@ -163,17 +161,19 @@ public class SceneLoaderObj : MonoBehaviour
 
 	IEnumerator fade(float alpha, bool change = true) 
 	{
-		isFading = true;
+
 		Color c = GetComponent<RawImage>().color * new Color(1f, 1f, 1f, 0f);
 		c.a = alpha;
-		while (GetComponent<RawImage>().color != c) 
+		float a = GetComponent<RawImage>().color.a;
+		while ((Mathf.Floor(a * 100) / 100) != (Mathf.Floor(Mathf.Max(alpha - .001f, 0) * 100) / 100)) 
 		{
-			GetComponent<RawImage>().color = Color.Lerp(GetComponent<RawImage>().color, c,  Time.fixedDeltaTime * fadeSpeed);
+			a = Mathf.Lerp(a, alpha, Time.fixedDeltaTime * fadeSpeed);
+			Color color = new Color(GetComponent<RawImage>().color.r, GetComponent<RawImage>().color.g, GetComponent<RawImage>().color.b, a);
+			GetComponent<RawImage>().color = color;// Color.Lerp(GetComponent<RawImage>().color, c,  Time.fixedDeltaTime * fadeSpeed * 2);
 			yield return new WaitForEndOfFrame();
 		}
 		
-		alphaState = alpha;
-		isFading = false;
+
 		if(change)
 		{
 			SceneScriptExecuter.RunClosing();

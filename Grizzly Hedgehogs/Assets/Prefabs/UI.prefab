@@ -35965,6 +35965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curScene: 0
   menu: 1
+  activatePlayerAtStart: 1
   cinemaCamera: {fileID: 0}
   menuActive: {fileID: 0}
   subMenuActive: {fileID: 0}
@@ -36033,6 +36034,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: adc08d656365dcc4cb2223387b826ac7, type: 3}
   - {fileID: 8300000, guid: a28442470a63de74299a0ee1c550d04a, type: 3}
   - {fileID: 8300000, guid: a74efc06430784045889b28823b1fb00, type: 3}
+  startButton: {fileID: 2583082506510082532}
   isPaused: 0
   unlockedDoors: 0
   unlockedHealthKits: 0

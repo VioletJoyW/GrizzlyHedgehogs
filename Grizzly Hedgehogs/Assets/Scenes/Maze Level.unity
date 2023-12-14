@@ -16972,6 +16972,10 @@ PrefabInstance:
       propertyPath: menu
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 169283951185918225, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
+      propertyPath: curScene
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 599742903083350208, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_IsActive
       value: 0

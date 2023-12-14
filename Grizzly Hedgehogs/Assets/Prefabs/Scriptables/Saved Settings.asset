@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Saved Settings
   m_EditorClassIdentifier: 
   varsSet: 1
-  camSensitivity: 400
+  camSensitivity: 50
   camFOV: 50
   invertY: 0
   camBob: 0

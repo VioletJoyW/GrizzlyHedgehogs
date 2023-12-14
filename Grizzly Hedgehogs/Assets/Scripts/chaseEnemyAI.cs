@@ -10,7 +10,7 @@ public class chaseEnemyAI : MonoBehaviour
     [SerializeField] ParticleSystem waitEffect;
 
 	[Header("----- Audio -----")]
-    [SerializeField] new AudioSource audio;
+    [SerializeField] AudioSource audio;
     [SerializeField] AudioClip audSound;
     [Range(0, 1)][SerializeField] float audSoundVol;
     [SerializeField] AudioClip audAttack;

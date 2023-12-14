@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class cameraTrigger : MonoBehaviour
 {
-    [SerializeField] new Camera camera;
+    [SerializeField] Camera camera;
     [SerializeField] float viewDistance;
     
     private void OnTriggerEnter(Collider other)

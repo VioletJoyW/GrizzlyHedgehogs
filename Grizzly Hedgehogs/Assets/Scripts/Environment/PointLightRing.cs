@@ -12,7 +12,7 @@ using UnityEngine.SocialPlatforms;
 public class PointLightRing : MonoBehaviour
 {
     [Header("========= Objects =========")]
-    [SerializeField] new GameObject light;
+    [SerializeField] GameObject light;
 	[SerializeField] Transform newTrans;
     [Header("========= Settings =========")]
     [SerializeField] [Range(0, 100)] int count;

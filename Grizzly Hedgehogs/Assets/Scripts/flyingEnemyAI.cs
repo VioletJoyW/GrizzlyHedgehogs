@@ -7,37 +7,7 @@ using UnityEngine.AI;
 public class flyingEnemyAI : EnemyAI, IDamage
 {
 
-    //[Header("----- Audio -----")]
-    //[SerializeField] new AudioSource audio;
-    //[SerializeField] AudioClip[] audioStep;
-    //[Range(0, 1)][SerializeField] float audioStepVolume;
-    //[SerializeField] AudioClip[] audioDamage;
-    //[Range(0, 1)][SerializeField] float audioDamageVolume;
-    //[SerializeField] AudioClip audShoot;
-    //[Range(0, 1)][SerializeField] float audShootVol;
 
-
-    //[Header("----- Components -----")]
-    //[SerializeField] Renderer model;
-    //[SerializeField] NavMeshAgent agent;
-    //[SerializeField] Transform shootPos;
-    //[SerializeField] Collider damageCollider;
-
-
-    //[Header("----- Config -----")]
-    //[SerializeField] bool canAddToGoal = false;
-
-    //[Header("----- Enemy Stats -----")]
-    //[SerializeField] int hitPoints;
-    //[SerializeField] int playerFaceSpeed;
-    //[SerializeField] int viewCone;
-    //[SerializeField] int shootCone;
-    //[SerializeField] int roamDist;
-    //[SerializeField] int roamPauseTime;
-
-    //[Header("----- Gun Stats -----")]
-    //[SerializeField] GameObject bullet;
-    //[SerializeField] float shootRate;
 
     [SerializeField] protected Transform[] shootPos1;
 

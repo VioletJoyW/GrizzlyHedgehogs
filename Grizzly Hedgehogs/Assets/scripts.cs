@@ -12,7 +12,7 @@ public class scripts : MonoBehaviour
 	[SerializeField] Material voidWorldSky;
 	[SerializeField] TV tv;
 
-    Light light;
+    new Light light;
 
     bool isVoid = false;
 	// Start is called before the first frame update
@@ -21,7 +21,6 @@ public class scripts : MonoBehaviour
         light = sun.GetComponent<Light>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isVoid) 

@@ -9,7 +9,6 @@ public class RenderTrigger : MonoBehaviour
 
 	[SerializeField] GameObject[] triggerPos;
     [SerializeField][Range(0, 500)] float triggerDistance;
-	bool shouldRender = false;
 	bool canRender = false;
 
 	Vector3[] distances;
