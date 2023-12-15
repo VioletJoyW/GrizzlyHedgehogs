@@ -143,17 +143,17 @@ public class SceneLoaderObj : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-		
-		if (Input.GetKeyUp(KeyCode.V))
-		{
-			isDown = true;
-			StartCoroutine(fade(1f));
-		}
-		else if(Input.GetKeyUp(KeyCode.B))
-		{
-			isDown= false;
-			StartCoroutine(fade(1f));
-		}
+		//Used for debugging
+		//if (Input.GetKeyUp(KeyCode.V))
+		//{
+		//	isDown = true;
+		//	StartCoroutine(fade(1f));
+		//}
+		//else if(Input.GetKeyUp(KeyCode.B))
+		//{
+		//	isDown= false;
+		//	StartCoroutine(fade(1f));
+		//}
     }
 
 	void callFade(float fadeAlpha, bool change) 
