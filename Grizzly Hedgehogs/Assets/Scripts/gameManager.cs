@@ -148,8 +148,6 @@ public class gameManager : MonoBehaviour
 
             case MenuType.None:
                 {
-                    if (SceneLoaderObj.currentInstance.CurrentSceneIndex == 1)
-                        print("breakpoint");
                     NoneMenu();
                     hud.SetActive(true);
                     hudMap.SetActive(true);
@@ -182,6 +180,7 @@ public class gameManager : MonoBehaviour
 
     public void NoneMenu() 
     {
+        IsIntro = false;
 		menuActive = menuMain;
 		subMenuActive = subMain;
 		subMenuActive.SetActive(false);
@@ -249,7 +248,7 @@ public class gameManager : MonoBehaviour
 
 		hud.SetActive(!IsIntro);
 		hudMap.SetActive(!IsIntro);
-       // if(!IsIntro) playerScript.SpawnPlayer();
+       if(!IsIntro) playerScript.SpawnPlayer();
 		for (int i = 0; i < spawnersList.Count; i++)
         {
             spawnersList[i].resetSpawn();

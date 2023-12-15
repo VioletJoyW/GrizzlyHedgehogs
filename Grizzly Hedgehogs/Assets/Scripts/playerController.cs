@@ -43,7 +43,7 @@ public class playerController : Entity
     [SerializeField] AudioClip audLock;
     [Range(0, 1)][SerializeField] float audLockVol;
 
-    private List<gunAmmo> ammoTrack;
+    private List<gunAmmo> ammoTrack = new List<gunAmmo>();
     //private InventoryManager inventoryManager;
 
     private int selectedGun = 0;
@@ -82,7 +82,7 @@ public class playerController : Entity
 
 	private void Awake()
 	{
-		ammoTrack = new List<gunAmmo>();
+
 	}
 
 	void Start()

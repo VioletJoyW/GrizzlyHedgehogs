@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Saved Settings
   m_EditorClassIdentifier: 
   varsSet: 1
-  camSensitivity: 50
+  camSensitivity: 400
   camFOV: 50
   invertY: 0
   camBob: 0
-  textSize: 1
+  textSize: 100
   globalVol: 0.5
   playerVol: 0.5
   enemyVol: 0.5

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -90,6 +91,7 @@ public class SceneLoaderObj : MonoBehaviour
 	[SerializeField] int currentSceneIndex;
     [SerializeField] string[] scenes;
 	[SerializeField] GameObject[] scripts;
+	[SerializeField] GameObject loadingMsg;
 	[SerializeField][Range(1.0f, 10.0f)] float fadeSpeed = 1.5f;
 
 	[Header("_-_- Settings _-_")]
@@ -161,6 +163,10 @@ public class SceneLoaderObj : MonoBehaviour
 
 	IEnumerator fade(float alpha, bool change = true) 
 	{
+		if(change) loadingMsg.SetActive(true);
+
+		while(!TV.Ready) yield return new WaitForEndOfFrame(); // Hold here unitll tuned on TVs are loaded.
+		
 
 		Color c = GetComponent<RawImage>().color * new Color(1f, 1f, 1f, 0f);
 		c.a = alpha;
@@ -170,11 +176,13 @@ public class SceneLoaderObj : MonoBehaviour
 			a = Mathf.Lerp(a, alpha, Time.fixedDeltaTime * fadeSpeed);
 			Color color = new Color(GetComponent<RawImage>().color.r, GetComponent<RawImage>().color.g, GetComponent<RawImage>().color.b, a);
 			GetComponent<RawImage>().color = color;// Color.Lerp(GetComponent<RawImage>().color, c,  Time.fixedDeltaTime * fadeSpeed * 2);
+			TextMeshProUGUI txt = loadingMsg.GetComponent<TextMeshProUGUI>();
+			Color loadColor = new Color(txt.color.r, txt.color.g, txt.color.b, a);
+			txt.color =  Color.Lerp(txt.color, loadColor, Time.fixedDeltaTime * fadeSpeed * 8);
 			yield return new WaitForEndOfFrame();
 		}
-		
-
-		if(change)
+		loadingMsg.SetActive(false);
+		if (change)
 		{
 			SceneScriptExecuter.RunClosing();
 			SceneScriptExecuter.ClearScripts();

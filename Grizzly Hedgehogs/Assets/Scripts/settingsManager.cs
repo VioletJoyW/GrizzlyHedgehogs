@@ -13,6 +13,7 @@ public class settingsManager : MonoBehaviour
     [Header("_-_-_- Components -_-_-_")]
     [SerializeField] TMP_Text sensitivityValue;
     [SerializeField] GameObject textSizeValue;
+    [SerializeField] GameObject textSizeExample;
     [SerializeField] TMP_Text camFOV;
     [SerializeField] TMP_Text globalVolValue;
     [SerializeField] TMP_Text playerVolValue;
@@ -112,6 +113,8 @@ public class settingsManager : MonoBehaviour
 
         settingsCurr.textSize = textSizeDefault;
 
+        settingsCurr.camFOV = aimFOVDefault;
+
         showVisualsChanges();
     }
 
@@ -119,13 +122,13 @@ public class settingsManager : MonoBehaviour
     {
         gameManager.instance.ChangeTextSize();
 
-        sensitivityValue.text = settingsCurr.camSensitivity.ToString();
+        sensitivityValue.text = ((settingsCurr.camSensitivity / camSliderValue.maxValue) * 100).ToString() + "%";
         camSliderValue.value = settingsCurr.camSensitivity;
         camFOV.text = settingsCurr.camFOV.ToString();
         fovSlider.value = settingsCurr.camFOV;
         invertYCheck.isOn = settingsCurr.invertY;
         camBobCheck.isOn = settingsCurr.camBob;
-        textSizeValue.GetComponentInChildren<TMP_Text>().text = settingsCurr.textSize.ToString();
+        textSizeValue.GetComponentInChildren<TMP_Text>().text = (100 * settingsCurr.textSize).ToString();
         textSliderValue.value = settingsCurr.textSize;
     }
 
@@ -147,11 +150,11 @@ public class settingsManager : MonoBehaviour
 
     public void showAudioChanges()
     {
-        globalVolValue.text = settingsCurr.globalVol.ToString("F2");
-        playerVolValue.text = settingsCurr.playerVol.ToString("F2");
-        enemyVolValue.text = settingsCurr.enemyVol.ToString("F2");
-        enviromentVolValue.text = settingsCurr.objectVol.ToString("F2");
-        musicVolValue.text = settingsCurr.musicVol.ToString("F2");
+        globalVolValue.text = (settingsCurr.globalVol * 100).ToString("F0") + "%";
+        playerVolValue.text = (settingsCurr.playerVol * 100).ToString("F0") + "%";
+        enemyVolValue.text = (settingsCurr.enemyVol * 100).ToString("F0") + "%";
+        enviromentVolValue.text = (settingsCurr.objectVol * 100).ToString("F0") + "%";
+        musicVolValue.text = (settingsCurr.musicVol * 100).ToString("F0") + "%";
 
         for (int i = 0; i < VolValues.Length; i++)
         {
@@ -208,7 +211,7 @@ public class settingsManager : MonoBehaviour
     public void changeCamSensitivity(Slider sensitivity)
     {
         settingsCurr.camSensitivity = sensitivity.value;
-        sensitivityValue.text = sensitivity.value.ToString();
+        sensitivityValue.text = sensitivity.value.ToString() + "%";
     }
 
     public void changeCamFOV(Slider fov)
@@ -220,8 +223,8 @@ public class settingsManager : MonoBehaviour
     public void changeTextSize(Slider size)
     {
         settingsCurr.textSize = size.value;
-        textSizeValue.GetComponentInChildren<TMP_Text>().text = size.value.ToString("F2");
-        textSizeValue.transform.localScale = new Vector3(size.value, size.value, size.value);
+        textSizeValue.GetComponentInChildren<TMP_Text>().text =  ((int) 100 * size.value).ToString("F0");
+        textSizeExample.transform.localScale = new Vector3(size.value, size.value, size.value);
         gameManager.instance.ChangeTextSize();
     }
 
@@ -238,7 +241,7 @@ public class settingsManager : MonoBehaviour
     public void changeGlobalVol(Slider vol)
     {
         settingsCurr.globalVol = vol.value;
-        globalVolValue.text = vol.value.ToString("F2");
+        globalVolValue.text = (vol.value * 100).ToString("F0") + "%";
         AudioListener.volume = settingsCurr.globalVol; 
         if (UInoises)
         {
@@ -248,7 +251,7 @@ public class settingsManager : MonoBehaviour
     public void changePlayerVol(Slider vol)
     {
         settingsCurr.playerVol = vol.value;
-        playerVolValue.text = vol.value.ToString("F2"); 
+        playerVolValue.text = (vol.value * 100).ToString("F0") + "%"; 
         if (UInoises)
         {
             gameManager.instance.PlaySound(testAudio, vol.value);
@@ -258,7 +261,7 @@ public class settingsManager : MonoBehaviour
     public void changeEnemyVol(Slider vol)
     {
         settingsCurr.enemyVol = vol.value;
-        enemyVolValue.text = vol.value.ToString("F2"); 
+        enemyVolValue.text = (vol.value * 100).ToString("F0") + "%"; 
         if (UInoises)
         {
             gameManager.instance.PlaySound(testAudio, vol.value);
@@ -267,7 +270,7 @@ public class settingsManager : MonoBehaviour
     public void changeEnviromentVol(Slider vol)
     {
         settingsCurr.objectVol = vol.value;
-        enviromentVolValue.text = vol.value.ToString("F2"); 
+        enviromentVolValue.text = (vol.value * 100).ToString("F0") + "%"; 
         if (UInoises)
         {
             gameManager.instance.PlaySound(testAudio, vol.value);
@@ -277,7 +280,7 @@ public class settingsManager : MonoBehaviour
     public void changeMusicVol(Slider vol)
     {
         settingsCurr.musicVol = vol.value;
-        musicVolValue.text = vol.value.ToString("F2");
+        musicVolValue.text = (vol.value * 100).ToString("F0") + "%";
         gameManager.instance.ChangeMusicVol();
     }
 

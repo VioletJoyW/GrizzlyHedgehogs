@@ -342,6 +342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3371272399707500081}
   - component: {fileID: 4180132459853130350}
+  - component: {fileID: 8417120474224451065}
   m_Layer: 0
   m_Name: TV
   m_TagString: Untagged
@@ -383,3 +384,26 @@ MonoBehaviour:
   tvScreen: {fileID: 5250510804757652878}
   video: {fileID: 0}
   on: 0
+  isWebGL: 0
+  videoLink: 
+--- !u!65 &8417120474224451065
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169491214748279463}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.6781192, y: 6, z: 2.0635738}
+  m_Center: {x: -0.3390596, y: 2.5, z: -0.08069992}
