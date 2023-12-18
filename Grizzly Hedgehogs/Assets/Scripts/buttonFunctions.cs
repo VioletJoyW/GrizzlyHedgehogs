@@ -95,9 +95,9 @@ public class buttonFunctions : MonoBehaviour
 
     public void FullReset()
     {
-        SceneLoaderObj.currentInstance.CurrentSceneIndex = -1;
+        //SceneLoaderObj.currentInstance.CurrentSceneIndex = -1;
         SceneLoaderObj.IsDown = true;
-        SceneLoaderObj.Fade(1, true);
+        SceneLoaderObj.Fade(1f, true);
     }
 
 }

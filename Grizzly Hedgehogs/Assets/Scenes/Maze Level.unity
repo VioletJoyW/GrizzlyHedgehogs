@@ -4843,6 +4843,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneLoader
       objectReference: {fileID: 0}
+    - target: {fileID: 6963701652889883952, guid: a14ace0bf0697e54fb7e49e3e3e6d7af, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16980,6 +16984,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1614288071081407328, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1709018612577140564, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_Color.a
       value: 1
@@ -16994,11 +17002,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1852722698016086861, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: FullReset
+      value: quit
       objectReference: {fileID: 0}
     - target: {fileID: 2690978789706600993, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3675415811772337504, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
+      propertyPath: m_text
+      value: Quit Game
       objectReference: {fileID: 0}
     - target: {fileID: 4836921324878532586, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_IsActive
@@ -17022,11 +17034,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5271739995172392866, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1920
+      value: 3840
       objectReference: {fileID: 0}
     - target: {fileID: 5271739995172392866, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1080
+      value: 2160
       objectReference: {fileID: 0}
     - target: {fileID: 5271739995172392866, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -17126,7 +17138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7895605432977873911, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -400
+      value: -1009.75
       objectReference: {fileID: 0}
     - target: {fileID: 8564079348697136503, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: m_IsActive

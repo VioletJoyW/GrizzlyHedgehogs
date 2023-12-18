@@ -6802,7 +6802,7 @@ Transform:
   m_GameObject: {fileID: 1475008436}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.68, y: 1.48, z: 3.8999996}
+  m_LocalPosition: {x: -20.18, y: 1.48, z: 3.8999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6823,7 +6823,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -7103,7 +7103,7 @@ PrefabInstance:
       objectReference: {fileID: 639015330}
     - target: {fileID: 169283951185918225, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: isWebGL
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 169283951185918225, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: cinemaCamera
@@ -9963,6 +9963,18 @@ PrefabInstance:
     - target: {fileID: 2057151000948886464, guid: dbe836a054f552f40920e331a2a2b469, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.09375
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170631308346966047, guid: dbe836a054f552f40920e331a2a2b469, type: 3}
+      propertyPath: randomizer.useRandomizer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170631308346966047, guid: dbe836a054f552f40920e331a2a2b469, type: 3}
+      propertyPath: randomizer.allowReplacement
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170631308346966047, guid: dbe836a054f552f40920e331a2a2b469, type: 3}
+      propertyPath: randomizer.allowSequentialRepeat
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5949435046076350016, guid: dbe836a054f552f40920e331a2a2b469, type: 3}
       propertyPath: m_LocalScale.x

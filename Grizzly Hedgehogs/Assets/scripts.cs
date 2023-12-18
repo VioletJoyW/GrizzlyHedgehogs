@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scripts : MonoBehaviour
+public class scripts : MonoBehaviour, Iinteract
 {
 
 	[SerializeField] GameObject sun;
@@ -35,15 +35,33 @@ public class scripts : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-        if (other.CompareTag("Player")) // Turns on the void;
-        {
-            tv.Toggle();
-            lifeWorld.SetActive(false);
-            RenderSettings.skybox = voidWorldSky;
-            voidWorld.SetActive(true);
-            triggerCall.SetActive(true);
-            isVoid = true;
-        }
+        //if (other.CompareTag("Player")) // Turns on the void;
+        //{
+        //    tv.Toggle();
+        //    lifeWorld.SetActive(false);
+        //    RenderSettings.skybox = voidWorldSky;
+        //    voidWorld.SetActive(true);
+        //    triggerCall.SetActive(true);
+        //    isVoid = true;
+        //}
 	}
 
+	bool Iinteract.CheckUnlocked()
+	{
+        return true;///throw new System.NotImplementedException();
+	}
+
+	void Iinteract.Interact()
+	{
+		if (!isVoid) 
+		{
+			tv.Toggle();
+			lifeWorld.SetActive(false);
+			RenderSettings.skybox = voidWorldSky;
+			voidWorld.SetActive(true);
+			triggerCall.SetActive(true);
+			isVoid = true;
+		
+		}
+	}
 }
