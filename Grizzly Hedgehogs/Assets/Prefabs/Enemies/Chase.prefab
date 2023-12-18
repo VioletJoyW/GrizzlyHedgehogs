@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3908789415439441901}
   - component: {fileID: 3509594455730830297}
   - component: {fileID: 6305227208360541143}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4472645644948748306}
   - component: {fileID: 5352784867508805407}
   - component: {fileID: 2662427697753679302}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chase Attack Efect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4923,7 +4923,7 @@ GameObject:
   - component: {fileID: 3396072839988199474}
   - component: {fileID: 5914601170190780800}
   - component: {fileID: 5504130631707826379}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chase Wait Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9754,7 +9754,7 @@ GameObject:
   - component: {fileID: 8171242633092635695}
   - component: {fileID: 3974808728477023907}
   - component: {fileID: 7491314121833411765}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Chase
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -10061,4 +10061,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapRange: 12
-  objectMarked: {fileID: 0}
+  objectMarked: {fileID: 7643758543019763351}

@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class EnemyAI : Entity
 {
 	[Header("----- Audio -----")]
-    [SerializeField] protected AudioSource audio;
+    [SerializeField] protected new AudioSource audio;
 	[SerializeField] protected AudioClip[] audioStep;
 	[Range(0, 1)][SerializeField] protected float audioStepVolume;
 	[SerializeField] protected AudioClip[] audioDamage;
