@@ -5139,6 +5139,7 @@ MonoBehaviour:
   headPos: {fileID: 5949280408921318986}
   damageCollider: {fileID: 7800626156543147330}
   laser: {fileID: 0}
+  mapMarker: {fileID: 6679367884561250482}
   _ragdollsCollider: []
   _ragdolls: []
   _head: {fileID: 0}
