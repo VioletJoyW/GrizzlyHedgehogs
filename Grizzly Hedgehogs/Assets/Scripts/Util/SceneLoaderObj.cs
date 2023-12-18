@@ -185,6 +185,7 @@ public class SceneLoaderObj : MonoBehaviour
 		loadingMsg.SetActive(false);
 		if (change)
 		{
+			gameManager.instance.playerUnkillable = true;
 			SceneScriptExecuter.RunClosing();
 			SceneScriptExecuter.ClearScripts();
 			if(isDown)SceneLoader.PlayScene(loopValue(++currentSceneIndex, SceneLoader.Size));
