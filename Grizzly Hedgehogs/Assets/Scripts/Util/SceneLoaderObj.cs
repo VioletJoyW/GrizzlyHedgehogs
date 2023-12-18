@@ -165,7 +165,7 @@ public class SceneLoaderObj : MonoBehaviour
 	{
 		if(change) loadingMsg.SetActive(true);
 
-		while(!TV.Ready) yield return new WaitForEndOfFrame(); // Hold here unitll tuned on TVs are loaded.
+		//while(!TV.Ready) yield return new WaitForEndOfFrame(); // Hold here unitll tuned on TVs are loaded.
 		
 
 		Color c = GetComponent<RawImage>().color * new Color(1f, 1f, 1f, 0f);
@@ -184,6 +184,7 @@ public class SceneLoaderObj : MonoBehaviour
 		loadingMsg.SetActive(false);
 		if (change)
 		{
+			gameManager.instance.playerUnkillable = true;
 			SceneScriptExecuter.RunClosing();
 			SceneScriptExecuter.ClearScripts();
 			if(isDown)SceneLoader.PlayScene(loopValue(++currentSceneIndex, SceneLoader.Size));

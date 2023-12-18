@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class EnemyAI : Entity
 {
 	[Header("----- Audio -----")]
-    [SerializeField] protected AudioSource audio;
+    [SerializeField] protected new AudioSource audio;
 	[SerializeField] protected AudioClip[] audioStep;
 	[Range(0, 1)][SerializeField] protected float audioStepVolume;
 	[SerializeField] protected AudioClip[] audioDamage;
@@ -24,6 +24,7 @@ public class EnemyAI : Entity
     [SerializeField] protected Transform headPos;
     [SerializeField] protected Collider damageCollider;
     [SerializeField] protected Renderer laser;
+    [SerializeField] protected Renderer mapMarker;
     [SerializeField] protected Collider[] _ragdollsCollider;
     [SerializeField] protected Rigidbody[] _ragdolls;
     [SerializeField] protected Transform _head;
@@ -69,7 +70,8 @@ public class EnemyAI : Entity
 		stoppingDistOrig = agent.stoppingDistance;
         startingPos = transform.position;
 		IsAlive = true;
-		if (!fromSpawner) // If we're not in a spawner, add ourselves to the goal. 
+        mapMarker.enabled = true;
+        if (!fromSpawner) // If we're not in a spawner, add ourselves to the goal. 
         {
             gameManager.instance.updateEnemyCount(1);
         }
@@ -252,6 +254,7 @@ public class EnemyAI : Entity
         if (HP <= 0)
         {
             IsAlive = false;
+            mapMarker.enabled = false;
             enableRag();
             damageCollider.enabled = false;
 

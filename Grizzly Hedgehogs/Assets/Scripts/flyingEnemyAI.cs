@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class flyingEnemyAI : EnemyAI, IDamage
 {
 
 
-
+    [SerializeField] protected AudioClip audDeath;
     [SerializeField] protected Transform[] shootPos1;
 
     float flightHeight;
@@ -51,8 +52,10 @@ public class flyingEnemyAI : EnemyAI, IDamage
     {
         if (agent.isActiveAndEnabled)
         {
-            damageCollider.transform.position = model_obj.transform.position;
-            //animator.SetFloat("Speed", agent.velocity.normalized.magnitude);
+            if (Time.deltaTime != 0)
+            {
+                damageCollider.transform.position = model_obj.transform.position;
+            }
 
             if (agent.velocity.normalized.magnitude > 0.3f && !isPlayingSteps)
             {
@@ -179,8 +182,8 @@ public class flyingEnemyAI : EnemyAI, IDamage
     {
         isShooting = true;;
         CreateBullet();
+        aud.PlayOneShot(audShoot, audShootVol * settingsManager.sm.settingsCurr.enemyVol);
         yield return new WaitForSeconds(shootRate);
-
         isShooting = false;
     }
 
@@ -202,6 +205,7 @@ public class flyingEnemyAI : EnemyAI, IDamage
         HP -= amount;
         if (HP <= 0)
         {
+            aud.PlayOneShot(audDeath);
             Destroy(gameObject);
             damageCollider.enabled = false;
             gameManager.instance.updateEnemyCount(-1);
