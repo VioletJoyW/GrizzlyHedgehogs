@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Revolver
   m_EditorClassIdentifier: 
   shootDamage: 2
-  shootDistance: 20
+  shootDistance: 50
   shootRate: 0.75
-  ammoCurrent: 7
+  ammoCurrent: 9
   ammoMax: 10
   ammoTotal: 30
   ammoTotalMax: 30

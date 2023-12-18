@@ -211,7 +211,7 @@ public class settingsManager : MonoBehaviour
     public void changeCamSensitivity(Slider sensitivity)
     {
         settingsCurr.camSensitivity = sensitivity.value;
-        sensitivityValue.text = sensitivity.value.ToString() + "%";
+        sensitivityValue.text = ((settingsCurr.camSensitivity / camSliderValue.maxValue) * 100).ToString("F0") + "%";
     }
 
     public void changeCamFOV(Slider fov)

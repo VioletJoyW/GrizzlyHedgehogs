@@ -7102,6 +7102,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 639015330}
     - target: {fileID: 169283951185918225, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
+      propertyPath: isWebGL
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 169283951185918225, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: cinemaCamera
       value: 
       objectReference: {fileID: 134252353}
@@ -7260,6 +7264,10 @@ PrefabInstance:
     - target: {fileID: 3986488687661087254, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: camFOVDefault
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986488687661087254, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
+      propertyPath: textSizeDefault
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3986488687661087254, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: textSizeExample

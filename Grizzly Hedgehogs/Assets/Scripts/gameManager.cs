@@ -24,6 +24,7 @@ public class gameManager : MonoBehaviour
     [Header("_-_-_- Settings -_-_-_")]
     [SerializeField] MenuType menu = MenuType.None;
     [SerializeField] bool activatePlayerAtStart = true;
+    [SerializeField] bool isWebGL = false;
     [Header("_-_-_- Cinema Settings -_-_-_")]
     [SerializeField] GameObject cinemaCamera;
 
@@ -123,9 +124,10 @@ public class gameManager : MonoBehaviour
     bool wasMainMenuTriggered = false;
 
     bool cCamWasActive;
+    public static bool IsWebGL = false;
 	void Awake()
     {
-        
+        if(!IsWebGL) IsWebGL = isWebGL;
         if(cinemaCamera != null)
         {
             cCamWasActive = cinemaCamera.activeSelf;
@@ -177,8 +179,12 @@ public class gameManager : MonoBehaviour
         //musicCurr = SceneManager.GetActiveScene().buildIndex + 1; //This won't act right in scenes that don't have a build index
     }
 
+	void Start()
+	{
+        if(!IsIntro) ChangeMusic(musicCurr);
+	}
 
-    public void NoneMenu() 
+	public void NoneMenu() 
     {
         IsIntro = false;
 		menuActive = menuMain;
@@ -261,7 +267,8 @@ public class gameManager : MonoBehaviour
         Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
-    }
+		musicSource.Pause();
+	}
 
     public void stateUnPause()
     {
@@ -271,8 +278,7 @@ public class gameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         if (menuActive != null) menuActive.SetActive(false);
         menuActive = null;
-        if (musicSource.clip == musicClips[0])
-            ChangeMusic(musicCurr);
+        if (!gameManager.IsIntro) musicSource.Play();
     }
 
     //Show Menus
@@ -284,7 +290,7 @@ public class gameManager : MonoBehaviour
         subMenuActive = subMain;
         subMenuActive.SetActive(true);
         menuActive.SetActive(true);
-        ChangeMusic(0);
+        //ChangeMusic(0);
     }
     public void showMain()
     {
