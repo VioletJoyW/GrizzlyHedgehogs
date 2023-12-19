@@ -77,7 +77,7 @@ public class scriptablePowerStats : ScriptableObject
 		if(!IsInit)
 		{
 			IsInit = true;
-			++PowerBuffer.powerCount;
+			//++PowerBuffer.powerCount;
 			if (PowerBuffer.powerCount > MAX_POWER_COUNT) throw new Exception("The maximum power count was reached. (MAX COUNT: " + MAX_POWER_COUNT + ")");
 			id = (byte)PowerBuffer.powerCount;
 		}
@@ -88,7 +88,7 @@ public class scriptablePowerStats : ScriptableObject
 	/// <summary>
 	/// Gets the id of the power.
 	/// </summary>
-	public byte ID { get { return id; } }
+	public byte ID { get { return id; } set => id = value; }
 
 	public bool IsShield { get => isShield; }
 	public PowerBuffer.PowerType Power { get => power; }

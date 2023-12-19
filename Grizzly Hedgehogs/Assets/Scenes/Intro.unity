@@ -7103,7 +7103,7 @@ PrefabInstance:
       objectReference: {fileID: 639015330}
     - target: {fileID: 169283951185918225, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: isWebGL
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 169283951185918225, guid: 95d0493911a42cb4a80b531661ce279b, type: 3}
       propertyPath: cinemaCamera

@@ -56,7 +56,10 @@ public class PowerBuffer
 	/// <summary>
 	/// Sets the currently active power.
 	/// </summary>
-	public int SetCurrentPower { set => currentPower = powerList[value]; }
+	public int SetCurrentPower 
+	{
+		set => currentPower = powerList[value];
+	}
 
 	/// <summary>
 	/// Use this to add a power.
@@ -64,6 +67,7 @@ public class PowerBuffer
 	/// <param name="power"></param>
 	public void AddPower(scriptablePowerStats power) 
 	{
+		power.ID = (byte) powerList.Count;
 		powerList.Add(power);
 		if (currentPower == null) currentPower = powerList[0];
 	}

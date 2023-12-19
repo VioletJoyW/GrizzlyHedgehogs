@@ -104,8 +104,13 @@ public class SceneLoaderObj : MonoBehaviour
 	public float FadeSpeed { get => fadeSpeed; set => fadeSpeed = value; }
     public int CurrentSceneIndex { get => currentSceneIndex; set => currentSceneIndex = value; }
 
+	Timer tvTimer = null;
+	float oldDelta = 0.0f;
+
     private void Awake()
 	{
+		oldDelta = Time.deltaTime;
+		tvTimer = new Timer(.3f);
 		gameManager.IsIntro = IsIntro;
 		RawImage img = gameObject.GetComponent<RawImage>();
 		
@@ -156,6 +161,9 @@ public class SceneLoaderObj : MonoBehaviour
 		//}
     }
 
+
+
+
 	void callFade(float fadeAlpha, bool change) 
 	{
 		StartCoroutine(fade(fadeAlpha, change));
@@ -164,9 +172,18 @@ public class SceneLoaderObj : MonoBehaviour
 	IEnumerator fade(float alpha, bool change = true) 
 	{
 		if(change) loadingMsg.SetActive(true);
+		float lastTime = Time.realtimeSinceStartup;
 
-		while(!TV.Ready && !gameManager.IsWebGL) yield return new WaitForEndOfFrame(); // Hold here unitll tuned on TVs are loaded.
-
+		if (Application.internetReachability != NetworkReachability.NotReachable) 
+		{
+			bool tried  = false;
+			while (!TV.Ready && !gameManager.IsWebGL) 
+			{
+				yield return new WaitForSecondsRealtime(3.5f);
+				if (tried) break;
+				tried = true;
+			}
+		}
 		
 
 		Color c = GetComponent<RawImage>().color * new Color(1f, 1f, 1f, 0f);

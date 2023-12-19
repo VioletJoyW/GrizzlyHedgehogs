@@ -585,11 +585,11 @@ public class playerController : Entity
                 int dir = Convert.ToByte(Input.GetKey(settingsManager.sm.settingsCurr.powerBtnScrollUp)) - Convert.ToByte(Input.GetKey(settingsManager.sm.settingsCurr.powerBtnScrollDown));
                 
 
-				print("Power: " + powerBuffer.GetCurrentPower.name);
+                int index = (currentPowerID + dir) % powerBuffer.Count;
 				
                 //We don't attempt a selection until the timer is up or until the player does something with it.
 				if (dir == 0 || !Utillities.IsGlobalTimerDone(pBFButtonCoolDownTimerID)) return;
-                int index = (currentPowerID + dir) % powerBuffer.Count;
+				print("Power: " + (currentPowerID + dir));
                 powerBuffer.SetCurrentPower = (index < 0) ? powerBuffer.Count - 1 : index;
                 Utillities.ResetGlobalTimer(pBFButtonCoolDownTimerID);
 			}

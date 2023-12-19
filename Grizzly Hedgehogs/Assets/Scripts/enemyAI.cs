@@ -82,6 +82,7 @@ public class EnemyAI : Entity
     {
         if (agent.isActiveAndEnabled)
         {
+           
             if (gameManager.instance.bHead)
             {
                 bigHead();

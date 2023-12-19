@@ -9,6 +9,7 @@ public class RenderTrigger : MonoBehaviour
 
 	[SerializeField] GameObject[] triggerPos;
     [SerializeField][Range(0, 500)] float triggerDistance;
+    [SerializeField] SphereCollider collider;
 	bool canRender = false;
 
 	Vector3[] distances;
@@ -49,7 +50,12 @@ public class RenderTrigger : MonoBehaviour
 		Vector3 distance = gameManager.instance.player.transform.position - transform.position;
 		if (other.CompareTag("Player"))
 		{
-			canRender = false;
+
+			if (collider)
+			{
+				Vector3 rannge = collider.transform.position - gameManager.instance.player.transform.position;
+				canRender = (Mathf.Abs(rannge.magnitude) <= collider.radius);
+			}else	canRender = false;
 			//shouldRender = (distance.magnitude < triggerDistance);
 		}
 	}
